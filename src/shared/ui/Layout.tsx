@@ -3,6 +3,7 @@ import { Box, Drawer } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
+import { UrlContextProvider } from "@/shared/hooks/useQueryParams";
 
 const SIDEBAR_WIDTH = 180;
 const COLLAPSED_WIDTH = 60;
@@ -13,7 +14,7 @@ export const Layout: React.FC = () => {
   const toggleSidebar = () => setOpen(!open);
 
   return (
-    <div>
+    <UrlContextProvider>
       <Drawer
         variant="permanent"
         open={open}
@@ -38,6 +39,6 @@ export const Layout: React.FC = () => {
           <Outlet />
         </Box>
       </Box>
-    </div>
+    </UrlContextProvider>
   );
 };

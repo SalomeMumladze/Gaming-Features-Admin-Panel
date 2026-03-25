@@ -9,15 +9,19 @@ import {
   MenuItem,
   Button,
   Box,
+  IconButton,
 } from "@mui/material";
 import { useLeaderboard } from "../hooks/useLeaderboard";
-import { Help } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { Edit, Help, Info } from "@mui/icons-material";
 import {
   DateFormatter,
   StatusFormatter,
   ScoringTypeFormatter,
   NumberFormatter,
 } from "@/shared/formatters";
+import useQueryParams from "@/shared/hooks/useQueryParams";
+import Drawers from "../Drawers/Drawers";
 
 const statuses = ["draft", "active", "completed"] as const;
 
@@ -30,6 +34,7 @@ export const LeaderboardList: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const { setUrlParams } = useQueryParams();
 
   const filteredData = filterStatus
     ? (list.data ?? []).filter((row) => row.status === filterStatus)
@@ -54,10 +59,11 @@ export const LeaderboardList: React.FC = () => {
           <span>{params.value}</span>
           {params.row.description && (
             <Tooltip
+              disableInteractive
               title={params.row.description ?? ""}
               className="cursor-pointer"
             >
-              <Help fontSize="small" />
+              <Help fontSize="small" color="info" />
             </Tooltip>
           )}
         </div>
@@ -92,6 +98,41 @@ export const LeaderboardList: React.FC = () => {
       headerName: "End Date",
       minWidth: 150,
       renderCell: (params) => <DateFormatter value={params.value} />,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 120,
+      sortable: false,
+      filterable: false,
+      disableExport: true,
+      renderCell: (params) => {
+        const navigate = useNavigate();
+
+        return (
+          <div className="flex gap-1 h-full ">
+            <Tooltip title="Edit Leaderboard">
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => setUrlParams({ leaderboardId: params.row.id })}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="View Leaderboard Info">
+              <IconButton
+                color="info"
+                size="small"
+                onClick={() => navigate(`/leaderboards/info/${params.row.id}`)}
+              >
+                <Info fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </div>
+        );
+      },
     },
   ];
 
@@ -173,6 +214,7 @@ export const LeaderboardList: React.FC = () => {
           onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         />
       </div>
+      <Drawers />
     </Box>
   );
 };
