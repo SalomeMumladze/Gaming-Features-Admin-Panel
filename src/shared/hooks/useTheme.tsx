@@ -56,6 +56,7 @@ export const ThemeProvider: React.FC<Props> = ({ children }) => {
       createTheme({
         palette: { mode },
       }),
+
     [mode],
   );
 

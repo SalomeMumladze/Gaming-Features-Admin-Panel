@@ -1,0 +1,50 @@
+{
+  "leaderboards": [
+    {
+      "id": "1",
+      "title": "Top Winners April",
+      "description": "Competitive leaderboard for April 2026",
+      "startDate": "2026-04-01T00:00:00.000Z",
+      "endDate": "2026-04-30T23:59:59.000Z",
+      "status": "active",
+      "scoringType": "points",
+      "prizes": [
+        {
+          "id": "p1",
+          "rank": 1,
+          "name": "1000 Coins",
+          "type": "coins",
+          "amount": 1000,
+          "imageUrl": ""
+        }
+      ],
+      "maxParticipants": 50,
+      "createdAt": "2026-03-25T10:00:00.000Z",
+      "updatedAt": "2026-03-25T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "title": "Top Winners April",
+      "description": "Competitive leaderboard for April 2026",
+      "startDate": "2026-04-01T00:00:00.000Z",
+      "endDate": "2026-04-30T23:59:59.000Z",
+      "status": "active",
+      "scoringType": "points",
+      "prizes": [
+        {
+          "id": "p1",
+          "rank": 1,
+          "name": "1000 Coins",
+          "type": "coins",
+          "amount": 1000,
+          "imageUrl": ""
+        }
+      ],
+      "maxParticipants": 50,
+      "createdAt": "2026-03-25T10:00:00.000Z",
+      "updatedAt": "2026-03-25T10:00:00.000Z"
+    }
+  ],
+  "raffles": [],
+  "wheels": []
+}
