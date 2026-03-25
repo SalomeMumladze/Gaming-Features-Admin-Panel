@@ -6,8 +6,9 @@
   ],
   "compilerOptions": {
     "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"]
-    }
+    "paths": { "@/*": ["*"] },
+    "jsx": "react-jsx",
+    "strict": true,
+    "moduleResolution": "node"
   }
 }

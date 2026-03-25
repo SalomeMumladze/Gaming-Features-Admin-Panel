@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
-import { Layout } from "../../shared/ui/Layout";
+import { Layout } from "@/shared/ui/Layout";
 
 const routes: RouteObject[] = [
   {
