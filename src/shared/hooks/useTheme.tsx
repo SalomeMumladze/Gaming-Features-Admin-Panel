@@ -55,6 +55,24 @@ export const ThemeProvider: React.FC<Props> = ({ children }) => {
     () =>
       createTheme({
         palette: { mode },
+        components: {
+          MuiCardHeader: {
+            styleOverrides: {
+              root: {
+                padding: "10px 20px",
+                height: "60px",
+                backgroundColor: mode === "light" ? "#f5f5f5" : "#424242",
+              },
+              action: {
+                alignSelf: "auto",
+              },
+              title: {
+                fontWeight: 600,
+                fontSize: "14px",
+              },
+            },
+          },
+        },
       }),
 
     [mode],

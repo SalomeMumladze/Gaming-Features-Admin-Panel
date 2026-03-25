@@ -7,10 +7,8 @@ export const Topbar: React.FC = () => {
   const { mode, toggleMode } = useTheme();
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Admin
-        </Typography>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h6">Admin</Typography>
         <IconButton color="inherit" onClick={toggleMode}>
           {mode === "light" ? <Brightness7 /> : <Brightness4 />}
         </IconButton>

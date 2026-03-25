@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiGateway } from "@/shared/api/httpClient";
 
 export interface LeaderboardPrize {
@@ -27,6 +27,8 @@ export interface Leaderboard {
 const queryKey = ["leaderboards"];
 
 export const useLeaderboard = () => {
+  const queryClient = useQueryClient();
+
   const list = useQuery({
     queryKey,
     queryFn: async () => {
@@ -35,5 +37,18 @@ export const useLeaderboard = () => {
     },
   });
 
-  return { list };
+  const create = useMutation({
+    mutationFn: (
+      payload: Omit<Leaderboard, "id" | "createdAt" | "updatedAt">,
+    ) => apiGateway.post("/leaderboards", payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+  });
+
+  const update = useMutation({
+    mutationFn: (payload: Leaderboard) =>
+      apiGateway.put(`/leaderboards/${payload.id}`, payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+  });
+
+  return { list, create, update };
 };

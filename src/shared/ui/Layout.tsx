@@ -13,7 +13,7 @@ export const Layout: React.FC = () => {
   const toggleSidebar = () => setOpen(!open);
 
   return (
-    <Box display="flex" minHeight="100vh">
+    <div>
       <Drawer
         variant="permanent"
         open={open}
@@ -38,6 +38,6 @@ export const Layout: React.FC = () => {
           <Outlet />
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 };

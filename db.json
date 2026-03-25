@@ -24,7 +24,7 @@
     },
     {
       "id": "2",
-      "title": "Top Winners April",
+      "title": "Top Winners may",
       "description": "Competitive leaderboard for April 2026",
       "startDate": "2026-04-01T00:00:00.000Z",
       "endDate": "2026-04-30T23:59:59.000Z",
@@ -46,5 +46,6 @@
     }
   ],
   "raffles": [],
-  "wheels": []
+  "wheels": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }
