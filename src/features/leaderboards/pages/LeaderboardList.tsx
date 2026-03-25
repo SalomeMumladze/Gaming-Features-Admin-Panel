@@ -12,17 +12,24 @@ import {
 } from "@mui/material";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { Help } from "@mui/icons-material";
+import {
+  DateFormatter,
+  StatusFormatter,
+  ScoringTypeFormatter,
+  NumberFormatter,
+} from "@/shared/formatters";
 
 const statuses = ["draft", "active", "completed"] as const;
 
 export const LeaderboardList: React.FC = () => {
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  });
   const { list, update } = useLeaderboard();
   const [pageSize, setPageSize] = useState(10);
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
-  if (list.isLoading) return <div>Loading...</div>;
-  if (list.isError) return <div>Error loading leaderboards</div>;
 
   const filteredData = filterStatus
     ? (list.data ?? []).filter((row) => row.status === filterStatus)
@@ -56,11 +63,36 @@ export const LeaderboardList: React.FC = () => {
         </div>
       ),
     },
-    { field: "status", headerName: "Status", minWidth: 120 },
-    { field: "scoringType", headerName: "Scoring Type ", minWidth: 150 },
-    { field: "maxParticipants", headerName: "Max Participants", minWidth: 150 },
-    { field: "startDate", headerName: "Start Date", minWidth: 150 },
-    { field: "endDate", headerName: "End Date", minWidth: 150 },
+    {
+      field: "status",
+      headerName: "Status",
+      minWidth: 120,
+      renderCell: (params) => <StatusFormatter value={params.value} />,
+    },
+    {
+      field: "scoringType",
+      headerName: "Scoring Type ",
+      minWidth: 150,
+      renderCell: (params) => <ScoringTypeFormatter value={params.value} />,
+    },
+    {
+      field: "maxParticipants",
+      headerName: "Max Participants",
+      minWidth: 150,
+      renderCell: (params) => <NumberFormatter value={params.value} />,
+    },
+    {
+      field: "startDate",
+      headerName: "Start Date",
+      minWidth: 150,
+      renderCell: (params) => <DateFormatter value={params.value} />,
+    },
+    {
+      field: "endDate",
+      headerName: "End Date",
+      minWidth: 150,
+      renderCell: (params) => <DateFormatter value={params.value} />,
+    },
   ];
 
   return (
@@ -104,16 +136,36 @@ export const LeaderboardList: React.FC = () => {
         )}
       </Box>
 
-      <div style={{ maxHeight: 1000, width: "100%" }}>
+      <div style={{ maxHeight: 630, width: "100%" }}>
         <DataGrid
           rows={filteredData}
           columns={columns}
           getRowId={(row) => row.id}
           pageSize={pageSize}
+          slots={{
+            noRowsOverlay: () => {
+              if (list.isError) {
+                return (
+                  <Box p={2} textAlign="center" color="error.main">
+                    Failed to load data
+                  </Box>
+                );
+              }
+              return (
+                <Box p={2} textAlign="center">
+                  No Data Found
+                </Box>
+              );
+            },
+          }}
+          disableColumnMenu
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20]}
+          pageSizeOptions={[10, 25, 50, 100, 300]}
           pagination
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
           checkboxSelection
+          loading={list.isLoading}
           disableSelectionOnClick
           selectionModel={selectedIds.filter((id) =>
             filteredData.some((row) => row.id === id),
