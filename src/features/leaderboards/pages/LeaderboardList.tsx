@@ -199,6 +199,7 @@ export const LeaderboardList: React.FC = () => {
               );
             },
           }}
+          disableRowSelectionOnClick
           disableColumnMenu
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           pageSizeOptions={[10, 25, 50, 100, 300]}

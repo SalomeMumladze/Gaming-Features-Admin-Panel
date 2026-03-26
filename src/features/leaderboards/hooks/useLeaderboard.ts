@@ -50,5 +50,17 @@ export const useLeaderboard = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
-  return { list, create, update };
+  const getById = (id: string) =>
+    useQuery({
+      queryKey: ["leaderboard", id],
+      queryFn: async () => {
+        const { data } = await apiGateway.get<Leaderboard>(
+          `/leaderboards/${id}`,
+        );
+        return data;
+      },
+      enabled: !!id,
+    });
+
+  return { list, create, update, getById };
 };

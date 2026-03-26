@@ -1,66 +1,98 @@
-import React, { useState, useEffect } from "react";
-import { Drawer, Typography, Button, Box } from "@mui/material";
+import React from "react";
+import {
+  Drawer,
+  Box,
+  Typography,
+  CircularProgress,
+  Card,
+  CardHeader,
+  CardContent,
+} from "@mui/material";
+import { LeaderboardForm } from "../components/LeaderboardForm";
+import { useLeaderboard } from "../hooks/useLeaderboard";
+import { ErrorOutline } from "@mui/icons-material";
 
 interface Props {
   searchParams: Record<string, string>;
-  destroyOnClose?: boolean;
   afterOpenChange?: (open: boolean) => void;
 }
 
 export const LeaderboardEditDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
+  const { getById, update } = useLeaderboard();
   const id = searchParams.leaderboardId;
-  const [open, setOpen] = useState(Boolean(id));
-  const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    setOpen(Boolean(id));
-  }, [id]);
-
+  const { data: row, isLoading, isError } = getById(id);
   const handleClose = () => {
-    setOpen(false);
     afterOpenChange?.(false);
   };
 
-  const handleSave = () => {
-    setSuccess(true);
-  };
+  if (isLoading) {
+    return (
+      <Drawer open={!!id} onClose={handleClose} anchor="right">
+        <Box width={420} p={2}>
+          <Typography variant="h6">Loading...</Typography>
+        </Box>
+      </Drawer>
+    );
+  }
+
+  if (isError || !row) {
+    return (
+      <Drawer open={!!id} onClose={handleClose} anchor="right">
+        <Box width={420} p={2}>
+          <Typography variant="h6">Error loading leaderboard</Typography>
+        </Box>
+      </Drawer>
+    );
+  }
 
   return (
-    <Drawer
-      anchor="right"
-      open={open}
-      onClose={handleClose}
-      ModalProps={{ keepMounted: true }}
-      transitionDuration={300}
-    >
-      <Box
-        sx={{
-          width: 400,
-          p: 3,
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-          opacity: open ? 1 : 0,
-          transform: open ? "translateX(0)" : "translateX(20px)",
-          transition: "all 0.3s ease",
-        }}
+    <Drawer open={!!id} onClose={handleClose} anchor="right">
+      <Card
+        sx={{ maxWidth: 800, width: "100%", boxShadow: 0, borderRadius: 0 }}
       >
-        <Typography variant="h6">Edit Leaderboard</Typography>
-        <Typography>ID: {id}</Typography>
-        <Button variant="contained" color="primary" onClick={handleSave}>
-          Save
-        </Button>
-        {success && (
-          <Typography color="success.main" mt={2}>
-            Saved Successfully!
-          </Typography>
-        )}
-      </Box>
+        <CardHeader
+          title={
+            isLoading ? "Loading..." : isError ? "Error" : "Edit Leaderboard"
+          }
+          sx={{
+            borderRadius: 0,
+            backgroundColor: "primary.light",
+            color: "primary.contrastText",
+          }}
+        />
+        <CardContent>
+          {isLoading && (
+            <Box className="flex items-center justify-center w-full m-auto my-6">
+              <CircularProgress size={25} />
+            </Box>
+          )}
+          {isError && (
+            <Box className="flex items-center justify-center w-full m-auto my-6 gap-2">
+              <ErrorOutline sx={{ fontSize: 20 }} color="error" />
+              <Typography color="error">Something went wrong!</Typography>
+            </Box>
+          )}
+          {row && (
+            <LeaderboardForm
+              initialData={row}
+              onSubmit={(data) => {
+                update.mutate({
+                  ...row,
+                  ...data,
+                });
+                handleClose();
+              }}
+            />
+          )}
+        </CardContent>
+      </Card>
     </Drawer>
   );
 };
+
 LeaderboardEditDrawer.requiredParams = {
   leaderboardId: true,
 };

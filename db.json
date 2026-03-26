@@ -5,10 +5,17 @@
       "title": "Top Winners April",
       "description": "Competitive leaderboard for April 2026",
       "startDate": "2026-04-01T00:00:00.000Z",
-      "endDate": "2026-04-30T23:59:59.000Z",
-      "status": "completed",
+      "endDate": "2026-04-07T23:59:59.000Z",
+      "status": "active",
       "scoringType": "wagered",
       "prizes": [
+        {
+          "id": "16be15b2-c90c-4484-ad0e-6e063d648207",
+          "rank": 2,
+          "name": "500 coins",
+          "type": "bonus",
+          "amount": 45
+        },
         {
           "id": "p1",
           "rank": 1,
@@ -28,8 +35,8 @@
       "description": "Competitive leaderboard for April 2026",
       "startDate": "2026-04-01T00:00:00.000Z",
       "endDate": "2026-04-30T23:59:59.000Z",
-      "status": "active",
-      "scoringType": "points",
+      "status": "draft",
+      "scoringType": "wins",
       "prizes": [
         {
           "id": "p1",
