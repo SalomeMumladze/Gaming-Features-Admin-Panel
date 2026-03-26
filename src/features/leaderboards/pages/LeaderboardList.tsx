@@ -30,21 +30,18 @@ export const LeaderboardList: React.FC = () => {
     page: 0,
     pageSize: 10,
   });
-  const { list, update } = useLeaderboard();
-  const [pageSize, setPageSize] = useState(10);
+
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
 
-  const filteredData = filterStatus
-    ? (list.data ?? []).filter((row) => row.status === filterStatus)
-    : (list.data ?? []);
+  const { list } = useLeaderboard({
+    _page: paginationModel.page,
+    _per_page: paginationModel.pageSize,
+    status: filterStatus || undefined,
+  });
 
-  const handleBulkToggle = (newStatus: "active" | "draft") => {
-    selectedIds.forEach((id) => {
-      const lb = filteredData.find((x) => x.id === id);
-      if (lb) update.mutate({ ...lb, status: newStatus });
-    });
+  const handleBulkToggle = () => {
     setSelectedIds([]);
   };
 
@@ -191,10 +188,9 @@ export const LeaderboardList: React.FC = () => {
 
       <div style={{ maxHeight: 630, width: "100%" }}>
         <DataGrid
-          rows={filteredData}
+          rows={list.data?.items ?? []}
           columns={columns}
           getRowId={(row) => row.id}
-          pageSize={pageSize}
           slots={{
             noRowsOverlay: () => {
               if (list.isError) {
@@ -211,9 +207,10 @@ export const LeaderboardList: React.FC = () => {
               );
             },
           }}
+          rowCount={list.data?.totalRows}
           disableRowSelectionOnClick
           disableColumnMenu
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          paginationMode="server"
           pageSizeOptions={[10, 25, 50, 100, 300]}
           pagination
           paginationModel={paginationModel}
@@ -221,9 +218,6 @@ export const LeaderboardList: React.FC = () => {
           checkboxSelection
           loading={list.isLoading}
           disableSelectionOnClick
-          selectionModel={selectedIds.filter((id) =>
-            filteredData.some((row) => row.id === id),
-          )}
           onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         />
       </div>

@@ -40,6 +40,7 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
           name: "",
           type: "coins",
           amount: 0,
+          rank: 1,
         },
       ],
     },
