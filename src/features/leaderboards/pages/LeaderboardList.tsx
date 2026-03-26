@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { useNavigate } from "react-router-dom";
-import { Edit, Help, Info } from "@mui/icons-material";
+import { Edit, Help, Info, Add } from "@mui/icons-material";
 import {
   DateFormatter,
   StatusFormatter,
@@ -139,6 +139,18 @@ export const LeaderboardList: React.FC = () => {
   return (
     <Box>
       <Box display="flex" alignItems="center" gap={2} mb={2}>
+        <Button
+          variant="outlined"
+          startIcon={<Add />}
+          className="!capitalize !h-10"
+          onClick={() =>
+            setUrlParams({
+              createLeaderboard: true,
+            })
+          }
+        >
+          Create Leaderboard
+        </Button>
         <FormControl size="small" sx={{ minWidth: 140 }}>
           <InputLabel>Status Filter</InputLabel>
           <Select

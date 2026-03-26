@@ -29,6 +29,7 @@ interface PrizeItemProps {
   register: any;
   remove: (index: number) => void;
   fieldsLength: number;
+  errors: unknown;
 }
 
 export const PrizeItem: React.FC<PrizeItemProps> = ({
@@ -39,6 +40,7 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
   register,
   remove,
   fieldsLength,
+  errors,
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -49,7 +51,7 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
+  console.log(errors);
   return (
     <Paper
       ref={setNodeRef}
@@ -87,6 +89,8 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
         <TextField
           label="Name"
           size="small"
+          error={errors?.name}
+          helperText={errors?.name?.message}
           {...register(`prizes.${index}.name`)}
           InputProps={{
             startAdornment: (
@@ -129,6 +133,8 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
           type="number"
           size="small"
           {...register(`prizes.${index}.amount`, { valueAsNumber: true })}
+          error={errors?.amount}
+          helperText={errors?.amount?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

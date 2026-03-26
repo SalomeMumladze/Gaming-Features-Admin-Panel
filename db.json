@@ -50,6 +50,101 @@
       "maxParticipants": 50,
       "createdAt": "2026-03-25T10:00:00.000Z",
       "updatedAt": "2026-03-25T10:00:00.000Z"
+    },
+    {
+      "title": "tst 3",
+      "description": "jwhnuwhyebuwhe",
+      "startDate": "2026-03-02T20:00:00.000Z",
+      "endDate": "2026-03-10T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "points",
+      "maxParticipants": 90,
+      "prizes": [
+        {
+          "id": "f5bfce8c-ef83-45c1-93e0-1a0d881a0f31",
+          "rank": 1,
+          "name": "1000 Coins",
+          "type": "coins",
+          "amount": 12
+        }
+      ],
+      "id": "0s3OQN9vGa0"
+    },
+    {
+      "title": "iuhifd",
+      "description": "",
+      "startDate": "2026-03-05T20:00:00.000Z",
+      "endDate": "2026-03-15T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wagered",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "id": "87af5892-23e5-4066-878a-64a86bc2e92b",
+          "rank": 1,
+          "name": "oqujsias",
+          "type": "coins",
+          "amount": 121323
+        }
+      ],
+      "id": "r_DIk6I2ck4"
+    },
+    {
+      "title": "sdsd",
+      "description": "sdsdsd",
+      "startDate": "2026-03-20T20:00:00.000Z",
+      "endDate": "2026-03-24T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wagered",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "id": "bb37387f-3cb6-4272-b114-21c7c22490ba",
+          "rank": 1,
+          "name": "wewe",
+          "type": "coins",
+          "amount": 12
+        }
+      ],
+      "id": "8JbfL1JZmDw"
+    },
+    {
+      "title": "sasas",
+      "description": "",
+      "startDate": "2026-03-13T20:00:00.000Z",
+      "endDate": "2026-03-22T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "id": "b143fe7e-234d-4738-901d-7598f0a4a88e",
+          "rank": 1,
+          "name": "asas",
+          "type": "coins",
+          "amount": 12
+        }
+      ],
+      "id": "64I3wOhQSgM"
+    },
+    {
+      "title": "wewewe",
+      "description": "",
+      "startDate": "2026-03-13T20:00:00.000Z",
+      "endDate": "2026-03-23T20:00:00.000Z",
+      "status": null,
+      "scoringType": null,
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "id": "fc12d92f-48d5-4995-864d-af8fdbbeeb34",
+          "rank": 1,
+          "name": "ewewe",
+          "type": "coins",
+          "amount": 12
+        }
+      ],
+      "id": "sqFfhFNVSOE"
     }
   ],
   "raffles": [],

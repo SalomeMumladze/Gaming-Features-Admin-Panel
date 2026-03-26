@@ -17,8 +17,9 @@ import { PrizeItem } from "./PrizeItem";
 
 import type { DragEndEvent } from "@dnd-kit/core";
 interface PrizeFieldsProps {
-  control: any;
-  register: any;
+  control: unknown;
+  register: unknown;
+  errors: unknown;
 }
 
 const RANK_COLORS = [
@@ -30,6 +31,7 @@ const RANK_COLORS = [
 export const PrizeFields: React.FC<PrizeFieldsProps> = ({
   control,
   register,
+  errors,
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -89,6 +91,7 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
             };
             return (
               <PrizeItem
+                errors={errors?.[index]}
                 key={field.id}
                 id={field.id}
                 field={field}

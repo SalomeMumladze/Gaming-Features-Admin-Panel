@@ -18,8 +18,8 @@ export const leaderboardSchema = z
     description: z.string().optional(),
     startDate: z.string().min(1, "Start date is required"),
     endDate: z.string().min(1, "End date is required"),
-    status: z.enum(["draft", "active", "completed"]),
-    scoringType: z.enum(["points", "wins", "wagered"]),
+    status: z.enum(["draft", "active", "completed"]).nullable().optional(),
+    scoringType: z.enum(["points", "wins", "wagered"]).nullable().optional(),
     maxParticipants: z
       .number("Max participants must be a number")
       .int({ message: "Max participants must be an integer" })

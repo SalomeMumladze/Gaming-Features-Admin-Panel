@@ -1,8 +1,9 @@
 import React from "react";
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import { LeaderboardEditDrawer } from "./LeaderboardEditDrawer";
+import { CreateLeaderboardDrawer } from "./CreateLeaderboardDrawer";
 
-const drawers = [LeaderboardEditDrawer];
+const drawers = [LeaderboardEditDrawer, CreateLeaderboardDrawer];
 
 const Drawers: React.FC = () => {
   const params = useQueryParams();

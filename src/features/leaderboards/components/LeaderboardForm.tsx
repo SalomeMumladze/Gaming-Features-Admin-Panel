@@ -31,10 +31,18 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
       description: "",
       startDate: "",
       endDate: "",
-      status: "draft",
-      scoringType: "points",
+      status: null,
+      scoringType: null,
       maxParticipants: 2,
-      prizes: [],
+      prizes: [
+        {
+          id: crypto.randomUUID(),
+          rank: 1,
+          name: "",
+          type: "coins",
+          amount: 0,
+        },
+      ],
     },
   });
 
@@ -108,11 +116,12 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
           <Controller
             control={form.control}
             name="status"
-            defaultValue={form.formState.defaultValues.status}
+            defaultValue={form.formState.defaultValues.status || null}
             render={({ field }) => (
               <FormControl fullWidth>
                 <InputLabel id="status-label">Status</InputLabel>
                 <Select labelId="status-label" {...field} label="Status">
+                  <MenuItem value={null}>None</MenuItem>
                   <MenuItem value="draft">
                     <StatusFormatter value="draft" />
                   </MenuItem>
@@ -138,6 +147,7 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
                   {...field}
                   label="Scoring Type"
                 >
+                  <MenuItem value={null}>None</MenuItem>
                   <MenuItem value="points">
                     <ScoringTypeFormatter value="points" />
                   </MenuItem>
@@ -161,7 +171,11 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
           error={!!form.formState.errors.maxParticipants}
           helperText={form.formState.errors.maxParticipants?.message}
         />
-        <PrizeFields control={form.control} register={form.register} />
+        <PrizeFields
+          control={form.control}
+          register={form.register}
+          errors={form.formState.errors.prizes}
+        />
         <Button type="submit" variant="contained">
           Save
         </Button>
