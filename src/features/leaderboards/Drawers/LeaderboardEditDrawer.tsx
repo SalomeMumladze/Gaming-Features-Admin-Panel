@@ -11,6 +11,7 @@ import {
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { ErrorOutline } from "@mui/icons-material";
+import { useNotification } from "@/shared/hooks/useNotification";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -20,12 +21,32 @@ interface Props {
 export const LeaderboardEditDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
+  const { notify } = useNotification();
+
   const { getById, update } = useLeaderboard();
   const id = searchParams.leaderboardId;
 
   const { data: row, isLoading, isError } = getById(id);
   const handleClose = () => {
     afterOpenChange?.(false);
+  };
+
+  const handleUpdate = (formData: any) => {
+    if (!row) return;
+
+    update.mutate(
+      { ...row, ...formData },
+      {
+        onSuccess: () => {
+          const title = formData.title ?? row.title;
+          notify(`${title} updated successfully!`, "success");
+          handleClose();
+        },
+        onError: () => {
+          notify("Failed to update leaderboard!", "error");
+        },
+      },
+    );
   };
 
   if (isLoading) {
@@ -75,18 +96,7 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
               <Typography color="error">Something went wrong!</Typography>
             </Box>
           )}
-          {row && (
-            <LeaderboardForm
-              initialData={row}
-              onSubmit={(data) => {
-                update.mutate({
-                  ...row,
-                  ...data,
-                });
-                handleClose();
-              }}
-            />
-          )}
+          {row && <LeaderboardForm initialData={row} onSubmit={handleUpdate} />}
         </CardContent>
       </Card>
     </Drawer>

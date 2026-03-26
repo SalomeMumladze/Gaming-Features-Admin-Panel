@@ -1,7 +1,8 @@
 import React from "react";
-import { Drawer, Card, CardHeader, CardContent, Box } from "@mui/material";
+import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
+import { useNotification } from "@/shared/hooks/useNotification";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -11,6 +12,8 @@ interface Props {
 export const CreateLeaderboardDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
+  const { notify } = useNotification();
+
   const handleClose = () => {
     afterOpenChange?.(false);
   };
@@ -20,7 +23,14 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
 
   const handleSubmit = (data: any) => {
     create.mutate(data, {
-      onSuccess: () => {},
+      onSuccess: () => {
+        const title = data.title;
+        notify(`${title} created successfully!`, "success");
+        handleClose();
+      },
+      onError: () => {
+        notify("Failed to create leaderboard!", "error");
+      },
     });
   };
 
