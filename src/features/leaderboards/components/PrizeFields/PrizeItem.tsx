@@ -10,16 +10,11 @@ import {
   useTheme,
   MenuItem,
 } from "@mui/material";
-import {
-  WorkspacePremium,
-  Tag,
-  Numbers,
-  Delete,
-  DragIndicator,
-} from "@mui/icons-material";
+import { Tag, Numbers, Delete, DragIndicator } from "@mui/icons-material";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TYPE_CONFIG } from "./Config";
+import { RankBadge } from "@/shared/formatters";
 
 interface PrizeItemProps {
   id: string;
@@ -51,7 +46,7 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
-  console.log(errors);
+
   return (
     <Paper
       ref={setNodeRef}
@@ -69,23 +64,7 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
           {...attributes}
           sx={{ cursor: "grab", color: theme.palette.text.secondary }}
         />
-
-        <div
-          className="shrink-0 w-11 h-11 rounded-lg flex flex-col items-center justify-center"
-          style={{
-            backgroundColor: alpha(rankInfo.base, isDark ? 0.12 : 0.1),
-            border: `1px solid ${alpha(rankInfo.base, isDark ? 0.3 : 0.22)}`,
-          }}
-        >
-          <WorkspacePremium sx={{ color: rankInfo.base, fontSize: 18 }} />
-          <span
-            className="text-[10px] font-extrabold mt-1"
-            style={{ color: rankInfo.base }}
-          >
-            {rankInfo.label}
-          </span>
-        </div>
-
+        <RankBadge rank={field} />
         <TextField
           label="Name"
           size="small"

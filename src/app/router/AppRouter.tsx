@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
 import { Layout } from "@/shared/ui/Layout";
 import { LeaderboardList } from "@/features/leaderboards/pages/LeaderboardList";
+import { LeaderboardDetail } from "@/features/leaderboards/pages/LeaderboardDetail";
 import { NotFound } from "@/pages/NotFound";
 
 const routes: RouteObject[] = [
@@ -11,8 +12,12 @@ const routes: RouteObject[] = [
     element: <Layout />,
     children: [
       { path: "leaderboards", element: <LeaderboardList /> },
-      { path: "raffles", element: <div>raffles</div> },
-      { path: "wheels", element: <div>wheels</div> },
+      {
+        path: "leaderboard/:id",
+        element: <LeaderboardDetail />,
+      },
+      { path: "raffles", element: <div>Raffles Page</div> },
+      { path: "wheels", element: <div>Wheels Page</div> },
       { path: "*", element: <NotFound /> },
     ],
   },

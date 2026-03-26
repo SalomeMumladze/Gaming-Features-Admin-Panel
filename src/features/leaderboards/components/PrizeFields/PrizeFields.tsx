@@ -16,10 +16,12 @@ import {
 import { PrizeItem } from "./PrizeItem";
 
 import type { DragEndEvent } from "@dnd-kit/core";
+
 interface PrizeFieldsProps {
-  control: unknown;
-  register: unknown;
-  errors: unknown;
+  control: any;
+  register: any;
+  errors: any;
+  setValue: any;
 }
 
 const RANK_COLORS = [
@@ -32,12 +34,13 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
   control,
   register,
   errors,
+  setValue,
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
   const amberBase = isDark ? "#f59e0b" : "#d97706";
 
-  const { fields, append, remove, move } = useFieldArray({
+  const { fields, append, move } = useFieldArray({
     control,
     name: "prizes",
   });
@@ -46,11 +49,23 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (over && active.id !== over.id) {
-      const oldIndex = fields.findIndex((f) => f.id === active.id);
-      const newIndex = fields.findIndex((f) => f.id === over.id);
-      move(oldIndex, newIndex);
-    }
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = fields.findIndex((f) => f.id === active.id);
+    const newIndex = fields.findIndex((f) => f.id === over.id);
+
+    move(oldIndex, newIndex);
+
+    const updated = [...fields];
+    const [moved] = updated.splice(oldIndex, 1);
+    updated.splice(newIndex, 0, moved);
+
+    const withRanks = updated.map((item, index) => ({
+      ...item,
+      rank: index + 1,
+    }));
+
+    setValue("prizes", withRanks, { shouldValidate: true, shouldDirty: true });
   };
 
   return (
@@ -84,21 +99,20 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
           strategy={verticalListSortingStrategy}
         >
           {fields.map((field, index) => {
-            const rank = index + 1;
             const rankInfo = RANK_COLORS[index] ?? {
               base: isDark ? "#4f8eff" : "#3b6ef0",
-              label: `#${rank}`,
+              label: `#${index + 1}`,
             };
             return (
               <PrizeItem
-                errors={errors?.[index]}
                 key={field.id}
                 id={field.id}
                 field={field}
                 index={index}
                 rankInfo={rankInfo}
                 register={register}
-                remove={remove}
+                remove={() => {}}
+                errors={errors?.[index]}
                 fieldsLength={fields.length}
               />
             );
@@ -112,13 +126,11 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
         onClick={() =>
           append({
             id: crypto.randomUUID(),
-            rank: fields.length + 1,
             name: "",
             type: "coins",
             amount: 0,
           })
         }
-        className="!font-bold !capitalize !rounded-lg !p-2"
         sx={{
           borderColor: alpha(amberBase, isDark ? 0.3 : 0.28),
           color: amberBase,

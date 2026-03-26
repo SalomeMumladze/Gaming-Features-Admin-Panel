@@ -125,7 +125,7 @@ export const LeaderboardList: React.FC = () => {
               <IconButton
                 color="info"
                 size="small"
-                onClick={() => navigate(`/leaderboards/info/${params.row.id}`)}
+                onClick={() => navigate(`/leaderboard/${params.row.id}`)}
               >
                 <Info fontSize="small" />
               </IconButton>

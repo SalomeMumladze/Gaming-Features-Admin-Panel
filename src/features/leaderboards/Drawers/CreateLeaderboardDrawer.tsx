@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
+import { Drawer, Card, CardHeader, CardContent, Box } from "@mui/material";
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 
@@ -16,7 +16,6 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
   };
 
   const { createLeaderboard } = searchParams;
-
   const { create } = useLeaderboard();
 
   const handleSubmit = (data: any) => {
@@ -28,7 +27,15 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
   return (
     <Drawer open={!!createLeaderboard} onClose={handleClose} anchor="right">
       <Card
-        sx={{ maxWidth: 800, width: "100%", boxShadow: 0, borderRadius: 0 }}
+        sx={{
+          maxWidth: 800,
+          width: "100%",
+          boxShadow: 0,
+          borderRadius: 0,
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <CardHeader
           title={"Create Leaderboard"}
@@ -38,7 +45,14 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
             color: "primary.contrastText",
           }}
         />
-        <CardContent>
+
+        <CardContent
+          sx={{
+            flex: 1,
+            overflowY: "auto",
+            paddingBottom: 2,
+          }}
+        >
           <LeaderboardForm onSubmit={handleSubmit} />
         </CardContent>
       </Card>

@@ -37,7 +37,6 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
       prizes: [
         {
           id: crypto.randomUUID(),
-          rank: 1,
           name: "",
           type: "coins",
           amount: 0,
@@ -64,17 +63,18 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
           helperText={form.formState.errors.title?.message}
         />
         <TextField
-          multiline={true}
+          multiline
           label="Description"
           {...form.register("description")}
         />
-        <div className="flex sm:flex-row flex-col  items-center justify-between gap-3">
+
+        <div className="flex sm:flex-row flex-col items-center justify-between gap-3">
           <Controller
             control={form.control}
             name="startDate"
             render={({ field }) => (
               <DatePicker
-                className="w-full "
+                className="w-full"
                 label="Start Date"
                 format="DD MMM, YYYY"
                 value={field.value ? dayjs(field.value) : null}
@@ -88,6 +88,7 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
               />
             )}
           />
+
           <Controller
             control={form.control}
             name="endDate"
@@ -95,12 +96,12 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
               const startDate = form.watch("startDate");
               return (
                 <DatePicker
-                  className="w-full "
-                  format="DD MMM, YYYY"
+                  className="w-full"
                   label="End Date"
+                  format="DD MMM, YYYY"
                   value={field.value ? dayjs(field.value) : null}
-                  onChange={(date) => field.onChange(date?.toISOString() || "")}
                   minDate={startDate ? dayjs(startDate) : undefined}
+                  onChange={(date) => field.onChange(date?.toISOString() || "")}
                   slotProps={{
                     textField: {
                       error: !!form.formState.errors.endDate,
@@ -112,11 +113,11 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
             }}
           />
         </div>
-        <div className="flex sm:flex-row flex-col  items-center justify-between gap-3">
+
+        <div className="flex sm:flex-row flex-col items-center justify-between gap-3">
           <Controller
             control={form.control}
             name="status"
-            defaultValue={form.formState.defaultValues.status || null}
             render={({ field }) => (
               <FormControl fullWidth>
                 <InputLabel id="status-label">Status</InputLabel>
@@ -135,10 +136,10 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
               </FormControl>
             )}
           />
+
           <Controller
             control={form.control}
             name="scoringType"
-            defaultValue={form.formState.defaultValues.scoringType}
             render={({ field }) => (
               <FormControl fullWidth>
                 <InputLabel id="scoringType-label">Scoring Type</InputLabel>
@@ -162,20 +163,22 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
             )}
           />
         </div>
+
         <TextField
           label="Max Participants"
           type="number"
-          {...form.register("maxParticipants", {
-            valueAsNumber: true,
-          })}
+          {...form.register("maxParticipants", { valueAsNumber: true })}
           error={!!form.formState.errors.maxParticipants}
           helperText={form.formState.errors.maxParticipants?.message}
         />
+
         <PrizeFields
           control={form.control}
           register={form.register}
           errors={form.formState.errors.prizes}
+          setValue={form.setValue}
         />
+
         <Button type="submit" variant="contained">
           Save
         </Button>
