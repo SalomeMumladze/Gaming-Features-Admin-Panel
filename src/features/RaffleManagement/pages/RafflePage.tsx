@@ -9,17 +9,18 @@ import {
   MenuItem,
   Button,
   Tooltip,
-  TextField,
 } from "@mui/material";
 import { Add, Help } from "@mui/icons-material";
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DateFormatter, StatusFormatter } from "@/shared/formatters";
+import {
+  DateFormatter,
+  StatusFormatter,
+  TableActionsFormatter,
+} from "@/shared/formatters";
 import dayjs, { Dayjs } from "dayjs";
-import { RaffleDrawers } from "../drawers/RaffleDrawers";
-import { TableActions } from "@/shared/components/TableActions";
 import { useNavigate } from "react-router-dom";
 
 const statuses = ["draft", "active", "drawn", "cancelled"] as const;
@@ -120,7 +121,7 @@ export const RafflePage: React.FC = () => {
       filterable: false,
       disableExport: true,
       renderCell: (params) => (
-        <TableActions
+        <TableActionsFormatter
           id={params.row.id}
           showEdit={params.row.status === "drawn" ? false : true}
           editTooltip="Edit raffle"
@@ -234,7 +235,6 @@ export const RafflePage: React.FC = () => {
           onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         />
       </div>
-      <RaffleDrawers />
     </Box>
   );
 };

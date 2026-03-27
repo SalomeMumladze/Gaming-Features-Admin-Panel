@@ -9,8 +9,8 @@ import {
   ConfirmationNumber as TicketIcon,
   DateRange as DateRangeIcon,
 } from "@mui/icons-material";
-import { Section } from "./Section";
-import { Field } from "./Field";
+import { Section } from "@/shared/components/Section";
+import { Field } from "@/shared/components/Field";
 import { DateFormatter, StatusFormatter } from "@/shared/formatters";
 
 const ACCENTS = {
@@ -30,7 +30,7 @@ export const RaffleDetail: React.FC = () => {
   if (!data) return <div className="py-20 text-center">Loading...</div>;
 
   const amberColor = isDark ? ACCENTS.amber.dark : ACCENTS.amber.light;
-  
+
   return (
     <div className="flex flex-col gap-4 p-4 sm:max-w-[900px] mx-auto">
       <div className="flex justify-between items-center pb-3">

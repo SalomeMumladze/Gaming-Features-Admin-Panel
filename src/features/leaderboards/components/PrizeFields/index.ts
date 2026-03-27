@@ -1,1 +1,0 @@
-export { PrizeFields } from "./PrizeFields";

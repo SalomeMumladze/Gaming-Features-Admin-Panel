@@ -1,5 +1,13 @@
 import React from "react";
 import useQueryParams from "@/shared/hooks/useQueryParams";
+import {
+  LeaderboardEditDrawer,
+  CreateLeaderboardDrawer,
+} from "@/features/leaderboards/drawers";
+import {
+  RaffleEditDrawer,
+  CreateRaffleDrawer,
+} from "@/features/RaffleManagement/drawers";
 
 interface DrawerProps {
   searchParams: Record<string, string>;
@@ -13,11 +21,14 @@ interface DrawerComponentType {
   (props: DrawerProps): JSX.Element;
 }
 
-interface DrawersProps {
-  drawerComponents: DrawerComponentType[];
-}
+const Drawers: React.FC = () => {
+  const drawerComponents: DrawerComponentType[] = [
+    LeaderboardEditDrawer,
+    CreateLeaderboardDrawer,
+    RaffleEditDrawer,
+    CreateRaffleDrawer,
+  ];
 
-const AppDrawers: React.FC<DrawersProps> = ({ drawerComponents }) => {
   const params = useQueryParams();
 
   return (
@@ -62,4 +73,4 @@ const shouldRenderDrawer = (
   });
 };
 
-export default AppDrawers;
+export default Drawers;

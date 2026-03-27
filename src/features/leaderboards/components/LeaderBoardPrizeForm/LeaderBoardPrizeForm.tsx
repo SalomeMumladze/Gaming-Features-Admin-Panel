@@ -14,7 +14,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { PrizeItem } from "./PrizeItem";
-import { RANK_COLORS } from "./Config";
+import { RANK_COLORS } from "@/features/leaderboards/components/Config";
 
 import type { DragEndEvent } from "@dnd-kit/core";
 
@@ -25,7 +25,7 @@ interface PrizeFieldsProps {
   setValue: any;
 }
 
-export const PrizeFields: React.FC<PrizeFieldsProps> = ({
+export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({
   control,
   register,
   errors,
@@ -111,9 +111,6 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
           onClick={() =>
             append({
               id: crypto.randomUUID(),
-              name: "",
-              type: "coins",
-              amount: 0,
               rank: fields.length + 1,
             })
           }

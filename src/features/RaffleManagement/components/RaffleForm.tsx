@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { raffleSchema } from "../schema/raffle.schema";
 import type { RaffleFormValues } from "../schema/raffle.schema";
-import PrizesForm from "./PrizesForm";
+import { RafflePrizeForm } from "./RafflePrizeForm";
 
 interface Props {
   initialData?: Partial<RaffleFormValues>;
@@ -196,7 +196,7 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
         </div>
       </Box>
 
-      <PrizesForm
+      <RafflePrizeForm
         errors={form.formState.errors.prizes}
         setValue={form.setValue}
         register={form.register}

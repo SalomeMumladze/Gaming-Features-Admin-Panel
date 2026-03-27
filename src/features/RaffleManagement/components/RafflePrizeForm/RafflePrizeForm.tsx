@@ -11,7 +11,7 @@ interface PrizeFieldsProps {
   initialPrizes?: RafflePrize[];
 }
 
-const PrizesForm: React.FC<PrizeFieldsProps> = ({
+export const RafflePrizeForm: React.FC<PrizeFieldsProps> = ({
   register,
   errors,
   setValue,
@@ -122,7 +122,7 @@ const PrizesForm: React.FC<PrizeFieldsProps> = ({
           </div>
 
           <Button variant="outlined" startIcon={<Add />} onClick={addPrize}>
-            Add Prize 
+            Add Prize
           </Button>
         </div>
 
@@ -157,5 +157,3 @@ const PrizesForm: React.FC<PrizeFieldsProps> = ({
     </div>
   );
 };
-
-export default PrizesForm;

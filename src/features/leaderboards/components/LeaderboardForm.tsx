@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { leaderboardSchema } from "../schemas/leaderboard.schema";
 import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
-import { PrizeFields } from "./PrizeFields";
+import { LeaderBoardPrizeForm } from "./LeaderBoardPrizeForm";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Controller } from "react-hook-form";
 import { StatusFormatter, ScoringTypeFormatter } from "@/shared/formatters";
@@ -38,7 +38,7 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
         {
           id: crypto.randomUUID(),
           name: "",
-          type: "coins",
+          type: "",
           amount: 0,
           rank: 1,
         },
@@ -187,7 +187,7 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
             helperText={form.formState.errors.maxParticipants?.message}
           />
         </Box>
-        <PrizeFields
+        <LeaderBoardPrizeForm
           control={form.control}
           register={form.register}
           errors={form.formState.errors.prizes}

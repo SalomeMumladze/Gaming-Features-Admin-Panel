@@ -16,16 +16,15 @@ import {
   DateFormatter,
   StatusFormatter,
   ScoringTypeFormatter,
+  TableActionsFormatter,
 } from "@/shared/formatters";
 import useQueryParams from "@/shared/hooks/useQueryParams";
-import { LeaderboardDrawers } from "../drawers/LeaderboardDrawers";
-import { TableActions } from "@/shared/components/TableActions";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
 
 const statuses = ["draft", "active", "completed"] as const;
 
-export const LeaderboardList: React.FC = () => {
+export const LeaderboardTable: React.FC = () => {
   const { notify } = useNotification();
   const navigate = useNavigate();
 
@@ -110,7 +109,7 @@ export const LeaderboardList: React.FC = () => {
       filterable: false,
       disableExport: true,
       renderCell: (params) => (
-        <TableActions
+        <TableActionsFormatter
           id={params.row.id}
           editTooltip="Edit leaderboard"
           infoTooltip="View leaderboard info"
@@ -222,7 +221,6 @@ export const LeaderboardList: React.FC = () => {
           onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         />
       </div>
-      <LeaderboardDrawers />
     </Box>
   );
 };

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Edit, Info, Delete } from "@mui/icons-material";
 
-interface TableActionsProps {
+interface TableActionsFormatterProps {
   id: string | number;
   showEdit?: boolean;
   showInfo?: boolean;
@@ -23,7 +23,7 @@ interface TableActionsProps {
   confirmText?: string;
 }
 
-export const TableActions: React.FC<TableActionsProps> = ({
+export const TableActionsFormatter: React.FC<TableActionsFormatterProps> = ({
   id,
   showEdit = true,
   showInfo = true,

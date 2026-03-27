@@ -13,7 +13,7 @@ import {
 import { Tag, Numbers, Delete, DragIndicator } from "@mui/icons-material";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { TYPE_CONFIG } from "./Config";
+import { TYPE_CONFIG } from "../Config";
 import { RankBadge } from "@/shared/formatters";
 
 interface PrizeItemProps {
@@ -90,6 +90,8 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
           label="Type"
           select
           size="small"
+          error={errors?.type}
+          helperText={errors?.type?.message}
           defaultValue={field.type}
           {...register(`prizes.${index}.type`)}
           className="w-full sm:w-36"

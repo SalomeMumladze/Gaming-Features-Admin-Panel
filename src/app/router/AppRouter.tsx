@@ -2,18 +2,19 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
 import { Layout } from "@/shared/ui/Layout";
-import { LeaderboardList } from "@/features/leaderboards/pages/LeaderboardList";
+import { LeaderboardPage } from "@/features/leaderboards/pages/LeaderboardPage";
 import { LeaderboardDetail } from "@/features/leaderboards/pages/LeaderboardDetail";
 import { NotFound } from "@/pages/NotFound";
 import { RafflePage } from "@/features/RaffleManagement/pages/RafflePage";
 import { RaffleDetail } from "@/features/RaffleManagement/pages/RaffleDetail";
+
 
 const routes: RouteObject[] = [
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "leaderboards", element: <LeaderboardList /> },
+      { path: "leaderboards", element: <LeaderboardPage /> },
       {
         path: "leaderboard/detail/:id",
         element: <LeaderboardDetail />,
@@ -28,5 +29,9 @@ const routes: RouteObject[] = [
 
 export const AppRouter: React.FC = () => {
   const router = createBrowserRouter(routes);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 };

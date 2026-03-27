@@ -5,6 +5,8 @@ import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { UrlContextProvider } from "@/shared/hooks/useQueryParams";
 
+import Drawers from "../Drawers";
+
 const SIDEBAR_WIDTH = 180;
 const COLLAPSED_WIDTH = 60;
 const TOPBAR_HEIGHT = 64;
@@ -64,6 +66,7 @@ export const Layout: React.FC = () => {
           <Outlet />
         </Box>
       </Box>
+      <Drawers />
     </UrlContextProvider>
   );
 };

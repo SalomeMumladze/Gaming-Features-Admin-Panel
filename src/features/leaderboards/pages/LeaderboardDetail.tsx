@@ -11,16 +11,18 @@ import {
   DateRange as DateRangeIcon,
   Tune as TuneIcon,
 } from "@mui/icons-material";
-import { Section } from "./Section";
-import { Field } from "./Field";
+import { Section } from "@/shared/components/Section";
+import { Field } from "@/shared/components/Field";
 import {
   RankBadge,
   DateFormatter,
   ScoringTypeFormatter,
   StatusFormatter,
 } from "@/shared/formatters";
-import { TYPE_CONFIG } from "../components/PrizeFields/Config";
-import { RANK_COLORS } from "../components/PrizeFields/Config";
+import {
+  RANK_COLORS,
+  TYPE_CONFIG,
+} from "@/features/leaderboards/components/Config";
 
 const ACCENTS = {
   blue: { light: "#3b6ef0", dark: "#4f8eff" },

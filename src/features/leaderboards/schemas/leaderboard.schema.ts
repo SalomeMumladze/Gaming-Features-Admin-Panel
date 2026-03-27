@@ -3,7 +3,10 @@ import { z } from "zod";
 export const prizeSchema = z.object({
   rank: z.number().int().min(1),
   name: z.string().min(1, "Prize name is required"),
-  type: z.enum(["coins", "freeSpin", "bonus"]),
+  type: z
+    .string()
+    .nonempty({ message: "Is required" })
+    .refine(() => ["coins", "freeSpin", "bonus"]),
   amount: z.number("Invalid input").positive("Amount must be positive"),
   imageUrl: z.string().optional(),
 });

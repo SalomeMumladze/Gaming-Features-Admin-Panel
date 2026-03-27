@@ -11,17 +11,8 @@ import {
   Box,
 } from "@mui/material";
 import { Delete, Clear, AutoAwesome } from "@mui/icons-material";
-import { MonetizationOn, Casino, CardGiftcard } from "@mui/icons-material";
 import type { RafflePrize } from "../hooks/useRaffleManagement";
-
-const TYPE_META: Record<
-  RafflePrize["type"],
-  { label: string; color: string; icon: any }
-> = {
-  coins: { label: "Coins", color: "#C9A84C", icon: MonetizationOn },
-  freeSpin: { label: "Free Spin", color: "#7C9EE8", icon: Casino },
-  bonus: { label: "Bonus", color: "#76C98A", icon: CardGiftcard },
-};
+import type { TYPE_META } from "./Config";
 
 interface PrizeCardProps {
   id: string;
@@ -78,7 +69,6 @@ const PrizeCard: React.FC<PrizeCardProps> = ({
             </Tooltip>
           )}
         </div>
-
         <div className="p-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
           <TextField
             label="Prize Name"
