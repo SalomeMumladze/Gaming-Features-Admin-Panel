@@ -1,58 +1,53 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import type { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import type { GridRenderCellParams } from "@mui/x-data-grid";
 import {
-  Tooltip,
+  Box,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   Button,
-  Box,
+  Tooltip,
+  TextField,
 } from "@mui/material";
-import { useLeaderboard } from "../hooks/useLeaderboard";
-import { Help, Add } from "@mui/icons-material";
-import {
-  DateFormatter,
-  StatusFormatter,
-  ScoringTypeFormatter,
-} from "@/shared/formatters";
+import { Add, Help } from "@mui/icons-material";
+import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
-import Drawers from "../Drawers/Drawers";
-import { TableActions } from "@/shared/components/TableActions";
 import { useNotification } from "@/shared/hooks/useNotification";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateFormatter, StatusFormatter } from "@/shared/formatters";
+import dayjs, { Dayjs } from "dayjs";
 
-const statuses = ["draft", "active", "completed"] as const;
+const statuses = ["draft", "active", "drawn", "cancelled"] as const;
 
-export const LeaderboardList: React.FC = () => {
+export const RafflePage: React.FC = () => {
   const { notify } = useNotification();
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 10,
   });
-
   const [filterStatus, setFilterStatus] = useState<string>("");
+  const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
+  const [filterEndDate, setFilterEndDate] = useState<Dayjs | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
-  const { deleteLoaderboard } = useLeaderboard();
-  const { list } = useLeaderboard({
+
+  const { raffles } = useRaffleManagement({
     _page: paginationModel.page,
     _per_page: paginationModel.pageSize,
     status: filterStatus || undefined,
-    // Optional: Sorting can also be done by sending these params to the backend
-    // _sort: "title", // field to sort by
-    // _order: "asc",  // "asc" or "desc"
+    startDate_gte: filterStartDate || undefined,
+    endDate_lte: filterEndDate || undefined,
   });
 
-  const handleBulkToggle = () => {
-    setSelectedIds([]);
-  };
+  const handleBulkToggle = () => setSelectedIds([]);
 
-  const columns: GridColDef[] = [
+  const columns = [
     {
-      field: "title",
-      headerName: "Title",
+      field: "name",
+      headerName: "Name",
       flex: 1,
       minWidth: 200,
       renderCell: (params: GridRenderCellParams<string>) => (
@@ -77,14 +72,20 @@ export const LeaderboardList: React.FC = () => {
       renderCell: (params) => <StatusFormatter value={params.value} />,
     },
     {
-      field: "scoringType",
-      headerName: "Scoring Type ",
-      minWidth: 150,
-      renderCell: (params) => <ScoringTypeFormatter value={params.value} />,
+      field: "ticketPrice",
+      headerName: "Ticket Price",
+      minWidth: 120,
+      type: "number",
     },
     {
-      field: "maxParticipants",
-      headerName: "Max Participants",
+      field: "maxTicketsPerUser",
+      headerName: "Max Tickets/User",
+      minWidth: 150,
+      type: "number",
+    },
+    {
+      field: "totalTicketLimit",
+      headerName: "Total Ticket Limit",
       minWidth: 150,
       type: "number",
     },
@@ -101,28 +102,10 @@ export const LeaderboardList: React.FC = () => {
       renderCell: (params) => <DateFormatter value={params.value} />,
     },
     {
-      field: "actions",
-      headerName: "Actions",
-      width: 120,
-      sortable: false,
-      filterable: false,
-      disableExport: true,
-      renderCell: (params) => (
-        <TableActions
-          id={params.row.id}
-          onDelete={(id) => {
-            deleteLoaderboard.mutate(id, {
-              onSuccess: () => {
-                notify(`${params.row.title} deleted successfully`, "success");
-              },
-              onError: () => {
-                notify("Failed to delete leaderboard!", "error");
-              },
-            });
-          }}
-          confirmText="Do you really want to delete this leaderbsdoard?"
-        />
-      ),
+      field: "drawDate",
+      headerName: "Draw Date",
+      minWidth: 150,
+      renderCell: (params) => <DateFormatter value={params.value} />,
     },
   ];
 
@@ -139,7 +122,7 @@ export const LeaderboardList: React.FC = () => {
             })
           }
         >
-          Create Leaderboard
+          Create Raffle
         </Button>
         <FormControl size="small" sx={{ minWidth: 140 }}>
           <InputLabel>Status Filter</InputLabel>
@@ -157,13 +140,30 @@ export const LeaderboardList: React.FC = () => {
           </Select>
         </FormControl>
 
+        <DatePicker
+          label="Start Date"
+          value={filterStartDate ? dayjs(filterStartDate) : null}
+          format="DD MMM, YYYY"
+          onChange={(date: Dayjs | null) =>
+            setFilterStartDate(date ? date.toISOString() : null)
+          }
+        />
+        <DatePicker
+          label="End Date"
+          value={filterEndDate ? dayjs(filterEndDate) : null}
+          format="DD MMM, YYYY"
+          onChange={(date: Dayjs | null) =>
+            setFilterEndDate(date ? date.toISOString() : null)
+          }
+        />
+
         {selectedIds.length > 0 && (
           <Box display="flex" gap={1}>
             <Button
               size="small"
               variant="outlined"
               color="success"
-              onClick={() => handleBulkToggle("active")}
+              onClick={() => handleBulkToggle()}
             >
               Set Active
             </Button>
@@ -171,7 +171,7 @@ export const LeaderboardList: React.FC = () => {
               size="small"
               variant="outlined"
               color="warning"
-              onClick={() => handleBulkToggle("draft")}
+              onClick={() => handleBulkToggle()}
             >
               Set Draft
             </Button>
@@ -181,26 +181,10 @@ export const LeaderboardList: React.FC = () => {
 
       <div style={{ maxHeight: 630, width: "100%" }}>
         <DataGrid
-          rows={list.data?.items ?? []}
+          rows={raffles.data?.items ?? []}
           columns={columns}
           getRowId={(row) => row.id}
-          slots={{
-            noRowsOverlay: () => {
-              if (list.isError) {
-                return (
-                  <Box p={2} textAlign="center" color="error.main">
-                    Failed to load data
-                  </Box>
-                );
-              }
-              return (
-                <Box p={2} textAlign="center">
-                  No Data Found
-                </Box>
-              );
-            },
-          }}
-          rowCount={list.data?.totalRows}
+          rowCount={raffles.data?.totalRows}
           disableRowSelectionOnClick
           disableColumnMenu
           paginationMode="server"
@@ -209,12 +193,11 @@ export const LeaderboardList: React.FC = () => {
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           checkboxSelection
-          loading={list.isLoading}
+          loading={raffles.isLoading}
           disableSelectionOnClick
           onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         />
       </div>
-      <Drawers />
     </Box>
   );
 };

@@ -20,6 +20,7 @@
     "@mui/material": "^5.18.0",
     "@mui/x-data-grid": "^8.28.0",
     "@mui/x-date-pickers": "^8.27.2",
+    "@mui/x-date-pickers-pro": "^8.27.2",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/react-query": "^5.95.2",
     "axios": "^1.13.6",

@@ -1,28 +1,35 @@
 import React from "react";
 import { Chip } from "@mui/material";
 
-type Status = "draft" | "active" | "completed";
+type Statuses = "draft" | "active" | "completed" | "inactive" | "drawn";
+
+export const statuses: Statuses[] = [
+  "draft",
+  "active",
+  "completed",
+  "inactive",
+  "drawn",
+];
 
 type Props = {
-  value?: Status;
+  value?: Statuses;
 };
 
 export const StatusFormatter: React.FC<Props> = ({ value }) => {
   if (!value) return null;
 
-  let color: "default" | "success" | "warning" | "error" = "default";
+  const statusColorMap: Record<
+    Statuses,
+    "default" | "success" | "warning" | "error" | "info"
+  > = {
+    draft: "warning",
+    active: "success",
+    completed: "default",
+    inactive: "error",
+    drawn: "info",
+  };
 
-  switch (value) {
-    case "draft":
-      color = "warning";
-      break;
-    case "active":
-      color = "success";
-      break;
-    case "completed":
-      color = "default";
-      break;
-  }
+  const color = statusColorMap[value];
 
   const displayLabel = value.charAt(0).toUpperCase() + value.slice(1);
 

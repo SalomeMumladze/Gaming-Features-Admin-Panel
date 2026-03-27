@@ -1,6 +1,71 @@
 {
   "leaderboards": [],
-  "raffles": [],
+  "raffles": [
+    {
+      "id": "1",
+      "name": "Spring Giveaway",
+      "description": "Win amazing prizes this spring!",
+      "startDate": "2026-03-27T14:32:10.123Z",
+      "endDate": "2026-04-30T23:59:59Z",
+      "drawDate": "2026-05-01T12:00:00Z",
+      "status": "active",
+      "ticketPrice": 10,
+      "maxTicketsPerUser": 5,
+      "prizes": [
+        {
+          "id": "p1",
+          "name": "100 Coins",
+          "type": "coins",
+          "amount": 100,
+          "quantity": 10,
+          "imageUrl": "https://example.com/prizes/100coins.png"
+        },
+        {
+          "id": "p2",
+          "name": "Free Spin",
+          "type": "freeSpin",
+          "amount": 1,
+          "quantity": 5,
+          "imageUrl": "https://example.com/prizes/freespin.png"
+        }
+      ],
+      "totalTicketLimit": 1000,
+      "createdAt": "2026-03-27T12:00:00Z",
+      "updatedAt": "2026-03-27T12:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Summer Surprise",
+      "description": "Get ready for the summer with amazing prizes!",
+      "startDate": "2026-06-01T00:00:00Z",
+      "endDate": "2026-06-30T23:59:59Z",
+      "drawDate": "2026-07-01T12:00:00Z",
+      "status": "inactive",
+      "ticketPrice": 15,
+      "maxTicketsPerUser": 3,
+      "prizes": [
+        {
+          "id": "p3",
+          "name": "50 Coins",
+          "type": "coins",
+          "amount": 50,
+          "quantity": 20,
+          "imageUrl": "https://example.com/prizes/50coins.png"
+        },
+        {
+          "id": "p4",
+          "name": "Bonus Pack",
+          "type": "bonus",
+          "amount": 1,
+          "quantity": 10,
+          "imageUrl": "https://example.com/prizes/bonus.png"
+        }
+      ],
+      "totalTicketLimit": null,
+      "createdAt": "2026-03-27T12:00:00Z",
+      "updatedAt": "2026-03-27T12:00:00Z"
+    }
+  ],
   "wheels": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

@@ -5,6 +5,7 @@ import { Layout } from "@/shared/ui/Layout";
 import { LeaderboardList } from "@/features/leaderboards/pages/LeaderboardList";
 import { LeaderboardDetail } from "@/features/leaderboards/pages/LeaderboardDetail";
 import { NotFound } from "@/pages/NotFound";
+import { RafflePage } from "@/features/RaffleManagement/pages/RafflePage";
 
 const routes: RouteObject[] = [
   {
@@ -16,7 +17,7 @@ const routes: RouteObject[] = [
         path: "leaderboard/:id",
         element: <LeaderboardDetail />,
       },
-      { path: "raffles", element: <div>Raffles Page</div> },
+      { path: "raffles", element: <RafflePage /> },
       { path: "wheels", element: <div>Wheels Page</div> },
       { path: "*", element: <NotFound /> },
     ],
