@@ -99,7 +99,7 @@ export const LeaderboardList: React.FC = () => {
     {
       field: "actions",
       headerName: "Actions",
-      width: 120,
+      width: 80,
       sortable: false,
       filterable: false,
       disableExport: true,
@@ -112,6 +112,7 @@ export const LeaderboardList: React.FC = () => {
               <IconButton
                 color="primary"
                 size="small"
+                className="h-fit !m-auto"
                 onClick={() => setUrlParams({ leaderboardId: params.row.id })}
               >
                 <Edit fontSize="small" />
@@ -122,6 +123,7 @@ export const LeaderboardList: React.FC = () => {
               <IconButton
                 color="info"
                 size="small"
+                className="h-fit !m-auto"
                 onClick={() => navigate(`/leaderboard/${params.row.id}`)}
               >
                 <Info fontSize="small" />
@@ -135,7 +137,7 @@ export const LeaderboardList: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" gap={2} mb={2}>
+      <Box display="flex" alignItems="center" gap={2} mb={2} flexWrap="wrap">
         <Button
           variant="outlined"
           startIcon={<Add />}

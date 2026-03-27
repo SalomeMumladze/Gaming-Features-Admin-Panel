@@ -52,19 +52,23 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
       ref={setNodeRef}
       style={style}
       elevation={0}
-      className="!rounded-lg"
       sx={{
         border: `1px solid ${alpha(rankInfo.base, isDark ? 0.15 : 0.12)}`,
         bgcolor: isDark ? alpha("#0d1629", 0.55) : alpha(rankInfo.base, 0.03),
       }}
+      className="rounded-lg p-2"
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, p: 1.5 }}>
-        <DragIndicator
-          {...listeners}
-          {...attributes}
-          sx={{ cursor: "grab", color: theme.palette.text.secondary }}
-        />
-        <RankBadge rank={field} />
+      <Box className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <Box className="flex items-center gap-1 sm:mb-0 mb-1">
+          <DragIndicator
+            {...listeners}
+            {...attributes}
+            className="cursor-grab text-gray-500"
+          />
+          <RankBadge rank={field} />
+        </Box>
+
+        {/* Name */}
         <TextField
           label="Name"
           size="small"
@@ -81,23 +85,24 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
               </InputAdornment>
             ),
           }}
-          sx={{ flex: 1, minWidth: 0 }}
+          className="flex-1 min-w-0"
         />
 
+        {/* Type */}
         <TextField
           label="Type"
           select
           size="small"
           defaultValue={field.type}
           {...register(`prizes.${index}.type`)}
-          sx={{ width: 140 }}
+          className="w-full sm:w-36"
         >
           {Object.entries(TYPE_CONFIG).map(([value, cfg]) => {
             const Icon = cfg.icon;
             return (
               <MenuItem key={value} value={value}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Box sx={{ color: cfg.hue, display: "flex" }}>
+                <Box className="flex items-center gap-1">
+                  <Box className="flex" style={{ color: cfg.hue }}>
                     <Icon fontSize="small" />
                   </Box>
                   {cfg.label}
@@ -124,9 +129,10 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
               </InputAdornment>
             ),
           }}
-          sx={{ width: 110 }}
+          className="w-full sm:w-28"
         />
 
+        {/* Delete */}
         <Tooltip
           title={
             fieldsLength === 1 ? "At least one prize required" : "Remove prize"

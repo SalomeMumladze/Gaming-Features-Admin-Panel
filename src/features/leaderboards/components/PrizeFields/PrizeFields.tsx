@@ -47,6 +47,18 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
 
   const sensors = useSensors(useSensor(PointerSensor));
 
+  const handleRemove = (index: number) => {
+    const updated = [...fields];
+    updated.splice(index, 1);
+
+    const withRanks = updated.map((item, i) => ({
+      ...item,
+      rank: i + 1,
+    }));
+
+    setValue("prizes", withRanks, { shouldValidate: true, shouldDirty: true });
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -69,57 +81,67 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-        <EmojiEvents sx={{ color: amberBase, fontSize: 20 }} />
-        <Typography
-          className="!font-bold !text-sm"
-          sx={{ color: theme.palette.text.primary }}
-        >
-          Prizes
-        </Typography>
-        <Chip
-          label={fields.length}
-          size="small"
-          sx={{
-            bgcolor: alpha(amberBase, isDark ? 0.12 : 0.1),
-            color: amberBase,
-            border: `1px solid ${alpha(amberBase, 0.25)}`,
-          }}
-        />
-      </Box>
-
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
+    <div className="grid gap-4">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1.5,
+          maxHeight: "40vh",
+          overflow: "scroll",
+        }}
       >
-        <SortableContext
-          items={fields.map((f) => f.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          {fields.map((field, index) => {
-            const rankInfo = RANK_COLORS[index] ?? {
-              base: isDark ? "#4f8eff" : "#3b6ef0",
-              label: `#${index + 1}`,
-            };
-            return (
-              <PrizeItem
-                key={field.id}
-                id={field.id}
-                field={field}
-                index={index}
-                rankInfo={rankInfo}
-                register={register}
-                remove={() => {}}
-                errors={errors?.[index]}
-                fieldsLength={fields.length}
-              />
-            );
-          })}
-        </SortableContext>
-      </DndContext>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+          <EmojiEvents sx={{ color: amberBase, fontSize: 20 }} />
+          <Typography
+            className="!font-bold !text-sm"
+            sx={{ color: theme.palette.text.primary }}
+          >
+            Prizes
+          </Typography>
+          <Chip
+            label={fields.length}
+            size="small"
+            sx={{
+              bgcolor: alpha(amberBase, isDark ? 0.12 : 0.1),
+              color: amberBase,
+              border: `1px solid ${alpha(amberBase, 0.25)}`,
+            }}
+          />
+        </Box>
 
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={fields.map((f) => f.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {fields.map((field, index) => {
+              const rankInfo = RANK_COLORS[index] ?? {
+                base: isDark ? "#4f8eff" : "#3b6ef0",
+                label: `#${index + 1}`,
+              };
+
+              return (
+                <PrizeItem
+                  key={field.id}
+                  id={field.id}
+                  field={field}
+                  index={index}
+                  rankInfo={rankInfo}
+                  register={register}
+                  remove={handleRemove}
+                  errors={errors?.[index]}
+                  fieldsLength={fields.length}
+                />
+              );
+            })}
+          </SortableContext>
+        </DndContext>
+      </Box>
       <Button
         variant="outlined"
         startIcon={<Add />}
@@ -129,6 +151,7 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
             name: "",
             type: "coins",
             amount: 0,
+            rank: fields.length + 1,
           })
         }
         sx={{
@@ -139,6 +162,6 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
       >
         Add Prize
       </Button>
-    </Box>
+    </div>
   );
 };

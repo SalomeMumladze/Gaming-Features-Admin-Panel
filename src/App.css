@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.MuiFormHelperText-root {
+  position: absolute;
+  bottom: -20px;
+}

@@ -72,7 +72,13 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
   return (
     <Drawer open={!!id} onClose={handleClose} anchor="right">
       <Card
-        sx={{ maxWidth: 800, width: "100%", boxShadow: 0, borderRadius: 0 }}
+        sx={{
+          maxWidth: 800,
+          width: "100%",
+          boxShadow: 0,
+          borderRadius: 0,
+          overflow: "scroll",
+        }}
       >
         <CardHeader
           title={

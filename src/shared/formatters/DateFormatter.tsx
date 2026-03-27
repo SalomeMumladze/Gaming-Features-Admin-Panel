@@ -31,7 +31,7 @@ export const DateFormatter: React.FC<Props> = ({
       justifyContent="center"
       height="100%"
     >
-      <Typography fontWeight={600} variant="caption">
+      <Typography fontWeight={600} variant="body2">
         {datePart}
       </Typography>
       {showTime && (
