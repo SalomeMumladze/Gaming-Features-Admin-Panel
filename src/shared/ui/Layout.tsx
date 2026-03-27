@@ -7,6 +7,7 @@ import { UrlContextProvider } from "@/shared/hooks/useQueryParams";
 
 const SIDEBAR_WIDTH = 180;
 const COLLAPSED_WIDTH = 60;
+const TOPBAR_HEIGHT = 64;
 
 export const Layout: React.FC = () => {
   const [open, setOpen] = useState(true);
@@ -33,9 +34,33 @@ export const Layout: React.FC = () => {
         flex={1}
         ml={open ? `${SIDEBAR_WIDTH}px` : `${COLLAPSED_WIDTH}px`}
         transition="margin-left 0.3s"
+        display="flex"
+        flexDirection="column"
+        height="100vh"
       >
-        <Topbar />
-        <Box p={3}>
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: open ? `${SIDEBAR_WIDTH}px` : `${COLLAPSED_WIDTH}px`,
+            right: 0,
+            height: `${TOPBAR_HEIGHT}px`,
+            zIndex: (theme) => theme.zIndex.appBar,
+            transition: "left 0.3s",
+          }}
+        >
+          <Topbar />
+        </Box>
+
+        <Box
+          component="main"
+          sx={{
+            flex: 1,
+            mt: `${TOPBAR_HEIGHT}px`,
+            overflowY: "auto",
+          }}
+          p={3}
+        >
           <Outlet />
         </Box>
       </Box>

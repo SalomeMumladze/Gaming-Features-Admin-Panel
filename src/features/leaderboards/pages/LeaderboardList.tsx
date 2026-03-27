@@ -39,6 +39,9 @@ export const LeaderboardList: React.FC = () => {
     _page: paginationModel.page,
     _per_page: paginationModel.pageSize,
     status: filterStatus || undefined,
+    // Optional: Sorting can also be done by sending these params to the backend
+    // _sort: "title", // field to sort by
+    // _order: "asc",  // "asc" or "desc"
   });
 
   const handleBulkToggle = () => {

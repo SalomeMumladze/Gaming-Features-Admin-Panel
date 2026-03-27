@@ -56,9 +56,9 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
         border: `1px solid ${alpha(rankInfo.base, isDark ? 0.15 : 0.12)}`,
         bgcolor: isDark ? alpha("#0d1629", 0.55) : alpha(rankInfo.base, 0.03),
       }}
-      className="rounded-lg p-2"
+      className="rounded-lg p-4"
     >
-      <Box className="flex flex-col sm:flex-row sm:items-center gap-2">
+      <Box className="flex flex-col sm:flex-row sm:items-center sm:gap-2 gap-6">
         <Box className="flex items-center gap-1 sm:mb-0 mb-1">
           <DragIndicator
             {...listeners}
@@ -68,7 +68,6 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
           <RankBadge rank={field} />
         </Box>
 
-        {/* Name */}
         <TextField
           label="Name"
           size="small"
@@ -85,10 +84,8 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
               </InputAdornment>
             ),
           }}
-          className="flex-1 min-w-0"
         />
 
-        {/* Type */}
         <TextField
           label="Type"
           select
@@ -129,10 +126,8 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
               </InputAdornment>
             ),
           }}
-          className="w-full sm:w-28"
         />
 
-        {/* Delete */}
         <Tooltip
           title={
             fieldsLength === 1 ? "At least one prize required" : "Remove prize"

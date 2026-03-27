@@ -1,12 +1,7 @@
 import React from "react";
 import { alpha, useTheme } from "@mui/material";
 import { WorkspacePremium } from "@mui/icons-material";
-
-const RANK_COLORS = [
-  { base: "#f59e0b", label: "1ST" },
-  { base: "#94a3b8", label: "2ND" },
-  { base: "#c2763e", label: "3RD" },
-];
+import { RANK_COLORS } from "@/features/leaderboards/components/PrizeFields/Config";
 
 interface Rank {
   id: string;

@@ -70,10 +70,19 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
   }
 
   return (
-    <Drawer open={!!id} onClose={handleClose} anchor="right">
+    <Drawer
+      open={!!id}
+      onClose={handleClose}
+      anchor="right"
+      PaperProps={{
+        sx: {
+          width: 800,
+          maxWidth: "100%",
+        },
+      }}
+    >
       <Card
         sx={{
-          maxWidth: 800,
           width: "100%",
           boxShadow: 0,
           borderRadius: 0,

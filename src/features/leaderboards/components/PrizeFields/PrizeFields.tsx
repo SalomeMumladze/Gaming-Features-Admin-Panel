@@ -14,6 +14,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { PrizeItem } from "./PrizeItem";
+import { RANK_COLORS } from "./Config";
 
 import type { DragEndEvent } from "@dnd-kit/core";
 
@@ -23,12 +24,6 @@ interface PrizeFieldsProps {
   errors: any;
   setValue: any;
 }
-
-const RANK_COLORS = [
-  { base: "#f59e0b", label: "1ST" },
-  { base: "#94a3b8", label: "2ND" },
-  { base: "#c2763e", label: "3RD" },
-];
 
 export const PrizeFields: React.FC<PrizeFieldsProps> = ({
   control,
@@ -89,6 +84,7 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
           gap: 1.5,
           maxHeight: "40vh",
           overflow: "scroll",
+          padding: "20px 0px",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>

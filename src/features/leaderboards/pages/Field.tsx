@@ -3,7 +3,7 @@ import { Box, Typography, useTheme, alpha } from "@mui/material";
 
 export const Field: React.FC<{
   label: string;
-  value: React.ReactNode;
+  value?: React.ReactNode;
   icon?: React.ReactNode;
   accent?: string;
 }> = ({ label, value, icon, accent }) => {
