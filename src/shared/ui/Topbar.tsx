@@ -1,14 +1,37 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
+import {
+  AppBar,
+  Breadcrumbs,
+  Toolbar,
+  Typography,
+  IconButton,
+  Link,
+} from "@mui/material";
 import { Brightness7, Brightness4 } from "@mui/icons-material";
 import { useTheme } from "@/shared/hooks/useTheme";
+import { useLocation, Link as RouterLink } from "react-router-dom";
 
 export const Topbar: React.FC = () => {
   const { mode, toggleMode } = useTheme();
+  const location = useLocation();
+
+  const pathnames = location.pathname.split("/").filter((x) => x);
   return (
-    <AppBar position="static">
+    <AppBar color="transparent" position="static">
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6">Admin</Typography>
+        <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 1 }}>
+          {pathnames.map((value, index) => {
+            const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+            const isLast = index === pathnames.length - 1;
+            return isLast ? (
+              <Typography key={to}>{value}</Typography>
+            ) : (
+              <Link key={to} component={RouterLink} to={to}>
+                {value}
+              </Link>
+            );
+          })}
+        </Breadcrumbs>
         <IconButton color="inherit" onClick={toggleMode}>
           {mode === "light" ? <Brightness7 /> : <Brightness4 />}
         </IconButton>

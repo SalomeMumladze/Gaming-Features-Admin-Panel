@@ -133,7 +133,7 @@ export const RafflePage: React.FC = () => {
               raffleId: params.row.id,
             })
           }
-          onInfoClick={() => navigate(`/raffle/detail/${params.row.id}`)}
+          onInfoClick={() => navigate(`/raffles/${params.row.id}`)}
           onDeleteClick={(id) =>
             deleteRaffle.mutate(id, {
               onSuccess: () =>

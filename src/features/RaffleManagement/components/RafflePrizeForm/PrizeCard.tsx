@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Delete, Clear, AutoAwesome } from "@mui/icons-material";
 import type { RafflePrize } from "../hooks/useRaffleManagement";
-import { TYPE_META } from "./Config";
+import { TYPE_META } from "../Config";
 
 interface PrizeCardProps {
   id: string;

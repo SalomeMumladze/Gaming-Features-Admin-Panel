@@ -120,7 +120,7 @@ export const LeaderboardTable: React.FC = () => {
               leaderboardId: params.row.id,
             })
           }
-          onInfoClick={() => navigate(`/leaderboard/detail/${params.row.id}`)}
+          onInfoClick={() => navigate(`/leaderboards/${params.row.id}`)}
           onDeleteClick={(id) =>
             deleteLoaderboard.mutate(id, {
               onSuccess: () =>
