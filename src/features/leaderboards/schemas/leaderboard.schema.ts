@@ -5,7 +5,7 @@ export const prizeSchema = z.object({
   rank: z.number().int().min(1),
   name: z.string().min(1, "Prize name is required"),
   type: z.enum(["coins", "freeSpin", "bonus"]),
-  amount: z.number().positive("Amount must be positive"),
+  amount: z.number("Invalid input").positive("Amount must be positive"),
   imageUrl: z.string().optional(),
 });
 

@@ -9,11 +9,9 @@ import {
   MenuItem,
   Button,
   Box,
-  IconButton,
 } from "@mui/material";
 import { useLeaderboard } from "../hooks/useLeaderboard";
-import { useNavigate } from "react-router-dom";
-import { Edit, Help, Info, Add } from "@mui/icons-material";
+import { Help, Add } from "@mui/icons-material";
 import {
   DateFormatter,
   StatusFormatter,
@@ -22,10 +20,14 @@ import {
 } from "@/shared/formatters";
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import Drawers from "../Drawers/Drawers";
+import { TableActions } from "@/shared/components/TableActions";
+import { useNotification } from "@/shared/hooks/useNotification";
 
 const statuses = ["draft", "active", "completed"] as const;
 
 export const LeaderboardList: React.FC = () => {
+  const { notify } = useNotification();
+
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 10,
@@ -34,7 +36,7 @@ export const LeaderboardList: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
-
+  const { deleteLoaderboard } = useLeaderboard();
   const { list } = useLeaderboard({
     _page: paginationModel.page,
     _per_page: paginationModel.pageSize,
@@ -102,39 +104,26 @@ export const LeaderboardList: React.FC = () => {
     {
       field: "actions",
       headerName: "Actions",
-      width: 80,
+      width: 120,
       sortable: false,
       filterable: false,
       disableExport: true,
-      renderCell: (params) => {
-        const navigate = useNavigate();
-
-        return (
-          <div className="flex gap-1 h-full ">
-            <Tooltip title="Edit Leaderboard">
-              <IconButton
-                color="primary"
-                size="small"
-                className="h-fit !m-auto"
-                onClick={() => setUrlParams({ leaderboardId: params.row.id })}
-              >
-                <Edit fontSize="small" />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="View Leaderboard Info">
-              <IconButton
-                color="info"
-                size="small"
-                className="h-fit !m-auto"
-                onClick={() => navigate(`/leaderboard/${params.row.id}`)}
-              >
-                <Info fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </div>
-        );
-      },
+      renderCell: (params) => (
+        <TableActions
+          id={params.row.id}
+          onDelete={(id) => {
+            deleteLoaderboard.mutate(id, {
+              onSuccess: () => {
+                notify(`${params.row.title} deleted successfully`, "success");
+              },
+              onError: () => {
+                notify("Failed to delete leaderboard!", "error");
+              },
+            });
+          }}
+          confirmText="Do you really want to delete this leaderbsdoard?"
+        />
+      ),
     },
   ];
 

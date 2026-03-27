@@ -71,5 +71,11 @@ export const useLeaderboard = (params?: {
       enabled: !!id,
     });
 
-  return { list, create, update, getById };
+  const deleteLoaderboard = useMutation({
+    mutationFn: (id: string) => apiGateway.delete(`/leaderboards/${id}`),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["leaderboards"] }),
+  });
+
+  return { list, create, update, getById, deleteLoaderboard };
 };
