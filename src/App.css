@@ -4,5 +4,6 @@
 
 .MuiFormHelperText-root {
   position: absolute;
-  bottom: -20px;
+  bottom: -18px;
+  font-size: 11px !important;
 }

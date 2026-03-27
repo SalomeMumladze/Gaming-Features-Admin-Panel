@@ -33,6 +33,8 @@ export const useRaffleManagement = (params?: {
   startDate_gte?: string;
   endDate_lte?: string;
 }) => {
+  const queryClient = useQueryClient();
+
   const raffles = useQuery({
     queryKey: ["raffles", params],
     queryFn: async () => {
@@ -45,5 +47,11 @@ export const useRaffleManagement = (params?: {
     keepPreviousData: true,
   });
 
-  return { raffles };
+  const create = useMutation({
+    mutationFn: (payload: Omit<Raffle, "id" | "createdAt" | "updatedAt">) =>
+      apiGateway.post("/raffles", payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
+  });
+
+  return { create, raffles };
 };

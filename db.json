@@ -1,5 +1,24 @@
 {
-  "leaderboards": [],
+  "leaderboards": [
+    {
+      "title": "sdsd",
+      "description": "",
+      "startDate": "2026-03-12T20:00:00.000Z",
+      "endDate": "2026-03-25T20:00:00.000Z",
+      "status": null,
+      "scoringType": null,
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "sdsd",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "6jT5e5sXdmg"
+    }
+  ],
   "raffles": [
     {
       "id": "1",
@@ -64,6 +83,28 @@
       "totalTicketLimit": null,
       "createdAt": "2026-03-27T12:00:00Z",
       "updatedAt": "2026-03-27T12:00:00Z"
+    },
+    {
+      "name": "ksjjshd",
+      "description": "",
+      "startDate": "2026-03-19T20:00:00.000Z",
+      "endDate": "2026-03-30T20:00:00.000Z",
+      "drawDate": "2026-04-08T20:00:00.000Z",
+      "status": "draft",
+      "ticketPrice": 1,
+      "maxTicketsPerUser": 1,
+      "totalTicketLimit": null,
+      "prizes": [
+        {
+          "id": "6e9a4f69-0eba-4ba3-a2ba-4ad99d9c08df",
+          "name": "ssd",
+          "type": "coins",
+          "amount": 0,
+          "quantity": 1,
+          "imageUrl": ""
+        }
+      ],
+      "id": "aZqmtkzFJ4A"
     }
   ],
   "wheels": [],

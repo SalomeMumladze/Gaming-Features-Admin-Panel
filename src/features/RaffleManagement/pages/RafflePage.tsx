@@ -18,6 +18,7 @@ import { useNotification } from "@/shared/hooks/useNotification";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateFormatter, StatusFormatter } from "@/shared/formatters";
 import dayjs, { Dayjs } from "dayjs";
+import { RaffleDrawers } from "../drawers/RaffleDrawers";
 
 const statuses = ["draft", "active", "drawn", "cancelled"] as const;
 
@@ -118,7 +119,7 @@ export const RafflePage: React.FC = () => {
           className="!capitalize !h-10"
           onClick={() =>
             setUrlParams({
-              createLeaderboard: true,
+              createRaffle: true,
             })
           }
         >
@@ -198,6 +199,7 @@ export const RafflePage: React.FC = () => {
           onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         />
       </div>
+      <RaffleDrawers />
     </Box>
   );
 };

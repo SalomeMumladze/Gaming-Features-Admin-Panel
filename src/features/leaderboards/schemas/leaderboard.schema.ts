@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const prizeSchema = z.object({
-  id: z.string(),
   rank: z.number().int().min(1),
   name: z.string().min(1, "Prize name is required"),
   type: z.enum(["coins", "freeSpin", "bonus"]),
