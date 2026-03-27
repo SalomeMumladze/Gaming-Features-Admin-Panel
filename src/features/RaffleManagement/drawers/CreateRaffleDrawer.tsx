@@ -25,7 +25,7 @@ export const CreateRaffleDrawer: React.FC<Props> & {
     console.log(data);
     create.mutate(data, {
       onSuccess: () => {
-        const title = data.title;
+        const title = data.name;
         notify(`${title} created successfully!`, "success");
         handleClose();
       },

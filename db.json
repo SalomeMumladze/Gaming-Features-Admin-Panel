@@ -2,36 +2,26 @@
   "leaderboards": [],
   "raffles": [
     {
-      "id": "1",
-      "name": "Spring Giveaway",
-      "description": "Win amazing prizes this spring!",
-      "startDate": "2026-03-27T14:32:10.123Z",
-      "endDate": "2026-04-30T23:59:59Z",
-      "drawDate": "2026-05-01T12:00:00Z",
-      "status": "active",
-      "ticketPrice": 10,
-      "maxTicketsPerUser": 5,
+      "name": "test",
+      "description": "zxzx",
+      "startDate": "2026-03-18T20:00:00.000Z",
+      "endDate": "2026-03-30T20:00:00.000Z",
+      "drawDate": "2026-04-07T20:00:00.000Z",
+      "status": "draft",
+      "ticketPrice": 1,
+      "maxTicketsPerUser": 1,
+      "totalTicketLimit": null,
       "prizes": [
         {
-          "id": "p1",
-          "name": "100 Coins",
+          "id": "abe620a6-94b5-4eaf-8399-a6774d5519f8",
+          "name": "sdsd",
           "type": "coins",
-          "amount": 100,
-          "quantity": 10,
-          "imageUrl": "https://example.com/prizes/100coins.png"
-        },
-        {
-          "id": "p2",
-          "name": "Free Spin",
-          "type": "freeSpin",
-          "amount": 1,
-          "quantity": 5,
-          "imageUrl": "https://example.com/prizes/freespin.png"
+          "amount": 0,
+          "quantity": 2,
+          "imageUrl": ""
         }
       ],
-      "totalTicketLimit": 1000,
-      "createdAt": "2026-03-27T12:00:00Z",
-      "updatedAt": "2026-03-27T12:00:00Z"
+      "id": "m32-Y0fd_HA"
     }
   ],
   "wheels": [],

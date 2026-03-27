@@ -20,11 +20,13 @@ import { DateFormatter, StatusFormatter } from "@/shared/formatters";
 import dayjs, { Dayjs } from "dayjs";
 import { RaffleDrawers } from "../drawers/RaffleDrawers";
 import { TableActions } from "@/shared/components/TableActions";
+import { useNavigate } from "react-router-dom";
 
 const statuses = ["draft", "active", "drawn", "cancelled"] as const;
 
 export const RafflePage: React.FC = () => {
   const { notify } = useNotification();
+  const navigate = useNavigate();
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -120,18 +122,41 @@ export const RafflePage: React.FC = () => {
       renderCell: (params) => (
         <TableActions
           id={params.row.id}
-          onDelete={(id) => {
-            deleteRaffle.mutate(id, {
-              onSuccess: () => {
-                notify(`${params.row.name} deleted successfully`, "success");
-              },
-              onError: () => {
-                notify("Failed to delete raffle!", "error");
-              },
-            });
-          }}
+          showEdit={true}
+          showInfo={true}
+          showDelete={true}
+          editTooltip="Edit raffle"
+          infoTooltip="View raffle info"
+          deleteTooltip="Delete raffle"
           confirmText="Do you really want to delete this raffle?"
+          onEditClick={() =>
+            setUrlParams({
+              raffleId: params.row.id,
+            })
+          }
+          onInfoClick={() => navigate(`/raffle/edit/${params.row.id}`)}
+          onDeleteClick={(id) =>
+            deleteRaffle.mutate(id, {
+              onSuccess: () =>
+                notify(`${params.row.name} deleted successfully`, "success"),
+              onError: () => notify("Failed to delete raffle!", "error"),
+            })
+          }
         />
+        // <TableActions
+        //   id={params.row.id}
+        //   onDelete={(id) => {
+        //     deleteRaffle.mutate(id, {
+        //       onSuccess: () => {
+        //         notify(`${params.row.name} deleted successfully`, "success");
+        //       },
+        //       onError: () => {
+        //         notify("Failed to delete raffle!", "error");
+        //       },
+        //     });
+        //   }}
+        //   confirmText="Do you really want to delete this raffle?"
+        // />
       ),
     },
   ];

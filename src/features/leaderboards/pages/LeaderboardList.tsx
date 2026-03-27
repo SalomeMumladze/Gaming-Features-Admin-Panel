@@ -21,11 +21,13 @@ import useQueryParams from "@/shared/hooks/useQueryParams";
 import { LeaderboardDrawers } from "../drawers/LeaderboardDrawers";
 import { TableActions } from "@/shared/components/TableActions";
 import { useNotification } from "@/shared/hooks/useNotification";
+import { useNavigate } from "react-router-dom";
 
 const statuses = ["draft", "active", "completed"] as const;
 
 export const LeaderboardList: React.FC = () => {
   const { notify } = useNotification();
+  const navigate = useNavigate();
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -110,17 +112,26 @@ export const LeaderboardList: React.FC = () => {
       renderCell: (params) => (
         <TableActions
           id={params.row.id}
-          onDelete={(id) => {
+          showEdit={true}
+          showInfo={true}
+          showDelete={true}
+          editTooltip="Edit leaderboard"
+          infoTooltip="View leaderboard info"
+          deleteTooltip="Delete leaderboard"
+          confirmText="Do you really want to delete this leaderboard?"
+          onEditClick={() =>
+            setUrlParams({
+              leaderboardId: params.row.id,
+            })
+          }
+          onInfoClick={() => navigate(`/leaderboard/detail/${params.row.id}`)}
+          onDeleteClick={(id) =>
             deleteLoaderboard.mutate(id, {
-              onSuccess: () => {
-                notify(`${params.row.title} deleted successfully`, "success");
-              },
-              onError: () => {
-                notify("Failed to delete leaderboard!", "error");
-              },
-            });
-          }}
-          confirmText="Do you really want to delete this leaderbsdoard?"
+              onSuccess: () =>
+                notify(`${params.row.title} deleted successfully`, "success"),
+              onError: () => notify("Failed to delete leaderboard!", "error"),
+            })
+          }
         />
       ),
     },

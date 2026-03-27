@@ -14,7 +14,7 @@ const routes: RouteObject[] = [
     children: [
       { path: "leaderboards", element: <LeaderboardList /> },
       {
-        path: "leaderboard/:id",
+        path: "leaderboard/detail/:id",
         element: <LeaderboardDetail />,
       },
       { path: "raffles", element: <RafflePage /> },
