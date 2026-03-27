@@ -21,9 +21,14 @@ import dayjs from "dayjs";
 interface Props {
   initialData?: any;
   onSubmit: (data: LeaderboardFormValues) => void;
+  isSubmitting?: boolean;
 }
 
-export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
+export const LeaderboardForm: React.FC<Props> = ({
+  initialData,
+  onSubmit,
+  isSubmitting,
+}) => {
   const form = useForm<LeaderboardFormValues>({
     resolver: zodResolver(leaderboardSchema),
     defaultValues: {
@@ -200,7 +205,12 @@ export const LeaderboardForm: React.FC<Props> = ({ initialData, onSubmit }) => {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <Button size="large" type="submit" variant="contained">
+          <Button
+            size="large"
+            type="submit"
+            variant="contained"
+            disabled={isSubmitting}
+          >
             Save
           </Button>
         </Box>

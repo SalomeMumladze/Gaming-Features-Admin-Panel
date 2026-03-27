@@ -21,9 +21,14 @@ import { RafflePrizeForm } from "./RafflePrizeForm";
 interface Props {
   initialData?: Partial<RaffleFormValues>;
   onSubmit: (data: RaffleFormValues) => void;
+  isSubmitting?: boolean;
 }
 
-export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
+export const RaffleForm: React.FC<Props> = ({
+  initialData,
+  onSubmit,
+  isSubmitting,
+}) => {
   const form = useForm<RaffleFormValues>({
     resolver: zodResolver(raffleSchema),
     defaultValues: {
@@ -204,7 +209,12 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
       />
 
       <Box className="flex justify-center !my-4">
-        <Button size="large" type="submit" variant="contained">
+        <Button
+          size="large"
+          type="submit"
+          variant="contained"
+          disabled={isSubmitting}
+        >
           {initialData ? "Update Raffle" : "Create Raffle"}
         </Button>
       </Box>

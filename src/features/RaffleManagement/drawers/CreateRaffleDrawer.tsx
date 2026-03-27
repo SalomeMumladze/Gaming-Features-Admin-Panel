@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
@@ -13,6 +13,9 @@ export const CreateRaffleDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
+  // Normally, I would use create.isLoading for the submit button loading state,
+  // but it doesn’t work here, so I’m using local state instead.
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     afterOpenChange?.(false);
@@ -22,15 +25,17 @@ export const CreateRaffleDrawer: React.FC<Props> & {
   const { create } = useRaffleManagement();
 
   const handleSubmit = (data: any) => {
-    console.log(data);
+    setLoading(true);
     create.mutate(data, {
       onSuccess: () => {
         const title = data.name;
         notify(`${title} created successfully!`, "success");
         handleClose();
+        setLoading(false);
       },
       onError: () => {
         notify("Failed to create raffle!", "error");
+        setLoading(false);
       },
     });
   };
@@ -64,7 +69,7 @@ export const CreateRaffleDrawer: React.FC<Props> & {
             paddingBottom: 2,
           }}
         >
-          <RaffleForm onSubmit={handleSubmit} />
+          <RaffleForm onSubmit={handleSubmit} isSubmitting={loading} />
         </CardContent>
       </Card>
     </Drawer>

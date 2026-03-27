@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   Card,
@@ -20,6 +20,9 @@ export const RaffleEditDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
+  // Normally, I would use updateRaffle.isLoading for the submit button loading state,
+  // but it doesn’t work here, so I’m using local state instead.
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     afterOpenChange?.(false);
@@ -32,6 +35,8 @@ export const RaffleEditDrawer: React.FC<Props> & {
 
   const handleSubmit = (formData: any) => {
     if (raffleId) {
+      setLoading(true);
+
       updateRaffle.mutate(
         { ...row, ...formData },
         {
@@ -39,9 +44,11 @@ export const RaffleEditDrawer: React.FC<Props> & {
             const name = formData.name ?? row.name;
             notify(`${name} updated successfully!`, "success");
             handleClose();
+            setLoading(false);
           },
           onError: (err) => {
             notify(err?.message || `Failed to update leaderboard!`, "error");
+            setLoading(false);
           },
         },
       );
@@ -92,7 +99,11 @@ export const RaffleEditDrawer: React.FC<Props> & {
           )}
 
           {!isLoading && !isError && row && (
-            <RaffleForm initialData={row} onSubmit={handleSubmit} />
+            <RaffleForm
+              initialData={row}
+              onSubmit={handleSubmit}
+              isSubmitting={loading}
+            />
           )}
         </CardContent>
       </Card>
