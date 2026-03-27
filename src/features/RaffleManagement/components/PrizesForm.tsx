@@ -8,25 +8,29 @@ interface PrizeFieldsProps {
   register: unknown;
   errors: any;
   setValue: unknown;
+  initialPrizes?: RafflePrize[];
 }
 
 const PrizesForm: React.FC<PrizeFieldsProps> = ({
   register,
   errors,
   setValue,
+  initialPrizes,
 }) => {
   const [prizes, setPrizes] = useState<
     (RafflePrize & { imagePreview?: string })[]
-  >([
-    {
-      id: crypto.randomUUID(),
-      name: "",
-      type: "coins",
-      amount: 0,
-      quantity: 1,
-      imageUrl: "",
-    },
-  ]);
+  >(
+    initialPrizes?.map((p) => ({ ...p, imagePreview: p.imageUrl })) || [
+      {
+        id: crypto.randomUUID(),
+        name: "",
+        type: "coins",
+        amount: 0,
+        quantity: 1,
+        imageUrl: "",
+      },
+    ],
+  );
 
   useEffect(() => {
     setValue("prizes", prizes);
@@ -118,7 +122,7 @@ const PrizesForm: React.FC<PrizeFieldsProps> = ({
           </div>
 
           <Button variant="outlined" startIcon={<Add />} onClick={addPrize}>
-            Add Prize
+            Add Prize 
           </Button>
         </div>
 

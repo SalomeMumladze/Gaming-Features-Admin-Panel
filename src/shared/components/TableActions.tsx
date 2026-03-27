@@ -45,7 +45,7 @@ export const TableActions: React.FC<TableActionsProps> = ({
 
   return (
     <>
-      <div className="flex h-full gap-1 items-center">
+      <div className="flex h-full gap-1 items-center justify-end">
         {showEdit && (
           <Tooltip title={editTooltip} className="h-fit m-auto">
             <IconButton color="primary" size="small" onClick={onEditClick}>

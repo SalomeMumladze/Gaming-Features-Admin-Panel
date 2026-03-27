@@ -76,18 +76,18 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
   };
 
   return (
-    <div className="grid gap-4">
+    <div className="grid ">
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          gap: 1.5,
-          maxHeight: "40vh",
-          overflow: "scroll",
-          padding: "20px 0px",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 1,
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+        <Box
+          sx={{ display: "flex", justifyContent: "center", gap: 1, mb: 0.5 }}
+        >
           <EmojiEvents sx={{ color: amberBase, fontSize: 20 }} />
           <Typography
             className="!font-bold !text-sm"
@@ -105,7 +105,37 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
             }}
           />
         </Box>
-
+        <Button
+          variant="outlined"
+          startIcon={<Add />}
+          onClick={() =>
+            append({
+              id: crypto.randomUUID(),
+              name: "",
+              type: "coins",
+              amount: 0,
+              rank: fields.length + 1,
+            })
+          }
+          sx={{
+            borderColor: alpha(amberBase, isDark ? 0.3 : 0.28),
+            color: amberBase,
+            bgcolor: alpha(amberBase, isDark ? 0.05 : 0.04),
+          }}
+        >
+          Add Prize
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1.5,
+          maxHeight: "40vh",
+          overflow: "scroll",
+          padding: "20px 0px",
+        }}
+      >
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -138,26 +168,6 @@ export const PrizeFields: React.FC<PrizeFieldsProps> = ({
           </SortableContext>
         </DndContext>
       </Box>
-      <Button
-        variant="outlined"
-        startIcon={<Add />}
-        onClick={() =>
-          append({
-            id: crypto.randomUUID(),
-            name: "",
-            type: "coins",
-            amount: 0,
-            rank: fields.length + 1,
-          })
-        }
-        sx={{
-          borderColor: alpha(amberBase, isDark ? 0.3 : 0.28),
-          color: amberBase,
-          bgcolor: alpha(amberBase, isDark ? 0.05 : 0.04),
-        }}
-      >
-        Add Prize
-      </Button>
     </div>
   );
 };

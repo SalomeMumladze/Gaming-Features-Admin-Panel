@@ -9,6 +9,8 @@ import {
   InputLabel,
   FormControl,
   Select,
+  Typography,
+  Divider,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -52,8 +54,16 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
   }, [initialData]);
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
-      <Box display="flex" flexDirection="column" className="!gap-6 mb-6">
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="h-full flex flex-col gap-6 mb-4"
+    >
+      <Box className="p-4 border rounded-2xl bg-white shadow-sm flex flex-col gap-4">
+        <Typography variant="caption" className="text-gray-700 font-semibold">
+          General Information
+        </Typography>
+        <Divider className="!m-0" />
+
         <TextField
           label="Raffle Name"
           {...form.register("name")}
@@ -65,8 +75,15 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
           label="Description"
           {...form.register("description")}
         />
+      </Box>
 
-        <div className="flex flex-col sm:flex-row gap-6">
+      <Box className="p-4 border rounded-2xl bg-white shadow-sm flex flex-col gap-4">
+        <Typography variant="h6" className="text-gray-700 font-semibold">
+          Dates
+        </Typography>
+        <Divider />
+
+        <div className="flex flex-col sm:flex-row gap-4">
           <Controller
             control={form.control}
             name="startDate"
@@ -78,6 +95,7 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
                 onChange={(date) => field.onChange(date?.toISOString() || "")}
                 slotProps={{
                   textField: {
+                    fullWidth: true,
                     error: !!form.formState.errors.startDate,
                     helperText: form.formState.errors.startDate?.message,
                   },
@@ -99,6 +117,7 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
                   onChange={(date) => field.onChange(date?.toISOString() || "")}
                   slotProps={{
                     textField: {
+                      fullWidth: true,
                       error: !!form.formState.errors.endDate,
                       helperText: form.formState.errors.endDate?.message,
                     },
@@ -121,6 +140,7 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
                   onChange={(date) => field.onChange(date?.toISOString() || "")}
                   slotProps={{
                     textField: {
+                      fullWidth: true,
                       error: !!form.formState.errors.drawDate,
                       helperText: form.formState.errors.drawDate?.message,
                     },
@@ -130,8 +150,15 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
             }}
           />
         </div>
+      </Box>
 
-        <div className="grid sm:grid-cols-2 gap-6">
+      <Box className="p-4 border rounded-2xl bg-white shadow-sm flex flex-col gap-4">
+        <Typography variant="h6" className="text-gray-700 font-semibold">
+          Ticket Information
+        </Typography>
+        <Divider />
+
+        <div className="grid sm:grid-cols-2 gap-4">
           <TextField
             label="Ticket Price"
             type="number"
@@ -168,14 +195,17 @@ export const RaffleForm: React.FC<Props> = ({ initialData, onSubmit }) => {
           />
         </div>
       </Box>
+
       <PrizesForm
         errors={form.formState.errors.prizes}
         setValue={form.setValue}
         register={form.register}
+        initialPrizes={initialData?.prizes}
       />
-      <Box className="flex justify-center mt-4">
+
+      <Box className="flex justify-center !my-4">
         <Button size="large" type="submit" variant="contained">
-          Save
+          {initialData ? "Update Raffle" : "Create Raffle"}
         </Button>
       </Box>
     </form>

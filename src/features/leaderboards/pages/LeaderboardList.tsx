@@ -112,9 +112,6 @@ export const LeaderboardList: React.FC = () => {
       renderCell: (params) => (
         <TableActions
           id={params.row.id}
-          showEdit={true}
-          showInfo={true}
-          showDelete={true}
           editTooltip="Edit leaderboard"
           infoTooltip="View leaderboard info"
           deleteTooltip="Delete leaderboard"

@@ -122,9 +122,7 @@ export const RafflePage: React.FC = () => {
       renderCell: (params) => (
         <TableActions
           id={params.row.id}
-          showEdit={true}
-          showInfo={true}
-          showDelete={true}
+          showEdit={params.row.status === "drawn" ? false : true}
           editTooltip="Edit raffle"
           infoTooltip="View raffle info"
           deleteTooltip="Delete raffle"
@@ -143,20 +141,6 @@ export const RafflePage: React.FC = () => {
             })
           }
         />
-        // <TableActions
-        //   id={params.row.id}
-        //   onDelete={(id) => {
-        //     deleteRaffle.mutate(id, {
-        //       onSuccess: () => {
-        //         notify(`${params.row.name} deleted successfully`, "success");
-        //       },
-        //       onError: () => {
-        //         notify("Failed to delete raffle!", "error");
-        //       },
-        //     });
-        //   }}
-        //   confirmText="Do you really want to delete this raffle?"
-        // />
       ),
     },
   ];
