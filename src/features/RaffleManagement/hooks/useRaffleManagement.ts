@@ -53,5 +53,10 @@ export const useRaffleManagement = (params?: {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
   });
 
-  return { create, raffles };
+  const deleteRaffle = useMutation({
+    mutationFn: (id: string) => apiGateway.delete(`/raffles/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
+  });
+
+  return { create, raffles, deleteRaffle };
 };

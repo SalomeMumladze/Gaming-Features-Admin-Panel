@@ -19,6 +19,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateFormatter, StatusFormatter } from "@/shared/formatters";
 import dayjs, { Dayjs } from "dayjs";
 import { RaffleDrawers } from "../drawers/RaffleDrawers";
+import { TableActions } from "@/shared/components/TableActions";
 
 const statuses = ["draft", "active", "drawn", "cancelled"] as const;
 
@@ -35,6 +36,7 @@ export const RafflePage: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
 
+  const { deleteRaffle } = useRaffleManagement();
   const { raffles } = useRaffleManagement({
     _page: paginationModel.page,
     _per_page: paginationModel.pageSize,
@@ -107,6 +109,30 @@ export const RafflePage: React.FC = () => {
       headerName: "Draw Date",
       minWidth: 150,
       renderCell: (params) => <DateFormatter value={params.value} />,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 120,
+      sortable: false,
+      filterable: false,
+      disableExport: true,
+      renderCell: (params) => (
+        <TableActions
+          id={params.row.id}
+          onDelete={(id) => {
+            deleteRaffle.mutate(id, {
+              onSuccess: () => {
+                notify(`${params.row.name} deleted successfully`, "success");
+              },
+              onError: () => {
+                notify("Failed to delete raffle!", "error");
+              },
+            });
+          }}
+          confirmText="Do you really want to delete this raffle?"
+        />
+      ),
     },
   ];
 
