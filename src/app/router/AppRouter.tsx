@@ -6,6 +6,7 @@ import { LeaderboardList } from "@/features/leaderboards/pages/LeaderboardList";
 import { LeaderboardDetail } from "@/features/leaderboards/pages/LeaderboardDetail";
 import { NotFound } from "@/pages/NotFound";
 import { RafflePage } from "@/features/RaffleManagement/pages/RafflePage";
+import { RaffleDetail } from "@/features/RaffleManagement/pages/RaffleDetail";
 
 const routes: RouteObject[] = [
   {
@@ -17,6 +18,7 @@ const routes: RouteObject[] = [
         path: "leaderboard/detail/:id",
         element: <LeaderboardDetail />,
       },
+      { path: "raffle/detail/:id", element: <RaffleDetail /> },
       { path: "raffles", element: <RafflePage /> },
       { path: "wheels", element: <div>Wheels Page</div> },
       { path: "*", element: <NotFound /> },
