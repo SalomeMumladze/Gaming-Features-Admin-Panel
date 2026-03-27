@@ -18,7 +18,7 @@ import {
   ScoringTypeFormatter,
 } from "@/shared/formatters";
 import useQueryParams from "@/shared/hooks/useQueryParams";
-import Drawers from "../Drawers/Drawers";
+import { LeaderboardDrawers } from "../drawers/LeaderboardDrawers";
 import { TableActions } from "@/shared/components/TableActions";
 import { useNotification } from "@/shared/hooks/useNotification";
 
@@ -214,7 +214,7 @@ export const LeaderboardList: React.FC = () => {
           onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         />
       </div>
-      <Drawers />
+      <LeaderboardDrawers />
     </Box>
   );
 };
