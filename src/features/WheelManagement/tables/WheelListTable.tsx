@@ -39,7 +39,7 @@ export const WheelListTable: React.FC = () => {
 
   const { deleteWheel } = useWheelsManagement();
   const { wheels } = useWheelsManagement({
-    _page: paginationModel.page,
+    _page: paginationModel.page + 1,
     _per_page: paginationModel.pageSize,
     status: filterStatus || undefined,
   });

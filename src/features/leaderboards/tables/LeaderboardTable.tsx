@@ -36,9 +36,9 @@ export const LeaderboardTable: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
-  const { deleteLoaderboard } = useLeaderboard();
+  const { deleteLeaderboard } = useLeaderboard();
   const { list } = useLeaderboard({
-    _page: paginationModel.page,
+    _page: paginationModel.page + 1,
     _per_page: paginationModel.pageSize,
     status: filterStatus || undefined,
     // Optional: Sorting can also be done by sending these params to the backend
@@ -122,7 +122,7 @@ export const LeaderboardTable: React.FC = () => {
           }
           onInfoClick={() => navigate(`/leaderboards/${params.row.id}`)}
           onDeleteClick={(id) =>
-            deleteLoaderboard.mutate(id, {
+            deleteLeaderboard.mutate(id, {
               onSuccess: () =>
                 notify(`${params.row.title} deleted successfully`, "success"),
               onError: () => notify("Failed to delete leaderboard!", "error"),
@@ -188,7 +188,7 @@ export const LeaderboardTable: React.FC = () => {
 
       <div style={{ maxHeight: 630, width: "100%" }}>
         <DataGrid
-          rows={list.data?.items ?? []}
+          rows={list.items ?? []}
           columns={columns}
           getRowId={(row) => row.id}
           slots={{
@@ -207,7 +207,7 @@ export const LeaderboardTable: React.FC = () => {
               );
             },
           }}
-          rowCount={list.data?.totalRows}
+          rowCount={list.totalRows}
           disableRowSelectionOnClick
           disableColumnMenu
           paginationMode="server"

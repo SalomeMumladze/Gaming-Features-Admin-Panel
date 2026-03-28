@@ -41,7 +41,7 @@ export const RaffleListTable: React.FC = () => {
 
   const { deleteRaffle } = useRaffleManagement();
   const { raffles } = useRaffleManagement({
-    _page: paginationModel.page,
+    _page: paginationModel.page + 1,
     _per_page: paginationModel.pageSize,
     status: filterStatus || undefined,
     startDate_gte: filterStartDate || undefined,
