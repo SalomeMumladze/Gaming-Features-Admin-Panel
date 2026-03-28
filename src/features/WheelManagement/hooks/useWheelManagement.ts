@@ -59,5 +59,11 @@ export const useWheelsManagement = (params?: {
       enabled: !!id,
     });
 
-  return { wheels, deleteWheel, getWheel };
+  const create = useMutation({
+    mutationFn: (payload: Omit<Wheel, "id" | "createdAt" | "updatedAt">) =>
+      apiGateway.post("/wheels", payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wheels"] }),
+  });
+
+  return { wheels, deleteWheel, getWheel, create };
 };

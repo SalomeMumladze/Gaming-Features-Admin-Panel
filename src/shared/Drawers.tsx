@@ -8,6 +8,7 @@ import {
   RaffleEditDrawer,
   CreateRaffleDrawer,
 } from "@/features/RaffleManagement/drawers";
+import { CreateWheelDrawer } from "@/features/WheelManagement/drawers";
 
 interface DrawerProps {
   searchParams: Record<string, string>;
@@ -27,6 +28,7 @@ const Drawers: React.FC = () => {
     CreateLeaderboardDrawer,
     RaffleEditDrawer,
     CreateRaffleDrawer,
+    CreateWheelDrawer,
   ];
 
   const params = useQueryParams();

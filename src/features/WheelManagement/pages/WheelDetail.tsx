@@ -53,7 +53,7 @@ export const WheelDetail: React.FC<{ data: Wheel }> = () => {
           <Typography variant="h4" className="font-bold ">
             {data.name}
           </Typography>
-          <Typography variant="body1">{data.description}</Typography>
+        <Typography variant="body1">{data.description}</Typography>
         </div>
         <Chip
           label={data.status.toUpperCase()}

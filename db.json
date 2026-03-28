@@ -341,7 +341,7 @@
   ],
   "wheels": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Welcome Wheel",
       "description": "Spin and win rewards",
       "status": "active",
@@ -400,7 +400,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Holiday Wheel",
       "description": "Spin for festive rewards",
       "status": "inactive",
@@ -466,6 +466,56 @@
           "imageUrl": ""
         }
       ]
+    },
+    {
+      "name": "sdsd",
+      "segments": [
+        {
+          "label": "sdsd",
+          "weight": 50,
+          "color": "#FF0000"
+        },
+        {
+          "label": "sdsd",
+          "weight": 50,
+          "color": "#00FF00"
+        }
+      ],
+      "spinCost": 0,
+      "maxSpinsPerUser": 1,
+      "prizes": [
+        {
+          "name": "1212",
+          "prizeType": "nothing",
+          "prizeAmount": 0
+        }
+      ],
+      "id": "Xwny1Wd-_1E"
+    },
+    {
+      "name": "shjwhewe",
+      "segments": [
+        {
+          "label": "sjhjshbdjsd",
+          "weight": 50,
+          "color": "#823030"
+        },
+        {
+          "label": "wewe",
+          "weight": 50,
+          "color": "#37d237"
+        }
+      ],
+      "spinCost": 2,
+      "maxSpinsPerUser": 3,
+      "prizes": [
+        {
+          "name": "sdsd",
+          "prizeType": "coins",
+          "prizeAmount": 1
+        }
+      ],
+      "id": "5mqGUP9BL9k"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
