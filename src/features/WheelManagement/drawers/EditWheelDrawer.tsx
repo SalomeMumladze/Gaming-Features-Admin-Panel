@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Drawer,
   Box,
   Typography,
-  CardHeader,
-  CardContent,
+  CircularProgress,
+  Stack,
+  Alert,
 } from "@mui/material";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
@@ -34,7 +35,7 @@ export const EditWheelDrawer: React.FC<Props> & {
       { ...row, ...data },
       {
         onSuccess: () => {
-          const title = data.name ?? row.name;
+          const title = data.name ?? row?.name;
           notify(`${title} updated successfully!`, "success");
           handleClose();
         },
@@ -45,33 +46,40 @@ export const EditWheelDrawer: React.FC<Props> & {
     );
   };
 
-  if (isLoading) {
-    return (
-      <Drawer open={!!wheelId} onClose={handleClose} anchor="right">
-        <Box width={420} p={2}>
-          <Typography variant="h6">Loading...</Typography>
-        </Box>
-      </Drawer>
-    );
-  }
-
-  if (isError || !row) {
-    return (
-      <Drawer open={!!wheelId} onClose={handleClose} anchor="right">
-        <Box width={420} p={2}>
-          <Typography variant="h6">Error loading leaderboard</Typography>
-        </Box>
-      </Drawer>
-    );
-  }
-
   return (
     <Drawer open={!!wheelId} onClose={handleClose} anchor="right">
-      <WheelForm
-        onSubmit={handleSubmit}
-        initialData={row}
-        isSubmitting={updateWheel.isLoading}
-      />
+      <Box p={2} width="100%" margin="auto">
+        {isLoading && (
+          <Stack
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+          >
+            <CircularProgress />
+            <Typography variant="body1" mt={2}>
+              Loading...
+            </Typography>
+          </Stack>
+        )}
+        {isError && !isLoading && (
+          <Stack
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+          >
+            <Alert severity="error">Failed to load leaderboard.</Alert>
+          </Stack>
+        )}
+        {!isLoading && !isError && row && (
+          <WheelForm
+            onSubmit={handleSubmit}
+            initialData={row}
+            isSubmitting={updateWheel.isLoading}
+          />
+        )}
+      </Box>
     </Drawer>
   );
 };

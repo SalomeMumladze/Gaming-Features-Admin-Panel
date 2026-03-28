@@ -56,6 +56,14 @@ export const ThemeProvider: React.FC<Props> = ({ children }) => {
       createTheme({
         palette: { mode },
         components: {
+          MuiDrawer: {
+            styleOverrides: {
+              paper: {
+                width: 800,
+                maxWidth: "100%",
+              },
+            },
+          },
           MuiCardHeader: {
             styleOverrides: {
               root: {

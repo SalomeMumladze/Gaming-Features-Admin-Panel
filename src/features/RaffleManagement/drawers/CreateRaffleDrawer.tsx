@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
+import {
+  Drawer,
+  Card,
+  CardHeader,
+  CardContent,
+  CircularProgress,
+  Stack,
+  Alert,
+  Typography,
+} from "@mui/material";
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { RaffleForm } from "../components/RaffleForm";
@@ -14,12 +23,12 @@ export const CreateRaffleDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-  // Normally, I would use create.isLoading for the submit button loading state,
-  // but it doesn’t work here, so I’m using local state instead.
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleClose = () => {
     afterOpenChange?.(false);
+    setError(false);
   };
 
   const { createRaffle } = searchParams;
@@ -27,6 +36,8 @@ export const CreateRaffleDrawer: React.FC<Props> & {
 
   const handleSubmit = (data: Raffle) => {
     setLoading(true);
+    setError(false);
+
     create.mutate(data, {
       onSuccess: () => {
         const title = data.name;
@@ -36,6 +47,7 @@ export const CreateRaffleDrawer: React.FC<Props> & {
       },
       onError: () => {
         notify("Failed to create raffle!", "error");
+        setError(true);
         setLoading(false);
       },
     });
@@ -45,7 +57,6 @@ export const CreateRaffleDrawer: React.FC<Props> & {
     <Drawer open={!!createRaffle} onClose={handleClose} anchor="right">
       <Card
         sx={{
-          maxWidth: 800,
           width: "100%",
           boxShadow: 0,
           borderRadius: 0,
@@ -55,7 +66,7 @@ export const CreateRaffleDrawer: React.FC<Props> & {
         }}
       >
         <CardHeader
-          title={"Create Raffle"}
+          title="Create Raffle"
           sx={{
             borderRadius: 0,
             backgroundColor: "primary.light",
@@ -67,10 +78,29 @@ export const CreateRaffleDrawer: React.FC<Props> & {
           sx={{
             flex: 1,
             overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: loading || error ? "center" : "flex-start",
+            alignItems: "center",
             paddingBottom: 2,
           }}
         >
-          <RaffleForm onSubmit={handleSubmit} isSubmitting={loading} />
+          {loading && (
+            <Stack direction="column" alignItems="center" spacing={2}>
+              <CircularProgress />
+              <Typography>Creating raffle...</Typography>
+            </Stack>
+          )}
+
+          {error && !loading && (
+            <Alert severity="error" variant="outlined">
+              Something went wrong while creating the raffle.
+            </Alert>
+          )}
+
+          {!loading && !error && (
+            <RaffleForm onSubmit={handleSubmit} isSubmitting={loading} />
+          )}
         </CardContent>
       </Card>
     </Drawer>

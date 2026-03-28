@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
+import React from "react";
+import {
+  Drawer,
+  Box,
+  Typography,
+  CircularProgress,
+  Stack,
+  Alert,
+} from "@mui/material";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { WheelForm } from "../components/WheelForm";
@@ -37,7 +44,32 @@ export const CreateWheelDrawer: React.FC<Props> & {
 
   return (
     <Drawer open={!!createWheel} onClose={handleClose} anchor="right">
-      <WheelForm onSubmit={handleSubmit} isSubmitting={create.isLoading} />
+      <Box p={2} width="100%" margin="auto">
+        {create.isLoading && (
+          <Stack
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+          >
+            <CircularProgress />
+            <Typography variant="body1" mt={2}>
+              Loading...
+            </Typography>
+          </Stack>
+        )}
+        {create.error && !create.isLoading && (
+          <Stack
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+          >
+            <Alert severity="error">Failed to load leaderboard.</Alert>
+          </Stack>
+        )}
+        <WheelForm onSubmit={handleSubmit} isSubmitting={create.isLoading} />
+      </Box>
     </Drawer>
   );
 };
