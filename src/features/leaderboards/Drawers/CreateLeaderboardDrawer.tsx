@@ -3,6 +3,7 @@ import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/hooks/useNotification";
+import type { Leaderboard } from "../hooks/useLeaderboard";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -13,9 +14,6 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-  // Normally, I would use create.isLoading for the submit button loading state,
-  // but it doesn’t work here, so I’m using local state instead.
-  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     afterOpenChange?.(false);
@@ -24,18 +22,15 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
   const { createLeaderboard } = searchParams;
   const { create } = useLeaderboard();
 
-  const handleSubmit = (data: any) => {
-    setLoading(true);
+  const handleSubmit = (data: Leaderboard) => {
     create.mutate(data, {
       onSuccess: () => {
         const title = data.title;
         notify(`${title} created successfully!`, "success");
         handleClose();
-        setLoading(false);
       },
       onError: () => {
         notify("Failed to create leaderboard!", "error");
-        setLoading(false);
       },
     });
   };
@@ -69,7 +64,10 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
             paddingBottom: 2,
           }}
         >
-          <LeaderboardForm onSubmit={handleSubmit} isSubmitting={loading} />
+          <LeaderboardForm
+            onSubmit={handleSubmit}
+            isSubmitting={create.isLoading}
+          />
         </CardContent>
       </Card>
     </Drawer>

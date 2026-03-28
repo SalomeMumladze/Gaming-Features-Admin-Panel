@@ -10,6 +10,7 @@ import {
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { RaffleForm } from "../components/RaffleForm";
+import type { Raffle } from "../hooks/useRaffleManagement";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -33,7 +34,7 @@ export const RaffleEditDrawer: React.FC<Props> & {
 
   const { data: row, isLoading, isError } = getRaffle(raffleId);
 
-  const handleSubmit = (formData: any) => {
+  const handleSubmit = (formData: Raffle) => {
     if (raffleId) {
       setLoading(true);
 

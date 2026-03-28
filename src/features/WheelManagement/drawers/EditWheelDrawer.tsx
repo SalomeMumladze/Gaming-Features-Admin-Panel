@@ -9,6 +9,7 @@ import {
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { WheelForm } from "../components/WheelForm";
+import type { Wheel } from "../hooks/useWheelManagement";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -28,7 +29,7 @@ export const EditWheelDrawer: React.FC<Props> & {
   const { getWheel, updateWheel } = useWheelsManagement();
   const { data: row, isLoading, isError } = getWheel(wheelId);
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: Wheel) => {
     updateWheel.mutate(
       { ...row, ...data },
       {

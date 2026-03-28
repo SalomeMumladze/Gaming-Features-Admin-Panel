@@ -3,6 +3,7 @@ import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { WheelForm } from "../components/WheelForm";
+import type { Wheel } from "../hooks/useWheelManagement";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -21,7 +22,7 @@ export const CreateWheelDrawer: React.FC<Props> & {
   const { createWheel } = searchParams;
   const { create } = useWheelsManagement();
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: Wheel) => {
     create.mutate(data, {
       onSuccess: () => {
         const title = data.name;

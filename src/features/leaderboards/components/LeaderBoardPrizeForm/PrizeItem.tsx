@@ -15,16 +15,18 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TYPE_CONFIG } from "../Config";
 import { RankBadge } from "@/shared/formatters";
+import type { UseFormRegister, FieldErrors } from "react-hook-form";
+import type leaderboardSchema from "@/features/leaderboards/schemas/leaderboard.schema";
 
 interface PrizeItemProps {
   id: string;
-  field: any;
+  field: leaderboardSchema["leaderboards"][number]["prizes"][number];
   index: number;
   rankInfo: { base: string; label: string };
-  register: any;
+  register: UseFormRegister<leaderboardSchema["leaderboards"][number]>;
   remove: (index: number) => void;
   fieldsLength: number;
-  errors: unknown;
+  errors: FieldErrors<leaderboardSchema["leaderboards"][number]>;
 }
 
 export const PrizeItem: React.FC<PrizeItemProps> = ({

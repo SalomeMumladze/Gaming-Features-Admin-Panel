@@ -10,16 +10,17 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
-import { leaderboardSchema } from "../schemas/leaderboard.schema";
+import  { leaderboardSchema } from "../schemas/leaderboard.schema";
 import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
 import { LeaderBoardPrizeForm } from "./LeaderBoardPrizeForm";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Controller } from "react-hook-form";
 import { StatusFormatter, ScoringTypeFormatter } from "@/shared/formatters";
 import dayjs from "dayjs";
+import type { Leaderboard } from "../hooks/useLeaderboard";
 
 interface Props {
-  initialData?: any;
+  initialData?: Leaderboard;
   onSubmit: (data: LeaderboardFormValues) => void;
   isSubmitting?: boolean;
 }

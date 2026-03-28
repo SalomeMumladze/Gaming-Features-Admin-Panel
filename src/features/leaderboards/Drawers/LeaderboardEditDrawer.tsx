@@ -12,6 +12,7 @@ import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { ErrorOutline } from "@mui/icons-material";
 import { useNotification } from "@/shared/hooks/useNotification";
+import type { Leaderboard } from "../hooks/useLeaderboard";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -22,9 +23,6 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-  // Normally, I would use update.isLoading for the submit button loading state,
-  // but it doesn’t work here, so I’m using local state instead.
-  const [loading, setLoading] = useState(false);
 
   const { getById, update } = useLeaderboard();
   const id = searchParams.leaderboardId;
@@ -34,9 +32,8 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleUpdate = (formData: any) => {
+  const handleUpdate = (formData: Leaderboard) => {
     if (!row) return;
-    setLoading(true);
     update.mutate(
       { ...row, ...formData },
       {
@@ -44,11 +41,9 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
           const title = formData.title ?? row.title;
           notify(`${title} updated successfully!`, "success");
           handleClose();
-          setLoading(false);
         },
         onError: () => {
           notify("Failed to update leaderboard!", "error");
-          setLoading(false);
         },
       },
     );
@@ -120,7 +115,7 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
             <LeaderboardForm
               initialData={row}
               onSubmit={handleUpdate}
-              isSubmitting={loading}
+              isSubmitting={update.isLoading}
             />
           )}
         </CardContent>

@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Button, Box } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import type { RafflePrize } from "../hooks/useRaffleManagement";
+import type { RafflePrize } from "@/hooks/useRaffleManagement";
 import PrizeCard from "./PrizeCard";
+import type { RaffleFormValues } from "@/features/RaffleManagement/schema/raffle.schema";
+import type {
+  UseFormRegister,
+  FieldErrors,
+  UseFormSetValue,
+} from "react-hook-form";
 
 interface PrizeFieldsProps {
-  register: unknown;
-  errors: any;
-  setValue: unknown;
+  register: UseFormRegister<RaffleFormValues>;
+  errors: FieldErrors<RaffleFormValues["prizes"]>;
+  setValue: UseFormSetValue<RaffleFormValues>;
   initialPrizes?: RafflePrize[];
 }
 
@@ -64,7 +70,7 @@ export const RafflePrizeForm: React.FC<PrizeFieldsProps> = ({
           return p;
         }
 
-        return { ...p, [field]: value as any };
+        return { ...p, [field]: value as unknown };
       }),
     );
   };

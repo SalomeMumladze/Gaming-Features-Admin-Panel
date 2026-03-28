@@ -275,6 +275,60 @@
         }
       ],
       "id": "6d7xXvLsbjY"
+    },
+    {
+      "title": "123",
+      "description": "",
+      "startDate": "2026-03-05T20:00:00.000Z",
+      "endDate": "2026-03-24T20:00:00.000Z",
+      "status": "draft",
+      "scoringType": "points",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "qwqw",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "AzpgnZubHfQ"
+    },
+    {
+      "title": "1213",
+      "description": "",
+      "startDate": "2026-03-06T20:00:00.000Z",
+      "endDate": "2026-03-16T20:00:00.000Z",
+      "status": null,
+      "scoringType": null,
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "ssdsd",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "wV4bZE4CfNI"
+    },
+    {
+      "title": "salome",
+      "description": "",
+      "startDate": "2026-03-13T20:00:00.000Z",
+      "endDate": "2026-03-30T20:00:00.000Z",
+      "status": null,
+      "scoringType": null,
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "sdsd",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "ewZeyh-KfwU"
     }
   ],
   "raffles": [
@@ -337,6 +391,28 @@
         }
       ],
       "id": "nfpMF_iYWdo"
+    },
+    {
+      "name": "salome mumladze",
+      "description": "",
+      "startDate": "2026-03-19T20:00:00.000Z",
+      "endDate": "2026-03-23T20:00:00.000Z",
+      "drawDate": "2026-03-30T20:00:00.000Z",
+      "status": "draft",
+      "ticketPrice": 1,
+      "maxTicketsPerUser": 1,
+      "totalTicketLimit": null,
+      "prizes": [
+        {
+          "id": "42444194-80fd-4d55-894d-d9a40aed6b52",
+          "name": "sdsd",
+          "type": "coins",
+          "amount": 0,
+          "quantity": 1,
+          "imageUrl": ""
+        }
+      ],
+      "id": "QINPNrBNEPg"
     }
   ],
   "wheels": [
@@ -526,6 +602,32 @@
         }
       ],
       "id": "vkokpcFzysE"
+    },
+    {
+      "name": "salome",
+      "segments": [
+        {
+          "label": "sdsd",
+          "weight": 50,
+          "color": "#FF0000"
+        },
+        {
+          "label": "100 Coins",
+          "weight": 50,
+          "color": "#00FF00"
+        }
+      ],
+      "spinCost": 1,
+      "maxSpinsPerUser": 1,
+      "status": "inactive",
+      "prizes": [
+        {
+          "name": "xdfsd",
+          "prizeType": "coins",
+          "prizeAmount": 1
+        }
+      ],
+      "id": "3FIp5QkSTKk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

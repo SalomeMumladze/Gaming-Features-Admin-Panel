@@ -20,7 +20,7 @@ interface DrawerProps {
 }
 
 interface DrawerComponentType {
-  requiredParams?: Record<string, ((value: string) => boolean) | any>;
+  requiredParams?: Record<string, ((value: string) => boolean) | unknown>;
   closeParams?: string[];
   (props: DrawerProps): JSX.Element;
 }

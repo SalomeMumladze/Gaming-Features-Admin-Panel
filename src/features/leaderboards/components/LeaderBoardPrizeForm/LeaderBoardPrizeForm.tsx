@@ -15,14 +15,21 @@ import {
 } from "@dnd-kit/sortable";
 import { PrizeItem } from "./PrizeItem";
 import { RANK_COLORS } from "@/features/leaderboards/components/Config";
+import type {
+  UseFormRegister,
+  FieldErrors,
+  UseFormSetValue,
+  Control,
+} from "react-hook-form";
+import type { leaderboardSchema } from "@/features/leaderboards/schemas/leaderboard.schema";
 
 import type { DragEndEvent } from "@dnd-kit/core";
 
 interface PrizeFieldsProps {
-  control: any;
-  register: any;
-  errors: any;
-  setValue: any;
+  register: UseFormRegister<leaderboardSchema>;
+  errors: FieldErrors<leaderboardSchema["raffles"]>;
+  setValue: UseFormSetValue<leaderboardSchema>;
+  control: Control<leaderboardSchema>;
 }
 
 export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({

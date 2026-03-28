@@ -3,6 +3,7 @@ import { Drawer, Card, CardHeader, CardContent } from "@mui/material";
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { RaffleForm } from "../components/RaffleForm";
+import type { Raffle } from "../hooks/useRaffleManagement";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -24,7 +25,7 @@ export const CreateRaffleDrawer: React.FC<Props> & {
   const { createRaffle } = searchParams;
   const { create } = useRaffleManagement();
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: Raffle) => {
     setLoading(true);
     create.mutate(data, {
       onSuccess: () => {
