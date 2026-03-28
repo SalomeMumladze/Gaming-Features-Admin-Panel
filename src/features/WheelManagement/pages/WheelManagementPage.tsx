@@ -1,6 +1,11 @@
 import React from "react";
 import { Box } from "@mui/material";
+import { WheelListTable } from "../tables/WheelListTable";
 
 export const WheelManagementPage: React.FC = () => {
-  return <Box>wheel</Box>;
+  return (
+    <Box>
+      <WheelListTable />
+    </Box>
+  );
 };

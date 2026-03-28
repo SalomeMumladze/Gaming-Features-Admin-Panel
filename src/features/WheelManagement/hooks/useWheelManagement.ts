@@ -29,11 +29,11 @@ export const useWheelsManagement = (params?: {
   _page?: number;
   _per_page?: number;
   status?: string;
-  startDate_gte?: string;
-  endDate_lte?: string;
 }) => {
+  const queryClient = useQueryClient();
+
   const wheels = useQuery({
-    queryKey: ["raffles", params],
+    queryKey: ["wheels", params],
     queryFn: async () => {
       const { data } = await apiGateway.get("/wheels", { params });
       return {
@@ -44,5 +44,10 @@ export const useWheelsManagement = (params?: {
     keepPreviousData: true,
   });
 
-  return { wheels };
+  const deleteWheel = useMutation({
+    mutationFn: (id: string) => apiGateway.delete(`/wheels/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wheels"] }),
+  });
+
+  return { wheels, deleteWheel };
 };

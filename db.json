@@ -339,6 +339,66 @@
       "id": "nfpMF_iYWdo"
     }
   ],
-  "wheels": [],
+  "wheels": [
+    {
+      "id": "wheel-1",
+      "name": "Welcome Wheel",
+      "description": "Spin and win rewards",
+      "status": "active",
+      "maxSpinsPerUser": 3,
+      "spinCost": 10,
+      "backgroundColor": "#1E1E2F",
+      "borderColor": "#FFD700",
+      "createdAt": "2026-03-28T10:00:00.000Z",
+      "updatedAt": "2026-03-28T10:00:00.000Z",
+      "segments": [
+        {
+          "id": "seg-1",
+          "label": "10 Coins",
+          "color": "#FF6384",
+          "weight": 30,
+          "prizeType": "coins",
+          "prizeAmount": 10,
+          "imageUrl": ""
+        },
+        {
+          "id": "seg-2",
+          "label": "50 Coins",
+          "color": "#36A2EB",
+          "weight": 20,
+          "prizeType": "coins",
+          "prizeAmount": 50,
+          "imageUrl": ""
+        },
+        {
+          "id": "seg-3",
+          "label": "Free Spin",
+          "color": "#4BC0C0",
+          "weight": 15,
+          "prizeType": "freeSpin",
+          "prizeAmount": 1,
+          "imageUrl": ""
+        },
+        {
+          "id": "seg-4",
+          "label": "Bonus",
+          "color": "#9966FF",
+          "weight": 10,
+          "prizeType": "bonus",
+          "prizeAmount": 100,
+          "imageUrl": ""
+        },
+        {
+          "id": "seg-5",
+          "label": "Try Again",
+          "color": "#C9CBCF",
+          "weight": 25,
+          "prizeType": "nothing",
+          "prizeAmount": 0,
+          "imageUrl": ""
+        }
+      ]
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

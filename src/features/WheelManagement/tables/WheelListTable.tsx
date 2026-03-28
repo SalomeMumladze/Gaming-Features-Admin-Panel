@@ -11,21 +11,21 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Add, Help } from "@mui/icons-material";
-import { useRaffleManagement } from "../hooks/useRaffleManagement";
+import { useWheelsManagement } from "../hooks/useWheelManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import { useNotification } from "@/shared/hooks/useNotification";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { SegmentsPreview } from "../components/SegmentsPreview";
 import {
   DateFormatter,
   StatusFormatter,
   TableActionsFormatter,
 } from "@/shared/formatters";
-import dayjs, { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
+import type { GridColDef } from "@mui/x-data-grid";
 
 const statuses = ["draft", "active", "drawn", "cancelled"] as const;
 
-export const RaffleListTable: React.FC = () => {
+export const WheelListTable: React.FC = () => {
   const { notify } = useNotification();
   const navigate = useNavigate();
 
@@ -34,111 +34,127 @@ export const RaffleListTable: React.FC = () => {
     pageSize: 10,
   });
   const [filterStatus, setFilterStatus] = useState<string>("");
-  const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
-  const [filterEndDate, setFilterEndDate] = useState<Dayjs | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
 
-  const { deleteRaffle } = useRaffleManagement();
-  const { raffles } = useRaffleManagement({
+  const { deleteWheel } = useWheelsManagement();
+  const { wheels } = useWheelsManagement({
     _page: paginationModel.page,
     _per_page: paginationModel.pageSize,
     status: filterStatus || undefined,
-    startDate_gte: filterStartDate || undefined,
-    endDate_lte: filterEndDate || undefined,
   });
 
   const handleBulkToggle = () => setSelectedIds([]);
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Wheel Preview",
       flex: 1,
-      minWidth: 200,
-      renderCell: (params: GridRenderCellParams<string>) => (
-        <div className="flex items-center gap-2">
-          <span>{params.value}</span>
-          {params.row.description && (
-            <Tooltip
-              disableInteractive
-              title={params.row.description ?? ""}
-              className="cursor-pointer"
-            >
-              <Help fontSize="small" color="info" />
-            </Tooltip>
-          )}
+      minWidth: 250,
+      renderCell: (params: GridRenderCellParams) => (
+        <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-full border-4 flex-shrink-0 shadow-sm"
+            style={{
+              backgroundColor: params.row.backgroundColor,
+              borderColor: params.row.borderColor,
+            }}
+          />
+          <div className="flex items-center gap-2">
+            <span> {params.value}</span>
+            {params.row.description && (
+              <Tooltip
+                disableInteractive
+                title={params.row.description ?? ""}
+                className="cursor-pointer"
+              >
+                <Help fontSize="small" color="info" />
+              </Tooltip>
+            )}
+          </div>
         </div>
       ),
     },
     {
       field: "status",
       headerName: "Status",
+      width: 130,
+      renderCell: (params: GridRenderCellParams) => {
+        const status = params.value as string;
+        const statusStyles: Record<string, string> = {
+          active: "bg-emerald-100 text-emerald-700 border-emerald-200",
+          draft: "bg-slate-100 text-slate-600 border-slate-200",
+          drawn: "bg-blue-100 text-blue-700 border-blue-200",
+          cancelled: "bg-rose-100 text-rose-700 border-rose-200",
+        };
+
+        return (
+          <span
+            className={`px-2.5 py-1 rounded-full text-[11px] font-bold uppercase border ${statusStyles[status] || statusStyles.draft}`}
+          >
+            {status}
+          </span>
+        );
+      },
+    },
+    {
+      field: "maxSpinsPerUser",
+      headerName: "Max Spins/User",
       minWidth: 120,
-      renderCell: (params) => <StatusFormatter value={params.value} />,
-    },
-    {
-      field: "ticketPrice",
-      headerName: "Ticket Price",
-      minWidth: 120,
       type: "number",
     },
     {
-      field: "maxTicketsPerUser",
-      headerName: "Max Tickets/User",
-      minWidth: 150,
-      type: "number",
+      field: "segments",
+      headerName: "Segments & Prizes",
+      width: 200,
+      renderCell: (params) => (
+        <SegmentsPreview segments={params.row.segments} />
+      ),
     },
     {
-      field: "totalTicketLimit",
-      headerName: "Total Ticket Limit",
-      minWidth: 150,
+      field: "spinCost",
+      headerName: "Spin cost",
+      width: 150,
       type: "number",
     },
+
     {
-      field: "startDate",
-      headerName: "Start Date",
+      field: "createdAt",
+      headerName: "Create Date",
       minWidth: 150,
       renderCell: (params) => <DateFormatter value={params.value} />,
     },
     {
-      field: "endDate",
-      headerName: "End Date",
-      minWidth: 150,
-      renderCell: (params) => <DateFormatter value={params.value} />,
-    },
-    {
-      field: "drawDate",
-      headerName: "Draw Date",
+      field: "updatedAt",
+      headerName: "Update Date",
       minWidth: 150,
       renderCell: (params) => <DateFormatter value={params.value} />,
     },
     {
       field: "actions",
-      headerName: "Actions",
-      width: 120,
+      headerName: "actions",
       sortable: false,
-      filterable: false,
-      disableExport: true,
+      width: 120,
+      align: "right",
       renderCell: (params) => (
         <TableActionsFormatter
           id={params.row.id}
-          showEdit={params.row.status === "drawn" ? false : true}
-          editTooltip="Edit raffle"
-          infoTooltip="View raffle info"
-          deleteTooltip="Delete raffle"
-          confirmText="Do you really want to delete this raffle?"
+          editTooltip="Edit wheel"
+          infoTooltip="View wheel info"
+          deleteTooltip="Delete wheel"
+          confirmText="Do you really want to delete this wheel?"
           onEditClick={() =>
             setUrlParams({
-              raffleId: params.row.id,
+              wheelId: params.row.id,
             })
           }
-          onInfoClick={() => navigate(`/raffles/${params.row.id}`)}
+          onInfoClick={() => navigate(`/wheels/${params.row.id}`)}
           onDeleteClick={(id) =>
-            deleteRaffle.mutate(id, {
+            deleteWheel.mutate(id, {
               onSuccess: () =>
                 notify(`${params.row.name} deleted successfully`, "success"),
-              onError: () => notify("Failed to delete raffle!", "error"),
+              onError: () => notify("Failed to delete wheel!", "error"),
             })
           }
         />
@@ -155,11 +171,11 @@ export const RaffleListTable: React.FC = () => {
           className="!capitalize !h-10"
           onClick={() =>
             setUrlParams({
-              createRaffle: true,
+              createWheel: true,
             })
           }
         >
-          Create Raffle
+          Create wheels
         </Button>
         <FormControl size="small" sx={{ minWidth: 140 }}>
           <InputLabel>Status Filter</InputLabel>
@@ -176,23 +192,6 @@ export const RaffleListTable: React.FC = () => {
             ))}
           </Select>
         </FormControl>
-
-        <DatePicker
-          label="Start Date"
-          value={filterStartDate ? dayjs(filterStartDate) : null}
-          format="DD MMM, YYYY"
-          onChange={(date: Dayjs | null) =>
-            setFilterStartDate(date ? date.toISOString() : null)
-          }
-        />
-        <DatePicker
-          label="End Date"
-          value={filterEndDate ? dayjs(filterEndDate) : null}
-          format="DD MMM, YYYY"
-          onChange={(date: Dayjs | null) =>
-            setFilterEndDate(date ? date.toISOString() : null)
-          }
-        />
 
         {selectedIds.length > 0 && (
           <Box display="flex" gap={1}>
@@ -218,10 +217,10 @@ export const RaffleListTable: React.FC = () => {
 
       <div style={{ maxHeight: 630, width: "100%" }}>
         <DataGrid
-          rows={raffles.data?.items ?? []}
+          rows={wheels.data?.items ?? []}
           columns={columns}
           getRowId={(row) => row.id}
-          rowCount={raffles.data?.totalRows}
+          rowCount={wheels.data?.totalRows}
           disableRowSelectionOnClick
           disableColumnMenu
           paginationMode="server"
@@ -229,7 +228,7 @@ export const RaffleListTable: React.FC = () => {
           pagination
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
-          loading={raffles.isLoading}
+          loading={wheels.isLoading}
         />
       </div>
     </Box>
