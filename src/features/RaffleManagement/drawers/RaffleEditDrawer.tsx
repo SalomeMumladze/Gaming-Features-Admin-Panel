@@ -10,7 +10,7 @@ interface Props {
   afterOpenChange?: (open: boolean) => void;
 }
 
-export const EditRaffleDrawer: React.FC<Props> & {
+export const RaffleEditDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
@@ -60,6 +60,6 @@ export const EditRaffleDrawer: React.FC<Props> & {
   );
 };
 
-EditRaffleDrawer.requiredParams = {
+RaffleEditDrawer.requiredParams = {
   raffleId: true,
 };

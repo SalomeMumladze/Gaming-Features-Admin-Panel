@@ -10,7 +10,7 @@ interface Props {
   afterOpenChange?: (open: boolean) => void;
 }
 
-export const EditLeaderboardDrawer: React.FC<Props> & {
+export const LeaderboardEditDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
@@ -55,6 +55,6 @@ export const EditLeaderboardDrawer: React.FC<Props> & {
   );
 };
 
-EditLeaderboardDrawer.requiredParams = {
+LeaderboardEditDrawer.requiredParams = {
   leaderboardId: true,
 };
