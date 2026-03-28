@@ -15,13 +15,10 @@ import { useWheelsManagement } from "../hooks/useWheelManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { SegmentsPreview } from "../components/SegmentsPreview";
-import {
-  DateFormatter,
-  StatusFormatter,
-  TableActionsFormatter,
-} from "@/shared/formatters";
+import { DateFormatter, TableActionsFormatter } from "@/shared/formatters";
 import { useNavigate } from "react-router-dom";
 import type { GridColDef } from "@mui/x-data-grid";
+import { ROUTE_PATHS } from "@/shared/constants/routes";
 
 const statuses = ["draft", "active", "drawn", "cancelled"] as const;
 
@@ -149,7 +146,7 @@ export const WheelListTable: React.FC = () => {
               wheelId: params.row.id,
             })
           }
-          onInfoClick={() => navigate(`/wheels/${params.row.id}`)}
+          onInfoClick={() => navigate(ROUTE_PATHS.wheelDetails(params.row.id))}
           onDeleteClick={(id) =>
             deleteWheel.mutate(id, {
               onSuccess: () =>

@@ -21,6 +21,7 @@ import {
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "@/shared/constants/routes";
 
 const statuses = ["draft", "active", "completed"] as const;
 
@@ -120,7 +121,9 @@ export const LeaderboardTable: React.FC = () => {
               leaderboardId: params.row.id,
             })
           }
-          onInfoClick={() => navigate(`/leaderboards/${params.row.id}`)}
+          onInfoClick={() =>
+            navigate(ROUTE_PATHS.leaderboardDetails(params.row.id))
+          }
           onDeleteClick={(id) =>
             deleteLeaderboard.mutate(id, {
               onSuccess: () =>

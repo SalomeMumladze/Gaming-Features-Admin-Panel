@@ -22,6 +22,7 @@ import {
 } from "@/shared/formatters";
 import dayjs, { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "@/shared/constants/routes";
 
 const statuses = ["draft", "active", "drawn", "cancelled"] as const;
 
@@ -133,7 +134,7 @@ export const RaffleListTable: React.FC = () => {
               raffleId: params.row.id,
             })
           }
-          onInfoClick={() => navigate(`/raffles/${params.row.id}`)}
+          onInfoClick={() => navigate(ROUTE_PATHS.raffleDetails(params.row.id))}
           onDeleteClick={(id) =>
             deleteRaffle.mutate(id, {
               onSuccess: () =>
