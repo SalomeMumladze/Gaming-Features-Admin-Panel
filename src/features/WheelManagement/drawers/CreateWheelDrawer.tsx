@@ -1,16 +1,9 @@
-import React from "react";
-import {
-  Drawer,
-  Box,
-  Typography,
-  CircularProgress,
-  Stack,
-  Alert,
-} from "@mui/material";
+import React, { useState } from "react";
+import { WheelForm } from "../components/WheelForm";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
-import { WheelForm } from "../components/WheelForm";
 import type { Wheel } from "../hooks/useWheelManagement";
+import { DrawerLayout } from "@/shared/components/DrawerLayout";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -21,56 +14,37 @@ export const CreateWheelDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-
-  const handleClose = () => {
-    afterOpenChange?.(false);
-  };
-
   const { createWheel } = searchParams;
   const { create } = useWheelsManagement();
+  const [loading, setLoading] = useState(false);
+
+  const handleClose = () => afterOpenChange?.(false);
 
   const handleSubmit = (data: Wheel) => {
+    setLoading(true);
     create.mutate(data, {
       onSuccess: () => {
-        const title = data.name;
-        notify(`${title} created successfully!`, "success");
+        notify(`${data.name} created successfully!`, "success");
         handleClose();
+        setLoading(false);
       },
       onError: () => {
-        notify("Failed to create raffle!", "error");
+        notify("Failed to create wheel!", "error");
+        setLoading(false);
       },
     });
   };
 
   return (
-    <Drawer open={!!createWheel} onClose={handleClose} anchor="right">
-      <Box p={2} width="100%" margin="auto">
-        {create.isLoading && (
-          <Stack
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            height="100%"
-          >
-            <CircularProgress />
-            <Typography variant="body1" mt={2}>
-              Loading...
-            </Typography>
-          </Stack>
-        )}
-        {create.error && !create.isLoading && (
-          <Stack
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            height="100%"
-          >
-            <Alert severity="error">Failed to load leaderboard.</Alert>
-          </Stack>
-        )}
-        <WheelForm onSubmit={handleSubmit} isSubmitting={create.isLoading} />
-      </Box>
-    </Drawer>
+    <DrawerLayout
+      open={!!createWheel}
+      title="Create Wheel"
+      loading={loading}
+      error={create.isError}
+      onClose={handleClose}
+    >
+      <WheelForm onSubmit={handleSubmit} isSubmitting={loading} />
+    </DrawerLayout>
   );
 };
 

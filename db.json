@@ -329,6 +329,24 @@
         }
       ],
       "id": "ewZeyh-KfwU"
+    },
+    {
+      "title": "sdsd",
+      "description": "",
+      "startDate": "2026-03-13T20:00:00.000Z",
+      "endDate": "2026-03-29T20:00:00.000Z",
+      "status": null,
+      "scoringType": null,
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "sdsd",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "z9DondbpF7Y"
     }
   ],
   "raffles": [

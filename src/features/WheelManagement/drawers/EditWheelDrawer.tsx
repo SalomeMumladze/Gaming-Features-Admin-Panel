@@ -1,16 +1,9 @@
-import React from "react";
-import {
-  Drawer,
-  Box,
-  Typography,
-  CircularProgress,
-  Stack,
-  Alert,
-} from "@mui/material";
+import React, { useState } from "react";
+import { WheelForm } from "../components/WheelForm";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
-import { WheelForm } from "../components/WheelForm";
 import type { Wheel } from "../hooks/useWheelManagement";
+import { DrawerLayout } from "@/shared/components/DrawerLayout";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -21,66 +14,48 @@ export const EditWheelDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-
-  const handleClose = () => {
-    afterOpenChange?.(false);
-  };
-
   const { wheelId } = searchParams;
   const { getWheel, updateWheel } = useWheelsManagement();
   const { data: row, isLoading, isError } = getWheel(wheelId);
+  const [loading, setLoading] = useState(false);
+
+  const handleClose = () => afterOpenChange?.(false);
 
   const handleSubmit = (data: Wheel) => {
+    if (!row) return;
+    setLoading(true);
     updateWheel.mutate(
       { ...row, ...data },
       {
         onSuccess: () => {
-          const title = data.name ?? row?.name;
-          notify(`${title} updated successfully!`, "success");
+          notify(`${data.name ?? row.name} updated successfully!`, "success");
           handleClose();
+          setLoading(false);
         },
         onError: () => {
-          notify("Failed to update leaderboard!", "error");
+          notify("Failed to update wheel!", "error");
+          setLoading(false);
         },
       },
     );
   };
 
   return (
-    <Drawer open={!!wheelId} onClose={handleClose} anchor="right">
-      <Box p={2} width="100%" margin="auto">
-        {isLoading && (
-          <Stack
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            height="100%"
-          >
-            <CircularProgress />
-            <Typography variant="body1" mt={2}>
-              Loading...
-            </Typography>
-          </Stack>
-        )}
-        {isError && !isLoading && (
-          <Stack
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            height="100%"
-          >
-            <Alert severity="error">Failed to load leaderboard.</Alert>
-          </Stack>
-        )}
-        {!isLoading && !isError && row && (
-          <WheelForm
-            onSubmit={handleSubmit}
-            initialData={row}
-            isSubmitting={updateWheel.isLoading}
-          />
-        )}
-      </Box>
-    </Drawer>
+    <DrawerLayout
+      open={!!wheelId}
+      title="Edit Wheel"
+      loading={isLoading || loading}
+      error={isError || !row}
+      onClose={handleClose}
+    >
+      {row && (
+        <WheelForm
+          initialData={row}
+          onSubmit={handleSubmit}
+          isSubmitting={loading}
+        />
+      )}
+    </DrawerLayout>
   );
 };
 
