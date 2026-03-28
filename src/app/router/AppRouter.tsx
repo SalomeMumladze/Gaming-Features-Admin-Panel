@@ -12,6 +12,7 @@ import { NotFound } from "@/pages/NotFound";
 import { RafflePage } from "@/features/RaffleManagement/pages/RafflePage";
 import { RaffleDetail } from "@/features/RaffleManagement/pages/RaffleDetail";
 import { WheelManagementPage } from "@/features/WheelManagement/pages/WheelManagementPage";
+import { WheelDetail } from "@/features/WheelManagement/pages/WheelDetail";
 
 const routes: RouteObject[] = [
   {
@@ -25,6 +26,7 @@ const routes: RouteObject[] = [
       { path: "raffles/:id", element: <RaffleDetail /> },
       { path: "raffles", element: <RafflePage /> },
       { path: "wheels", element: <WheelManagementPage /> },
+      { path: "wheels/:id", element: <WheelDetail /> },
       { path: "*", element: <NotFound /> },
     ],
   },

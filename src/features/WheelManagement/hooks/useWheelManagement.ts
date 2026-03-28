@@ -49,5 +49,15 @@ export const useWheelsManagement = (params?: {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wheels"] }),
   });
 
-  return { wheels, deleteWheel };
+  const getWheel = (id: string) =>
+    useQuery({
+      queryKey: ["wheels", id],
+      queryFn: async () => {
+        const { data } = await apiGateway.get(`/wheels/${id}`);
+        return data;
+      },
+      enabled: !!id,
+    });
+
+  return { wheels, deleteWheel, getWheel };
 };
