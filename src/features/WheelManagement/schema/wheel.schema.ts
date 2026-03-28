@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const segmentSchema = z.object({
   label: z.string().min(1, "Segment label is required"),
-  weight: z.number().min(0, "Weight must be ≥ 0"),
+  weight: z.number("Weight Is required").min(0, "Weight must be ≥ 0"),
   color: z.string().regex(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i, "Invalid hex color"),
 });
 
@@ -23,8 +23,7 @@ export const wheelSchema = z.object({
   maxSpinsPerUser: z
     .number("Is required")
     .min(1, "Must allow at least 1 spin per user"),
-  // weight: z.number().min(0, "Weight must be ≥ 0"),
-  status: z.enum(["draft", "active", "drawn", "cancelled"]),
+  status: z.enum(["draft", "active", "inactive"]),
 
   prizes: z
     .array(

@@ -412,63 +412,46 @@
       "updatedAt": "2026-04-01T10:00:00.000Z",
       "segments": [
         {
-          "id": "seg-1",
           "label": "20 Coins",
-          "color": "#FF6384",
           "weight": 25,
-          "prizeType": "coins",
-          "prizeAmount": 20,
-          "imageUrl": ""
+          "color": "#FF6384"
         },
         {
-          "id": "seg-2",
           "label": "100 Coins",
-          "color": "#36A2EB",
-          "weight": 15,
-          "prizeType": "coins",
-          "prizeAmount": 100,
-          "imageUrl": ""
+          "weight": 25,
+          "color": "#36A2EB"
         },
         {
-          "id": "seg-3",
           "label": "Free Spin",
-          "color": "#4BC0C0",
-          "weight": 20,
-          "prizeType": "freeSpin",
-          "prizeAmount": 1,
-          "imageUrl": ""
+          "weight": 5,
+          "color": "#4BC0C0"
         },
         {
-          "id": "seg-4",
           "label": "$5 Gift Card",
-          "color": "#9966FF",
           "weight": 10,
-          "prizeType": "giftCard",
-          "prizeAmount": 5,
-          "imageUrl": ""
+          "color": "#9966FF"
         },
         {
-          "id": "seg-5",
           "label": "$10 Gift Card",
-          "color": "#C9CBCF",
           "weight": 5,
-          "prizeType": "giftCard",
-          "prizeAmount": 10,
-          "imageUrl": ""
+          "color": "#C9CBCF"
         },
         {
-          "id": "seg-6",
           "label": "$20 Gift Card",
-          "color": "#FFCE56",
-          "weight": 5,
-          "prizeType": "giftCard",
-          "prizeAmount": 20,
-          "imageUrl": ""
+          "weight": 30,
+          "color": "#FFCE56"
+        }
+      ],
+      "prizes": [
+        {
+          "name": "wewe",
+          "prizeType": "nothing",
+          "prizeAmount": 0
         }
       ]
     },
     {
-      "name": "sdsd",
+      "name": "sdsdsdjhsjd1212",
       "segments": [
         {
           "label": "sdsd",
@@ -490,7 +473,8 @@
           "prizeAmount": 0
         }
       ],
-      "id": "Xwny1Wd-_1E"
+      "id": "Xwny1Wd-_1E",
+      "status": "active"
     },
     {
       "name": "shjwhewe",
@@ -516,6 +500,32 @@
         }
       ],
       "id": "5mqGUP9BL9k"
+    },
+    {
+      "name": "ასხს",
+      "segments": [
+        {
+          "label": "ზხზხ",
+          "weight": 50,
+          "color": "#FF0000"
+        },
+        {
+          "label": "ჰ",
+          "weight": 50,
+          "color": "#00FF00"
+        }
+      ],
+      "spinCost": 0,
+      "maxSpinsPerUser": 1,
+      "status": "active",
+      "prizes": [
+        {
+          "name": "სას",
+          "prizeType": "nothing",
+          "prizeAmount": 0
+        }
+      ],
+      "id": "vkokpcFzysE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

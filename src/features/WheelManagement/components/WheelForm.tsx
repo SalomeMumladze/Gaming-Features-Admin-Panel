@@ -43,6 +43,8 @@ export const WheelForm: React.FC<Props> = ({
     },
   });
 
+  const prizes = form.watch("prizes");
+
   const {
     fields: segmentsFields,
     append: appendSegment,
@@ -58,7 +60,7 @@ export const WheelForm: React.FC<Props> = ({
   useEffect(() => {
     if (initialData) form.reset({ ...form.getValues(), ...initialData });
   }, [initialData]);
-  const prizes = form.watch("prizes");
+
   useEffect(() => {
     prizes.forEach((p, idx) => {
       if (p.prizeType === "nothing" && p.prizeAmount !== 0) {
@@ -66,7 +68,7 @@ export const WheelForm: React.FC<Props> = ({
       }
     });
   }, [prizes, form]);
-  console.log(form.formState.errors.status);
+
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
@@ -94,10 +96,9 @@ export const WheelForm: React.FC<Props> = ({
             error={!!form.formState.errors.status}
             helperText={form.formState.errors.status?.message}
           >
-            <MenuItem value="draft">Draft</MenuItem>
             <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="drawn">Drawn</MenuItem>
-            <MenuItem value="cancelled">Cancelled</MenuItem>
+            <MenuItem value="inactive">Inactive</MenuItem>
+            <MenuItem value="draft">Draft</MenuItem>
           </TextField>
         )}
       />
