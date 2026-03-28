@@ -1,6 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiGateway } from "@/shared/api/httpClient";
 
+export interface RafflePrize {
+  id: string;
+  name: string;
+  type: "coins" | "freeSpin" | "bonus";
+  amount: number;
+  quantity: number;
+  imageUrl: string;
+}
+
 export interface Raffle {
   id: string;
   name: string;
@@ -17,13 +26,13 @@ export interface Raffle {
   updatedAt: string;
 }
 
-export interface RafflePrize {
-  id: string;
-  name: string;
-  type: "coins" | "freeSpin" | "bonus";
-  amount: number;
-  quantity: number;
-  imageUrl: string;
+interface RafflesListResponse {
+  data: Raffle[];
+  total: number;
+}
+
+interface RaffleResponse {
+  data: Raffle;
 }
 
 export const useRaffleManagement = (params?: {
@@ -35,45 +44,54 @@ export const useRaffleManagement = (params?: {
 }) => {
   const queryClient = useQueryClient();
 
-  const raffles = useQuery({
+  // LIST
+  const rawRaffles = useQuery<RafflesListResponse>({
     queryKey: ["raffles", params],
     queryFn: async () => {
-      const { data } = await apiGateway.get("/raffles", { params });
-      return {
-        items: data.data,
-        totalRows: data.items,
-      };
+      const { data } = await apiGateway.get<RafflesListResponse>("/raffles", {
+        params,
+      });
+      return data;
     },
     keepPreviousData: true,
   });
 
+  const raffles = {
+    ...rawRaffles,
+    items: rawRaffles.data?.data ?? [],
+    totalRows: rawRaffles.data?.items ?? 0,
+  };
+
+  // CREATE
   const create = useMutation({
     mutationFn: (payload: Omit<Raffle, "id" | "createdAt" | "updatedAt">) =>
-      apiGateway.post("/raffles", payload),
+      apiGateway.post<RaffleResponse>("/raffles", payload),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
   });
 
+  // DELETE
   const deleteRaffle = useMutation({
     mutationFn: (id: string) => apiGateway.delete(`/raffles/${id}`),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
   });
 
+  // UPDATE
   const updateRaffle = useMutation({
     mutationFn: (payload: Raffle) =>
-      apiGateway.put(`/raffles/${payload.id}`, payload),
+      apiGateway.put<RaffleResponse>(`/raffles/${payload.id}`, payload),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
-    
   });
 
+  // GET BY ID
   const getRaffle = (id: string) =>
-    useQuery({
+    useQuery<RaffleResponse>({
       queryKey: ["raffles", id],
       queryFn: async () => {
-        const { data } = await apiGateway.get(`/raffles/${id}`);
+        const { data } = await apiGateway.get<RaffleResponse>(`/raffles/${id}`);
         return data;
       },
       enabled: !!id,
     });
 
-  return { create, raffles, deleteRaffle, getRaffle, updateRaffle };
+  return { raffles, create, deleteRaffle, updateRaffle, getRaffle };
 };

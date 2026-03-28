@@ -218,10 +218,10 @@ export const RaffleListTable: React.FC = () => {
 
       <div style={{ maxHeight: 630, width: "100%" }}>
         <DataGrid
-          rows={raffles.data?.items ?? []}
+          rows={raffles.items ?? []}
           columns={columns}
           getRowId={(row) => row.id}
-          rowCount={raffles.data?.totalRows}
+          rowCount={raffles.totalRows}
           disableRowSelectionOnClick
           disableColumnMenu
           paginationMode="server"

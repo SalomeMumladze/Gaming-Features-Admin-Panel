@@ -217,10 +217,10 @@ export const WheelListTable: React.FC = () => {
 
       <div style={{ maxHeight: 630, width: "100%" }}>
         <DataGrid
-          rows={wheels.data?.items ?? []}
+          rows={wheels.items ?? []}
           columns={columns}
           getRowId={(row) => row.id}
-          rowCount={wheels.data?.totalRows}
+          rowCount={wheels.totalRows}
           disableRowSelectionOnClick
           disableColumnMenu
           paginationMode="server"
