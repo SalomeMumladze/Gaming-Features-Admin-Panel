@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import type { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import {
-  Tooltip,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Box,
-} from "@mui/material";
+import { Tooltip, Button, Box } from "@mui/material";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { Help, Add } from "@mui/icons-material";
 import {
@@ -22,8 +14,8 @@ import useQueryParams from "@/shared/hooks/useQueryParams";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
-
-const statuses = ["draft", "active", "completed"] as const;
+import { StatusesSelector } from "@/shared/components/StatusesSelector";
+import { LEADERBOARD_STATUSES } from "../constants";
 
 export const LeaderboardTable: React.FC = () => {
   const { notify } = useNotification();
@@ -138,11 +130,12 @@ export const LeaderboardTable: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" gap={2} mb={2} flexWrap="wrap">
+      <Box display="flex " gap={2} mb={2} flexWrap="wrap" alignItems="center">
         <Button
           variant="outlined"
           startIcon={<Add />}
-          className="!capitalize !h-10"
+          size="large"
+          className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
               createLeaderboard: true,
@@ -151,21 +144,15 @@ export const LeaderboardTable: React.FC = () => {
         >
           Create Leaderboard
         </Button>
-        <FormControl size="small" sx={{ minWidth: 140 }}>
-          <InputLabel>Status Filter</InputLabel>
-          <Select
-            value={filterStatus}
-            label="Status Filter"
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            <MenuItem value="">All</MenuItem>
-            {statuses.map((s) => (
-              <MenuItem key={s} value={s}>
-                {s}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+
+        <StatusesSelector
+          value={filterStatus}
+          className="w-44"
+          label="Status Filter"
+          allowNull
+          statuses={LEADERBOARD_STATUSES}
+          onChange={(value) => setFilterStatus(value)}
+        />
 
         {selectedIds.length > 0 && (
           <Box display="flex" gap={1}>
@@ -189,7 +176,7 @@ export const LeaderboardTable: React.FC = () => {
         )}
       </Box>
 
-      <div style={{ maxHeight: 630, width: "100%" }}>
+      <div>
         <DataGrid
           rows={list.items ?? []}
           columns={columns}

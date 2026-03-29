@@ -17,6 +17,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { raffleSchema } from "../schema/raffle.schema";
 import type { RaffleFormValues } from "../schema/raffle.schema";
 import { RafflePrizeForm } from "./RafflePrizeForm";
+import { StatusesSelector } from "@/shared/components/StatusesSelector";
+import { RAFFLE_STATUSES } from "../constants";
 
 interface Props {
   initialData?: Partial<RaffleFormValues>;
@@ -37,7 +39,7 @@ export const RaffleForm: React.FC<Props> = ({
       startDate: "",
       endDate: "",
       drawDate: "",
-      status: "draft",
+      status: "",
       ticketPrice: 0,
       maxTicketsPerUser: 1,
       totalTicketLimit: null,
@@ -80,6 +82,20 @@ export const RaffleForm: React.FC<Props> = ({
           label="Description"
           {...form.register("description")}
         />
+        <Controller
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <StatusesSelector
+              statuses={RAFFLE_STATUSES}
+              {...field}
+              allowNull
+              label="Choose Status"
+              error={!!form.formState.errors.status}
+              helperText={form.formState.errors.status?.message}
+            />
+          )}
+        />
       </Box>
 
       <Box className="p-4 border rounded-2xl bg-white shadow-sm flex flex-col gap-4">
@@ -89,25 +105,6 @@ export const RaffleForm: React.FC<Props> = ({
         <Divider />
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <Controller
-            control={form.control}
-            name="startDate"
-            render={({ field }) => (
-              <DatePicker
-                label="Start Date"
-                format="DD MMM, YYYY"
-                value={field.value ? dayjs(field.value) : null}
-                onChange={(date) => field.onChange(date?.toISOString() || "")}
-                slotProps={{
-                  textField: {
-                    fullWidth: true,
-                    error: !!form.formState.errors.startDate,
-                    helperText: form.formState.errors.startDate?.message,
-                  },
-                }}
-              />
-            )}
-          />
           <Controller
             control={form.control}
             name="endDate"

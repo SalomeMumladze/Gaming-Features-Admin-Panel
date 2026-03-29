@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import type { GridRenderCellParams } from "@mui/x-data-grid";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Tooltip,
-} from "@mui/material";
+import { Box, Button, Tooltip } from "@mui/material";
 import { Add, Help } from "@mui/icons-material";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
@@ -19,8 +11,8 @@ import { DateFormatter, TableActionsFormatter } from "@/shared/formatters";
 import { useNavigate } from "react-router-dom";
 import type { GridColDef } from "@mui/x-data-grid";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
-
-const statuses = ["draft", "active", "drawn", "cancelled"] as const;
+import { WHEEL_STATUSES } from "../constants";
+import { StatusesSelector } from "@/shared/components/StatusesSelector";
 
 export const WheelListTable: React.FC = () => {
   const { notify } = useNotification();
@@ -174,21 +166,13 @@ export const WheelListTable: React.FC = () => {
         >
           Create wheels
         </Button>
-        <FormControl size="small" sx={{ minWidth: 140 }}>
-          <InputLabel>Status Filter</InputLabel>
-          <Select
-            value={filterStatus}
-            label="Status Filter"
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            <MenuItem value="">All</MenuItem>
-            {statuses.map((s) => (
-              <MenuItem key={s} value={s}>
-                {s}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <StatusesSelector
+          statuses={WHEEL_STATUSES}
+          value={filterStatus}
+          allowNull
+          label="Status Filter"
+          onChange={(value) => setFilterStatus(value)}
+        />
 
         {selectedIds.length > 0 && (
           <Box display="flex" gap={1}>

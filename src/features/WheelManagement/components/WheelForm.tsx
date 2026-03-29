@@ -9,13 +9,12 @@ import {
   Divider,
   IconButton,
   MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
 } from "@mui/material";
 import { wheelSchema } from "../schema/wheel.schema";
 import type { WheelFormValues } from "../schema/wheel.schema";
 import { Delete } from "@mui/icons-material";
+import { WHEEL_STATUSES } from "../constants";
+import { StatusesSelector } from "@/shared/components/StatusesSelector";
 
 interface Props {
   initialData?: Partial<WheelFormValues>;
@@ -83,6 +82,20 @@ export const WheelForm: React.FC<Props> = ({
         helperText={form.formState.errors.name?.message}
       />
 
+      <Controller
+        control={form.control}
+        name="status"
+        render={({ field }) => (
+          <StatusesSelector
+            error={!!form.formState.errors.status}
+            statuses={WHEEL_STATUSES}
+            {...field}
+            allowNull
+            label="Choose Status"
+            helperText={form.formState.errors.status?.message}
+          />
+        )}
+      />
       <Controller
         control={form.control}
         name="status"

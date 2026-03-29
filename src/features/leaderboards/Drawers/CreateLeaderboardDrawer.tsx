@@ -1,15 +1,4 @@
 import React from "react";
-import {
-  Drawer,
-  Card,
-  CardHeader,
-  CardContent,
-  CircularProgress,
-  Stack,
-  Alert,
-  IconButton,
-} from "@mui/material";
-import { Close } from "@mui/icons-material";
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/hooks/useNotification";

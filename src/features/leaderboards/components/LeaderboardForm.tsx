@@ -10,14 +10,16 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
-import  { leaderboardSchema } from "../schemas/leaderboard.schema";
+import { leaderboardSchema } from "../schemas/leaderboard.schema";
 import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
 import { LeaderBoardPrizeForm } from "./LeaderBoardPrizeForm";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Controller } from "react-hook-form";
-import { StatusFormatter, ScoringTypeFormatter } from "@/shared/formatters";
+import { ScoringTypeFormatter } from "@/shared/formatters";
 import dayjs from "dayjs";
 import type { Leaderboard } from "../hooks/useLeaderboard";
+import { StatusesSelector } from "@/shared/components/StatusesSelector";
+import { LEADERBOARD_STATUSES } from "../constants";
 
 interface Props {
   initialData?: Leaderboard;
@@ -134,26 +136,14 @@ export const LeaderboardForm: React.FC<Props> = ({
               control={form.control}
               name="status"
               render={({ field }) => (
-                <FormControl fullWidth>
-                  <InputLabel id="status-label">Status</InputLabel>
-                  <Select
-                    labelId="status-label"
-                    {...field}
-                    value={field.value ?? ""}
-                    label="Status"
-                  >
-                    <MenuItem value={null}>None</MenuItem>
-                    <MenuItem value="draft">
-                      <StatusFormatter value="draft" />
-                    </MenuItem>
-                    <MenuItem value="active">
-                      <StatusFormatter value="active" />
-                    </MenuItem>
-                    <MenuItem value="completed">
-                      <StatusFormatter value="completed" />
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                <StatusesSelector
+                  statuses={LEADERBOARD_STATUSES}
+                  {...field}
+                  allowNull
+                  label="Choose Status"
+                  error={!!form.formState.errors.status}
+                  helperText={form.formState.errors.status?.message}
+                />
               )}
             />
 

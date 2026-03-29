@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useLeaderboard } from "../hooks/useLeaderboard";
-import { alpha, useTheme, Avatar } from "@mui/material";
+import { alpha, useTheme, Avatar, Typography } from "@mui/material";
 import {
   EmojiEvents as TrophyIcon,
   CalendarMonth as CalIcon,
@@ -41,9 +41,6 @@ export const LeaderboardDetail: React.FC = () => {
 
   if (!data) return <div className="py-20 text-center">Loading...</div>;
 
-  const amberColor = isDark ? ACCENTS.amber.dark : ACCENTS.amber.light;
-  const blueColor = isDark ? ACCENTS.blue.dark : ACCENTS.blue.light;
-
   return (
     <div className="flex flex-col gap-4 p-4 sm:max-w-[900px] mx-auto">
       <div className="flex justify-between items-center pb-3">
@@ -51,16 +48,16 @@ export const LeaderboardDetail: React.FC = () => {
           <div
             className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
             style={{
-              backgroundColor: alpha(amberColor, isDark ? 0.12 : 0.1),
-              border: `1px solid ${alpha(amberColor, isDark ? 0.3 : 0.22)}`,
+              backgroundColor: alpha("#d97706", 0.1),
+              border: `1px solid ${alpha("#d97706", 0.22)}`,
             }}
           >
-            <TrophyIcon sx={{ color: amberColor, fontSize: 22 }} />
+            <TrophyIcon sx={{ color: "#d97706", fontSize: 22 }} />
           </div>
           <div>
-            <h2 className="font-extrabold text-lg sm:text-xl text-gray-900 dark:text-gray-100">
+            <Typography className="!font-extrabold !text-lg !sm:text-xl">
               {data.title || "Untitled Leaderboard"}
-            </h2>
+            </Typography>
             <StatusFormatter value={data.status} />
           </div>
         </div>
@@ -141,7 +138,7 @@ export const LeaderboardDetail: React.FC = () => {
           <div className="flex flex-col flex-wrap gap-2">
             {data.prizes.map((prize, index) => {
               const rankMeta = RANK_COLORS[index] ?? {
-                base: blueColor,
+                base: "#3b6ef0",
                 label: `#${index + 1}`,
               };
               const typeCfg = TYPE_CONFIG[prize.type];

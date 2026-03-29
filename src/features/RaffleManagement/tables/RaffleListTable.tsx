@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import type { GridRenderCellParams } from "@mui/x-data-grid";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Tooltip,
-} from "@mui/material";
+import { Box, Button, Tooltip } from "@mui/material";
 import { Add, Help } from "@mui/icons-material";
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
@@ -23,8 +15,8 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
-
-const statuses = ["draft", "active", "drawn", "cancelled"] as const;
+import { StatusesSelector } from "@/shared/components/StatusesSelector";
+import { RAFFLE_STATUSES } from "../constants";
 
 export const RaffleListTable: React.FC = () => {
   const { notify } = useNotification();
@@ -162,21 +154,15 @@ export const RaffleListTable: React.FC = () => {
         >
           Create Raffle
         </Button>
-        <FormControl size="small" sx={{ minWidth: 140 }}>
-          <InputLabel>Status Filter</InputLabel>
-          <Select
-            value={filterStatus}
-            label="Status Filter"
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            <MenuItem value="">All</MenuItem>
-            {statuses.map((s) => (
-              <MenuItem key={s} value={s}>
-                {s}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+
+        <StatusesSelector
+          value={filterStatus}
+          className="w-44"
+          label="Status Filter"
+          allowNull
+          statuses={RAFFLE_STATUSES}
+          onChange={(value) => setFilterStatus(value)}
+        />
 
         <DatePicker
           label="Start Date"
