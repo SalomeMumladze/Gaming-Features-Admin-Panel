@@ -33,7 +33,6 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
   id,
   field,
   index,
-  rankInfo,
   register,
   remove,
   fieldsLength,
@@ -54,11 +53,7 @@ export const PrizeItem: React.FC<PrizeItemProps> = ({
       ref={setNodeRef}
       style={style}
       elevation={0}
-      sx={{
-        border: `1px solid ${alpha(rankInfo.base, isDark ? 0.15 : 0.12)}`,
-        bgcolor: isDark ? alpha("#0d1629", 0.55) : alpha(rankInfo.base, 0.03),
-      }}
-      className="rounded-lg p-4"
+      className="rounded-lg py-4"
     >
       <Box className="flex flex-col sm:flex-row sm:items-center sm:gap-2 gap-6">
         <Box className="flex items-center gap-1 sm:mb-0 mb-1">

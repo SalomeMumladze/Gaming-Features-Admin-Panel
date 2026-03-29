@@ -7,12 +7,12 @@ import {
   InputLabel,
   IconButton,
   Tooltip,
-  Fade,
   Box,
 } from "@mui/material";
-import { Delete, Clear, AutoAwesome } from "@mui/icons-material";
+import { Clear, AutoAwesome } from "@mui/icons-material";
 import type { RafflePrize } from "../hooks/useRaffleManagement";
 import { TYPE_META } from "../Config";
+import { FieldRow } from "@/shared/components/FieldRow";
 
 interface PrizeCardProps {
   id: string;
@@ -40,36 +40,14 @@ const PrizeCard: React.FC<PrizeCardProps> = ({
   errors,
 }) => {
   return (
-    <Fade in timeout={300}>
-      <div className="relative rounded-2xl border border-gray-300">
-        <div className="flex items-center justify-between px-5 py-1 bg-gray-50 rounded-t-2xl border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold bg-gray-200 text-gray-700">
-              {index + 1}
-            </span>
-            <span className="text-sm font-semibold text-gray-700">PRIZE</span>
-          </div>
-
-          {canDelete && (
-            <Tooltip title="Remove prize" placement="left">
-              <IconButton
-                size="small"
-                onClick={() => onRemove(prize.id)}
-                sx={{
-                  color: "#8A8499",
-                  "&:hover": {
-                    color: "#E05C5C",
-                    backgroundColor: "rgba(224,92,92,0.1)",
-                  },
-                  transition: "all 0.2s",
-                }}
-              >
-                <Delete fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          )}
-        </div>
-        <div className="p-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+    <FieldRow
+      removeDisabled={!canDelete}
+      index={index}
+      onRemove={() => onRemove(prize.id)}
+      removeTooltip="Remove prize"
+    >
+      <div>
+        <div className="md:flex grid gap-3">
           <TextField
             label="Prize Name"
             value={prize.name}
@@ -134,7 +112,6 @@ const PrizeCard: React.FC<PrizeCardProps> = ({
             helperText={errors?.quantity?.message}
           />
         </div>
-
         <div className="m-2 rounded-xl border border-dashed border-gray-300 p-2 flex items-center justify-center">
           {!prize.imagePreview ? (
             <label className="flex flex-col items-center justify-center cursor-pointer gap-2  w-full text-center">
@@ -171,7 +148,7 @@ const PrizeCard: React.FC<PrizeCardProps> = ({
           )}
         </div>
       </div>
-    </Fade>
+    </FieldRow>
   );
 };
 

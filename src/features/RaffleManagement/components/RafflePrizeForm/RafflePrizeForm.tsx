@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import type { RafflePrize } from "@/hooks/useRaffleManagement";
 import PrizeCard from "./PrizeCard";
 import type { RaffleFormValues } from "@/features/RaffleManagement/schema/raffle.schema";
@@ -9,6 +8,8 @@ import type {
   FieldErrors,
   UseFormSetValue,
 } from "react-hook-form";
+import { SectionCard } from "@/shared/components/SectionCard";
+import { Add, EmojiEventsRounded } from "@mui/icons-material";
 
 interface PrizeFieldsProps {
   register: UseFormRegister<RaffleFormValues>;
@@ -100,66 +101,35 @@ export const RafflePrizeForm: React.FC<PrizeFieldsProps> = ({
     setPrizes((prev) => prev.filter((p) => p.id !== id));
 
   return (
-    <div className="w-full">
-      <div
-        className="rounded-2xl border relative"
-        style={{
-          border: "1px solid rgba(201,168,76,0.3)",
-          background: "rgba(255,255,255,0.02)",
-        }}
+    <SectionCard
+      icon={<EmojiEventsRounded fontSize="small" />}
+      title="Prizes"
+      subtitle="Add and manage raffle rewards"
+    >
+      {prizes.map((prize, i) => (
+        <PrizeCard
+          key={prize.id}
+          id={prize.id}
+          prize={prize}
+          index={i}
+          register={register}
+          errors={errors?.[i]}
+          canDelete={prizes.length > 1}
+          onChange={handleChange}
+          onRemove={removePrize}
+          onRemoveImage={removeImage}
+        />
+      ))}
+
+      <Button
+        variant="outlined"
+        size="small"
+        startIcon={<Add />}
+        onClick={addPrize}
+        className="!self-start !rounded-lg !border-dashed !border-gray-300 !text-gray-600 "
       >
-        <div
-          className="flex items-center justify-between px-5 py-3"
-          style={{
-            borderBottom: "1px solid rgba(201,168,76,0.15)",
-            background: "rgba(201,168,76,0.06)",
-          }}
-        >
-          <div className="flex flex-col">
-            <span
-              className="text-sm font-semibold"
-              style={{ color: "#C9A84C", letterSpacing: "0.05em" }}
-            >
-              PRIZES
-            </span>
-            <span className="text-xs text-gray-500">
-              Add and manage raffle rewards
-            </span>
-          </div>
-
-          <Button variant="outlined" startIcon={<Add />} onClick={addPrize}>
-            Add Prize
-          </Button>
-        </div>
-
-        <div className="relative">
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              maxHeight: "42vh",
-              overflowY: "auto",
-              padding: "16px",
-            }}
-          >
-            {prizes.map((prize, i) => (
-              <PrizeCard
-                key={prize.id}
-                id={prize.id}
-                prize={prize}
-                index={i}
-                register={register}
-                errors={errors?.[i]}
-                canDelete={prizes.length > 1}
-                onChange={handleChange}
-                onRemove={removePrize}
-                onRemoveImage={removeImage}
-              />
-            ))}
-          </Box>
-        </div>
-      </div>
-    </div>
+        Add Prize
+      </Button>
+    </SectionCard>
   );
 };

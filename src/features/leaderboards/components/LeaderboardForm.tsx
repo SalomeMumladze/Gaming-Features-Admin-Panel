@@ -1,17 +1,23 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TextField, Button, Box } from "@mui/material";
 import { leaderboardSchema } from "../schemas/leaderboard.schema";
 import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
 import { LeaderBoardPrizeForm } from "./LeaderBoardPrizeForm";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Controller } from "react-hook-form";
 import dayjs from "dayjs";
 import type { Leaderboard } from "../hooks/useLeaderboard";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
 import { ScoringTypeSelector } from "./ScoringTypeSelector";
+import { SectionCard } from "@/shared/components/SectionCard";
+import {
+  TuneRounded,
+  EmojiEventsRounded,
+  CalendarMonth,
+  Settings,
+} from "@mui/icons-material";
 
 interface Props {
   initialData?: Leaderboard;
@@ -48,20 +54,16 @@ export const LeaderboardForm: React.FC<Props> = ({
 
   useEffect(() => {
     if (initialData) {
-      form.reset({
-        ...initialData,
-      });
+      form.reset({ ...initialData });
     }
   }, [initialData]);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
       <Box display="flex" flexDirection="column" gap={3} height="100%">
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          gap={3}
+        <SectionCard
+          icon={<TuneRounded fontSize="small" />}
+          title="General Info"
         >
           <TextField
             label="Title"
@@ -74,7 +76,9 @@ export const LeaderboardForm: React.FC<Props> = ({
             label="Description"
             {...form.register("description")}
           />
+        </SectionCard>
 
+        <SectionCard icon={<CalendarMonth />} title="Dates">
           <div className="flex sm:flex-row flex-col items-center justify-between gap-6">
             <Controller
               control={form.control}
@@ -122,7 +126,9 @@ export const LeaderboardForm: React.FC<Props> = ({
               }}
             />
           </div>
+        </SectionCard>
 
+        <SectionCard icon={<Settings />} title="Configuration">
           <div className="flex sm:flex-row flex-col items-center justify-between gap-6">
             <Controller
               control={form.control}
@@ -161,20 +167,18 @@ export const LeaderboardForm: React.FC<Props> = ({
             error={!!form.formState.errors.maxParticipants}
             helperText={form.formState.errors.maxParticipants?.message}
           />
-        </Box>
-        <LeaderBoardPrizeForm
-          control={form.control}
-          register={form.register}
-          errors={form.formState.errors.prizes}
-          setValue={form.setValue}
-        />
-        <Box
-          display="flex"
-          flexDirection="column"
-          gap={3}
-          justifyContent="flex-end"
-          alignItems="center"
-        >
+        </SectionCard>
+
+        <SectionCard icon={<EmojiEventsRounded />} title="Prizes">
+          <LeaderBoardPrizeForm
+            control={form.control}
+            register={form.register}
+            errors={form.formState.errors.prizes}
+            setValue={form.setValue}
+          />
+        </SectionCard>
+
+        <Box display="flex" justifyContent="center">
           <Button
             size="large"
             type="submit"

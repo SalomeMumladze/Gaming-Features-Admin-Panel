@@ -1,17 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  TextField,
-  Button,
-  MenuItem,
-  Box,
-  InputLabel,
-  FormControl,
-  Select,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { raffleSchema } from "../schema/raffle.schema";
@@ -19,6 +9,12 @@ import type { RaffleFormValues } from "../schema/raffle.schema";
 import { RafflePrizeForm } from "./RafflePrizeForm";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { RAFFLE_STATUSES } from "../constants";
+import { SectionCard } from "@/shared/components/SectionCard";
+import {
+  TuneRounded,
+  ConfirmationNumber,
+  CalendarMonth,
+} from "@mui/icons-material";
 
 interface Props {
   initialData?: Partial<RaffleFormValues>;
@@ -63,14 +59,13 @@ export const RaffleForm: React.FC<Props> = ({
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="h-full flex flex-col gap-6 mb-4"
+      className="flex flex-col gap-6 max-w-3xl mx-auto "
     >
-      <Box className="p-4 border rounded-2xl bg-white shadow-sm flex flex-col gap-4">
-        <Typography variant="caption" className="text-gray-700 font-semibold">
-          General Information
-        </Typography>
-        <Divider className="!m-0" />
-
+      <SectionCard
+        icon={<TuneRounded fontSize="small" />}
+        title="Raffle Identity"
+        subtitle="General Information"
+      >
         <TextField
           label="Raffle Name"
           {...form.register("name")}
@@ -81,7 +76,7 @@ export const RaffleForm: React.FC<Props> = ({
           multiline
           label="Description"
           {...form.register("description")}
-        />
+        />{" "}
         <Controller
           control={form.control}
           name="status"
@@ -96,14 +91,9 @@ export const RaffleForm: React.FC<Props> = ({
             />
           )}
         />
-      </Box>
+      </SectionCard>
 
-      <Box className="p-4 border rounded-2xl bg-white shadow-sm flex flex-col gap-4">
-        <Typography variant="h6" className="text-gray-700 font-semibold">
-          Dates
-        </Typography>
-        <Divider />
-
+      <SectionCard icon={<CalendarMonth />} title="Dates">
         <div className="flex flex-col sm:flex-row gap-4">
           <Controller
             control={form.control}
@@ -152,14 +142,9 @@ export const RaffleForm: React.FC<Props> = ({
             }}
           />
         </div>
-      </Box>
+      </SectionCard>
 
-      <Box className="p-4 border rounded-2xl bg-white shadow-sm flex flex-col gap-4">
-        <Typography variant="h6" className="text-gray-700 font-semibold">
-          Ticket Information
-        </Typography>
-        <Divider />
-
+      <SectionCard icon={<ConfirmationNumber />} title=" Ticket Information">
         <div className="grid sm:grid-cols-2 gap-4">
           <TextField
             label="Ticket Price"
@@ -181,7 +166,7 @@ export const RaffleForm: React.FC<Props> = ({
             {...form.register("totalTicketLimit", { valueAsNumber: true })}
           />
         </div>
-      </Box>
+      </SectionCard>
 
       <RafflePrizeForm
         errors={form.formState.errors.prizes}

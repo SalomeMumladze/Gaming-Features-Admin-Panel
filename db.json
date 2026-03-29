@@ -718,6 +718,26 @@
         }
       ],
       "id": "3FIp5QkSTKk"
+    },
+    {
+      "name": "test",
+      "segments": [
+        {
+          "label": "sd",
+          "weight": 50,
+          "color": "#6366f1"
+        },
+        {
+          "label": "ssdsdsd",
+          "weight": 50,
+          "color": "#10b981"
+        }
+      ],
+      "spinCost": 0,
+      "maxSpinsPerUser": 1,
+      "status": "active",
+      "prizes": [],
+      "id": "MgYzCZ4UAVY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

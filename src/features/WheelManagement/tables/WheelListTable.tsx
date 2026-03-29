@@ -7,11 +7,7 @@ import { useWheelsManagement } from "../hooks/useWheelManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { SegmentsPreview } from "../components/SegmentsPreview";
-import {
-  DateFormatter,
-  TableActionsFormatter,
-  StatusFormatter,
-} from "@/shared/formatters";
+import { TableActionsFormatter, StatusFormatter } from "@/shared/formatters";
 import { useNavigate } from "react-router-dom";
 import type { GridColDef } from "@mui/x-data-grid";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
@@ -95,19 +91,6 @@ export const WheelListTable: React.FC = () => {
       width: 150,
       type: "number",
     },
-
-    {
-      field: "createdAt",
-      headerName: "Create Date",
-      minWidth: 150,
-      renderCell: (params) => <DateFormatter value={params.value} />,
-    },
-    {
-      field: "updatedAt",
-      headerName: "Update Date",
-      minWidth: 150,
-      renderCell: (params) => <DateFormatter value={params.value} />,
-    },
     {
       field: "actions",
       headerName: "actions",
@@ -141,11 +124,11 @@ export const WheelListTable: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" gap={2} mb={2} flexWrap="wrap">
+      <Box display="flex " gap={2} mb={2} flexWrap="wrap" alignItems="center">
         <Button
           variant="outlined"
           startIcon={<Add />}
-          className="!capitalize !h-10"
+          className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
               createWheel: true,
@@ -158,6 +141,7 @@ export const WheelListTable: React.FC = () => {
           statuses={WHEEL_STATUSES}
           value={filterStatus}
           allowNull
+          className="w-44"
           label="Status Filter"
           onChange={(value) => setFilterStatus(value)}
         />

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const rafflePrizeSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, "Prize name is required"),
+  name: z.string().min(1, "Name is required"),
   type: z.enum(["coins", "freeSpin", "bonus"]),
   amount: z.number().nonnegative("Amount must be 0 or more"),
   quantity: z.number("Quantity is required").int().min(1, "Must be at least 1"),

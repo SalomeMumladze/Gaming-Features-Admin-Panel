@@ -141,11 +141,11 @@ export const RaffleListTable: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" gap={2} mb={2} flexWrap="wrap">
+      <Box display="flex " gap={2} mb={2} flexWrap="wrap" alignItems="center">
         <Button
           variant="outlined"
           startIcon={<Add />}
-          className="!capitalize !h-10"
+          className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
               createRaffle: true,
