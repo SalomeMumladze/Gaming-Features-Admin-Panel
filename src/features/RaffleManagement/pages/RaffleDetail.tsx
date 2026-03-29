@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
-import { alpha, useTheme } from "@mui/material";
+import { alpha, Typography, useTheme } from "@mui/material";
 import {
   EmojiEvents as TrophyIcon,
   CalendarMonth as CalIcon,
@@ -45,9 +45,9 @@ export const RaffleDetail: React.FC = () => {
             <TrophyIcon sx={{ color: amberColor, fontSize: 22 }} />
           </div>
           <div>
-            <h2 className="font-extrabold text-lg sm:text-xl text-gray-900 dark:text-gray-100">
+            <Typography className="!font-extrabold !text-lg !sm:text-xl">
               {data.name || "Untitled"}
-            </h2>
+            </Typography>
             <StatusFormatter value={data.status} />
           </div>
         </div>

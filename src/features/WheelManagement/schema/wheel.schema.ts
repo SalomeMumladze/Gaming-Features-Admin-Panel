@@ -24,7 +24,13 @@ export const wheelSchema = z.object({
     .number("Is required")
     .min(1, "Must allow at least 1 spin per user"),
   status: z.enum(["draft", "active", "inactive"]),
+  backgroundColor: z
+    .string()
+    .regex(/^#([0-9A-Fa-f]{3}){1,2}$/, "Invalid hex color"),
 
+  borderColor: z
+    .string()
+    .regex(/^#([0-9A-Fa-f]{3}){1,2}$/, "Invalid hex color"),
   prizes: z
     .array(
       z.object({

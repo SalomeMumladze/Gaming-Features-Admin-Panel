@@ -14,6 +14,7 @@ import { WHEEL_STATUSES } from "../constants";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { SectionCard } from "@/shared/components/SectionCard";
 import { FieldRow } from "@/shared/components/FieldRow";
+import { RouletteWheel } from "./RouletteWheel";
 
 interface Props {
   initialData?: Partial<WheelFormValues>;
@@ -31,6 +32,8 @@ export const WheelForm: React.FC<Props> = ({
     defaultValues: {
       name: "",
       status: "",
+      backgroundColor: "#ffffff",
+      borderColor: "#000000",
       segments: [
         { label: "", weight: 50, color: "#6366f1" },
         { label: "", weight: 50, color: "#10b981" },
@@ -42,6 +45,7 @@ export const WheelForm: React.FC<Props> = ({
   });
 
   const prizes = form.watch("prizes");
+  const segments = form.watch("segments");
 
   const {
     fields: segmentsFields,
@@ -109,6 +113,34 @@ export const WheelForm: React.FC<Props> = ({
         title="Wheel Segments"
         subtitle={`${segmentCount} segment${segmentCount !== 1 ? "s" : ""} · 2–12 allowed`}
       >
+        <RouletteWheel
+          segments={segments}
+          withSpin
+          useWeight
+          backgroundColor={form.formState?.values?.backgroundColor}
+          borderColor={form.formState?.values?.borderColor}
+        />
+        <Box className="grid grid-cols-2 gap-4">
+          <Box>
+            <Typography variant="caption">Background Color</Typography>
+            <Box className="flex items-center gap-2 border p-2 rounded-lg">
+              <input type="color" {...form.register("backgroundColor")} />
+              <Typography variant="caption">
+                {form.watch("backgroundColor")}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box>
+            <Typography variant="caption">Border Color</Typography>
+            <Box className="flex items-center gap-2 border p-2 rounded-lg">
+              <input type="color" {...form.register("borderColor")} />
+              <Typography variant="caption">
+                {form.watch("borderColor")}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
         {segmentsFields.map((field, index) => (
           <FieldRow
             key={field.id}

@@ -79,7 +79,7 @@ export const WheelListTable: React.FC = () => {
     },
     {
       field: "segments",
-      headerName: "Segments & Prizes",
+      headerName: "Segments",
       width: 200,
       renderCell: (params) => (
         <SegmentsPreview segments={params.row.segments} />
