@@ -90,6 +90,7 @@ export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({
           justifyContent: "space-between",
           alignItems: "center",
           gap: 1,
+          flexWrap: "wrap",
         }}
       >
         <Box

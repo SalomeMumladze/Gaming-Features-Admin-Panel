@@ -1,25 +1,17 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  TextField,
-  Button,
-  MenuItem,
-  Box,
-  InputLabel,
-  FormControl,
-  Select,
-} from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
 import { leaderboardSchema } from "../schemas/leaderboard.schema";
 import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
 import { LeaderBoardPrizeForm } from "./LeaderBoardPrizeForm";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Controller } from "react-hook-form";
-import { ScoringTypeFormatter } from "@/shared/formatters";
 import dayjs from "dayjs";
 import type { Leaderboard } from "../hooks/useLeaderboard";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
+import { ScoringTypeSelector } from "./ScoringTypeSelector";
 
 interface Props {
   initialData?: Leaderboard;
@@ -83,7 +75,7 @@ export const LeaderboardForm: React.FC<Props> = ({
             {...form.register("description")}
           />
 
-          <div className="flex sm:flex-row flex-col items-center justify-between gap-3">
+          <div className="flex sm:flex-row flex-col items-center justify-between gap-6">
             <Controller
               control={form.control}
               name="startDate"
@@ -131,7 +123,7 @@ export const LeaderboardForm: React.FC<Props> = ({
             />
           </div>
 
-          <div className="flex sm:flex-row flex-col items-center justify-between gap-3">
+          <div className="flex sm:flex-row flex-col items-center justify-between gap-6">
             <Controller
               control={form.control}
               name="status"
@@ -151,26 +143,13 @@ export const LeaderboardForm: React.FC<Props> = ({
               control={form.control}
               name="scoringType"
               render={({ field }) => (
-                <FormControl fullWidth>
-                  <InputLabel id="scoringType-label">Scoring Type</InputLabel>
-                  <Select
-                    labelId="scoringType-label"
-                    {...field}
-                    value={field.value ?? ""}
-                    label="Scoring Type"
-                  >
-                    <MenuItem value={null}>None</MenuItem>
-                    <MenuItem value="points">
-                      <ScoringTypeFormatter value="points" />
-                    </MenuItem>
-                    <MenuItem value="wins">
-                      <ScoringTypeFormatter value="wins" />
-                    </MenuItem>
-                    <MenuItem value="wagered">
-                      <ScoringTypeFormatter value="wagered" />
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                <ScoringTypeSelector
+                  {...field}
+                  allowNull
+                  label="Scoring Type"
+                  error={!!form.formState.errors.scoringType}
+                  helperText={form.formState.errors.scoringType?.message}
+                />
               )}
             />
           </div>

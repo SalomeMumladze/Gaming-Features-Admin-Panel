@@ -5,7 +5,7 @@ export const prizeSchema = z.object({
   name: z.string().min(1, "Prize name is required"),
   type: z
     .string()
-    .nonempty({ message: "Is required" })
+    .nonempty({ message: "Type is required" })
     .refine(() => ["coins", "freeSpin", "bonus"]),
   amount: z.number("Invalid input").positive("Amount must be positive"),
   imageUrl: z.string().optional(),
