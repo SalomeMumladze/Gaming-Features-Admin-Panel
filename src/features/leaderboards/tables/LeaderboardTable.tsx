@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import type { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Tooltip, Button, Box } from "@mui/material";
 import { useLeaderboard } from "../hooks/useLeaderboard";
@@ -16,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
+import { ServerDataTable } from "@/shared/components/ServerDataTable";
 
 export const LeaderboardTable: React.FC = () => {
   const { notify } = useNotification();
@@ -127,7 +127,12 @@ export const LeaderboardTable: React.FC = () => {
       ),
     },
   ];
-
+  const goToNextPage = () => {
+    setPaginationModel((prev) => {
+      const nextPage = prev.page + 1;
+      return { ...prev, page: nextPage };
+    });
+  };
   return (
     <Box>
       <Box display="flex " gap={2} mb={2} flexWrap="wrap" alignItems="center">
@@ -176,41 +181,22 @@ export const LeaderboardTable: React.FC = () => {
         )}
       </Box>
 
-      <div>
-        <DataGrid
-          rows={list.items ?? []}
-          columns={columns}
-          getRowId={(row) => row.id}
-          slots={{
-            noRowsOverlay: () => {
-              if (list.isError) {
-                return (
-                  <Box p={2} textAlign="center" color="error.main">
-                    Failed to load data
-                  </Box>
-                );
-              }
-              return (
-                <Box p={2} textAlign="center">
-                  No Data Found
-                </Box>
-              );
-            },
-          }}
-          rowCount={list.totalRows}
-          disableRowSelectionOnClick
-          disableColumnMenu
-          paginationMode="server"
-          pageSizeOptions={[10, 25, 50, 100, 300]}
-          pagination
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          checkboxSelection
-          loading={list.isLoading}
-          disableSelectionOnClick
-          onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
-        />
-      </div>
+      <ServerDataTable
+        rows={list.items ?? []}
+        columns={columns}
+        rowCount={list.totalRows}
+        loading={list.isLoading}
+        paginationModel={paginationModel}
+        setPaginationModel={setPaginationModel}
+        getRowId={(row) => row.id}
+        checkboxSelection
+        onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
+        noRowsOverlay={
+          list.isError ? (
+            <Box color="error.main">Failed to load data</Box>
+          ) : undefined
+        }
+      />
     </Box>
   );
 };

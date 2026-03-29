@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import type { GridRenderCellParams } from "@mui/x-data-grid";
 import { Box, Button, Tooltip } from "@mui/material";
 import { Add, Help } from "@mui/icons-material";
@@ -17,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { RAFFLE_STATUSES } from "../constants";
+import { ServerDataTable } from "@/shared/components/ServerDataTable";
 
 export const RaffleListTable: React.FC = () => {
   const { notify } = useNotification();
@@ -203,22 +203,21 @@ export const RaffleListTable: React.FC = () => {
         )}
       </Box>
 
-      <div style={{ maxHeight: 630, width: "100%" }}>
-        <DataGrid
-          rows={raffles.items ?? []}
-          columns={columns}
-          getRowId={(row) => row.id}
-          rowCount={raffles.totalRows}
-          disableRowSelectionOnClick
-          disableColumnMenu
-          paginationMode="server"
-          pageSizeOptions={[10, 25, 50, 100, 300]}
-          pagination
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          loading={raffles.isLoading}
-        />
-      </div>
+      <ServerDataTable
+        rows={raffles.items ?? []}
+        columns={columns}
+        rowCount={raffles.totalRows}
+        loading={raffles.isLoading}
+        paginationModel={paginationModel}
+        setPaginationModel={setPaginationModel}
+        getRowId={(row) => row.id}
+        onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
+        noRowsOverlay={
+          raffles.isError ? (
+            <Box color="error.main">Failed to load data</Box>
+          ) : undefined
+        }
+      />
     </Box>
   );
 };

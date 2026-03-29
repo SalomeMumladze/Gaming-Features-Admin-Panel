@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import type { GridRenderCellParams } from "@mui/x-data-grid";
 import { Box, Button, Tooltip } from "@mui/material";
 import { Add, Help } from "@mui/icons-material";
@@ -13,6 +12,7 @@ import type { GridColDef } from "@mui/x-data-grid";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
 import { WHEEL_STATUSES } from "../constants";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
+import { ServerDataTable } from "@/shared/components/ServerDataTable";
 
 export const WheelListTable: React.FC = () => {
   const { notify } = useNotification();
@@ -168,22 +168,21 @@ export const WheelListTable: React.FC = () => {
         )}
       </Box>
 
-      <div style={{ maxHeight: 630, width: "100%" }}>
-        <DataGrid
-          rows={wheels.items ?? []}
-          columns={columns}
-          getRowId={(row) => row.id}
-          rowCount={wheels.totalRows}
-          disableRowSelectionOnClick
-          disableColumnMenu
-          paginationMode="server"
-          pageSizeOptions={[10, 25, 50, 100, 300]}
-          pagination
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          loading={wheels.isLoading}
-        />
-      </div>
+      <ServerDataTable
+        rows={wheels.items ?? []}
+        columns={columns}
+        rowCount={wheels.totalRows}
+        loading={wheels.isLoading}
+        paginationModel={paginationModel}
+        setPaginationModel={setPaginationModel}
+        getRowId={(row) => row.id}
+        onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
+        noRowsOverlay={
+          wheels.isError ? (
+            <Box color="error.main">Failed to load data</Box>
+          ) : undefined
+        }
+      />
     </Box>
   );
 };
