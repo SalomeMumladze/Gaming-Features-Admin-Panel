@@ -1,12 +1,19 @@
 import React from "react";
 import { Chip } from "@mui/material";
 
-type Statuses = "draft" | "active" | "completed" | "inactive" | "drawn";
+type Statuses =
+  | "draft"
+  | "active"
+  | "completed"
+  | "inactive"
+  | "drawn"
+  | "cancelled";
 
 export const statuses: Statuses[] = [
   "draft",
   "active",
   "completed",
+  "cancelled",
   "inactive",
   "drawn",
 ];
@@ -27,6 +34,7 @@ export const StatusFormatter: React.FC<Props> = ({ value }) => {
     completed: "default",
     inactive: "error",
     drawn: "info",
+    cancelled: "error",
   };
 
   const color = statusColorMap[value];

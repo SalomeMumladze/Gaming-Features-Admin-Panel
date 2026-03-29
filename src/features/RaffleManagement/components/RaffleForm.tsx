@@ -180,21 +180,6 @@ export const RaffleForm: React.FC<Props> = ({
             type="number"
             {...form.register("totalTicketLimit", { valueAsNumber: true })}
           />
-          <Controller
-            control={form.control}
-            name="status"
-            render={({ field }) => (
-              <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
-                <Select {...field} value={field.value} label="Status">
-                  <MenuItem value="draft">Draft</MenuItem>
-                  <MenuItem value="active">Active</MenuItem>
-                  <MenuItem value="drawn">Drawn</MenuItem>
-                  <MenuItem value="cancelled">Cancelled</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          />
         </div>
       </Box>
 

@@ -7,7 +7,11 @@ import { useWheelsManagement } from "../hooks/useWheelManagement";
 import useQueryParams from "@/shared/hooks/useQueryParams";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { SegmentsPreview } from "../components/SegmentsPreview";
-import { DateFormatter, TableActionsFormatter } from "@/shared/formatters";
+import {
+  DateFormatter,
+  TableActionsFormatter,
+  StatusFormatter,
+} from "@/shared/formatters";
 import { useNavigate } from "react-router-dom";
 import type { GridColDef } from "@mui/x-data-grid";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
@@ -69,23 +73,7 @@ export const WheelListTable: React.FC = () => {
       field: "status",
       headerName: "Status",
       width: 130,
-      renderCell: (params: GridRenderCellParams) => {
-        const status = params.value as string;
-        const statusStyles: Record<string, string> = {
-          active: "bg-emerald-100 text-emerald-700 border-emerald-200",
-          draft: "bg-slate-100 text-slate-600 border-slate-200",
-          drawn: "bg-blue-100 text-blue-700 border-blue-200",
-          cancelled: "bg-rose-100 text-rose-700 border-rose-200",
-        };
-
-        return (
-          <span
-            className={`px-2.5 py-1 rounded-full text-[11px] font-bold uppercase border ${statusStyles[status] || statusStyles.draft}`}
-          >
-            {status}
-          </span>
-        );
-      },
+      renderCell: (params) => <StatusFormatter value={params.value} />,
     },
     {
       field: "maxSpinsPerUser",
