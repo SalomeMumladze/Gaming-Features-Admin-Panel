@@ -1,57 +1,63 @@
 import React, { useState } from "react";
-import { Box, Drawer } from "@mui/material";
+import { Box, useTheme, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { UrlContextProvider } from "@/shared/hooks/useQueryParams";
-
+import {
+  SIDEBAR_WIDTH,
+  COLLAPSED_WIDTH,
+  TOPBAR_HEIGHT,
+} from "@/shared/utils/const";
 import Drawers from "../Drawers";
 
-const SIDEBAR_WIDTH = 180;
-const COLLAPSED_WIDTH = 60;
-const TOPBAR_HEIGHT = 64;
-
 export const Layout: React.FC = () => {
-  const [open, setOpen] = useState(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const toggleSidebar = () => setOpen(!open);
+  const [open, setOpen] = useState(() => !isMobile);
+
+  React.useEffect(() => {
+    setOpen(!isMobile);
+  }, [isMobile]);
+
+  const toggleSidebar = () => setOpen((prev) => !prev);
 
   return (
     <UrlContextProvider>
-      <Drawer
-        variant="permanent"
+      <Sidebar
         open={open}
-        PaperProps={{
-          sx: {
-            width: open ? SIDEBAR_WIDTH : COLLAPSED_WIDTH,
-            transition: "width 0.3s",
-            overflowX: "hidden",
-          },
-        }}
-      >
-        <Sidebar open={open} toggleSidebar={toggleSidebar} />
-      </Drawer>
+        toggleSidebar={toggleSidebar}
+        variant={isMobile ? "temporary" : "permanent"}
+      />
 
       <Box
-        flex={1}
-        ml={open ? `${SIDEBAR_WIDTH}px` : `${COLLAPSED_WIDTH}px`}
-        transition="margin-left 0.3s"
-        display="flex"
-        flexDirection="column"
-        height="100vh"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          ml: {
+            xs: 0,
+            sm: open ? `${SIDEBAR_WIDTH}px` : `${COLLAPSED_WIDTH}px`,
+          },
+          transition: "margin-left 0.3s ease",
+        }}
       >
         <Box
           sx={{
             position: "fixed",
             top: 0,
-            left: open ? `${SIDEBAR_WIDTH}px` : `${COLLAPSED_WIDTH}px`,
+            left: {
+              xs: 0,
+              sm: open ? `${SIDEBAR_WIDTH}px` : `${COLLAPSED_WIDTH}px`,
+            },
             right: 0,
             height: `${TOPBAR_HEIGHT}px`,
             zIndex: (theme) => theme.zIndex.appBar,
-            transition: "left 0.3s",
+            transition: "left 0.3s ease",
           }}
         >
-          <Topbar />
+          <Topbar toggleSidebar={toggleSidebar} isMobile={isMobile} />
         </Box>
 
         <Box
@@ -66,6 +72,7 @@ export const Layout: React.FC = () => {
           <Outlet />
         </Box>
       </Box>
+
       <Drawers />
     </UrlContextProvider>
   );
