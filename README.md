@@ -1,73 +1,22 @@
-# React + TypeScript + Vite
+## არქიტექტურული და ტექნიკური გადაწყვეტილებები
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ჩვენი აპლიკაციის ძირითადი არქიტექტურული/ტექნიკური გადაწყვეტილებები ეხება URL პარამეტრების მართვას და Drawer UI კომპონენტების ორგანიზებას:
 
-Currently, two official plugins are available:
+### 1. URL Query პარამეტრების მართვა Context-ით
+**ფაილი:** `useQueryParams` / `UrlContextProvider`  
+ 
+- ეს გადაწყვეტა საშუალებას იძლევა, რომ მთელი აპლიკაცია ერთიანად წვდომა ჰქონდეს URL პარამეტრებზე, ერთგან განახორციელოს ცვლილებები და ყველა კომპონენტი ავტომატურად რეაგირებდეს ცვლილებებზე.  
+- სარგებელი:  
+  - **DRY პრინციპი:** აღარ არის საჭირო URL parsing/setting ყველა კომპონენტში.  
+  - **History API კონტროლი centralized–ია**, რაც უზრუნველყოფს consistent navigation experience SPA-ში.  
+  - `setUrlParams` და `removeParams` ფუნქციები საშუალებას იძლევიან პარამეტრების მოქნილ მართვას (push ან replace).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 2. Dynamic Drawer სისტემის იმპლემენტაცია
+**ფაილი:** `Drawers.tsx`  
 
-## React Compiler
+- ყველა drawer–ის centralized რეენდერინგი ერთი კომპონენტიდან, რომელიც Base hook–ით (`useQueryParams`) განსაზღვრავს drawer–ის გახსნის ლოგიკას.  
+- ეს მიდგომა უზრუნველყოფს drawer–ის გახსნას კონკრეტული URL პარამეტრის მიხედვით და დახურვისას შესაბამისი პარამეტრების ავტომატურ წაშლას.  
+- სარგებელი:  
+  - **კონტროლის ერთი წერტილი:** მარტივად ემატება ახალი drawer–ები `drawerComponents` array-ში.  
+  - Drawer–ების გახსნის/დახურვის ლოგიკა reusable და predictable ხდება (`requiredParams` + `closeParams`).  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
