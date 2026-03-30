@@ -9,8 +9,8 @@ import {
   ScoringTypeFormatter,
   TableActionsFormatter,
 } from "@/shared/formatters";
-import useQueryParams from "@/shared/hooks/useQueryParams";
-import { useNotification } from "@/shared/hooks/useNotification";
+import useQueryParams from "@/shared/providers/useQueryParams";
+import { useNotification } from "@/shared/providers/useNotification";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/constants/routes";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";

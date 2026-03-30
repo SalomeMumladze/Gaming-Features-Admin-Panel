@@ -8,7 +8,7 @@ import {
   Link,
 } from "@mui/material";
 import { Brightness7, Brightness4, Menu } from "@mui/icons-material";
-import { useTheme } from "@/shared/hooks/useTheme";
+import { useTheme } from "@/shared/providers/useTheme";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 
 interface TopbarProps {

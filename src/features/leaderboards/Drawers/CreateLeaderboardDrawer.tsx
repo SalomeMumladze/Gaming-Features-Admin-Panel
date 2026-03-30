@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
-import { useNotification } from "@/shared/hooks/useNotification";
+import { useNotification } from "@/shared/providers/useNotification";
 import type { Leaderboard } from "../hooks/useLeaderboard";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";

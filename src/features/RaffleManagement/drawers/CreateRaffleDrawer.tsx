@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { RaffleForm } from "../components/RaffleForm";
 import { useRaffleManagement } from "../hooks/useRaffleManagement";
-import { useNotification } from "@/shared/hooks/useNotification";
+import { useNotification } from "@/shared/providers/useNotification";
 import type { Raffle } from "../hooks/useRaffleManagement";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";

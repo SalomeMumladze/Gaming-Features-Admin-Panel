@@ -1,5 +1,5 @@
 import React from "react";
-import useQueryParams from "@/shared/hooks/useQueryParams";
+import useQueryParams from "@/shared/providers/useQueryParams";
 import {
   LeaderboardEditDrawer,
   CreateLeaderboardDrawer,

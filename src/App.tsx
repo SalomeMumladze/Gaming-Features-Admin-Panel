@@ -1,7 +1,7 @@
 import { ReactQueryProvider } from "@/app/providers/ReactQueryProvider";
 import { AppRouter } from "@/app/router/AppRouter";
-import { ThemeProvider } from "@/shared/hooks/useTheme";
-import { NotificationProvider } from "@/shared/hooks/useNotification";
+import { ThemeProvider } from "@/shared/providers/useTheme";
+import { NotificationProvider } from "@/shared/providers/useNotification";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import ErrorBoundary from "@/shared/components/ErrorBoundary";

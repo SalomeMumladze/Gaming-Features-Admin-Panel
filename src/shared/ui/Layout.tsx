@@ -3,7 +3,7 @@ import { Box, useTheme, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
-import { UrlContextProvider } from "@/shared/hooks/useQueryParams";
+import { UrlContextProvider } from "@/shared/providers/useQueryParams";
 import {
   SIDEBAR_WIDTH,
   COLLAPSED_WIDTH,

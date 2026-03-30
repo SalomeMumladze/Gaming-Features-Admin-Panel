@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { WheelForm } from "../components/WheelForm";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
-import { useNotification } from "@/shared/hooks/useNotification";
+import { useNotification } from "@/shared/providers/useNotification";
 import type { Wheel } from "../hooks/useWheelManagement";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
