@@ -175,8 +175,6 @@ export const WheelListTable: React.FC = () => {
         loading={wheels.isLoading}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}
-        getRowId={(row) => row.id}
-        onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         noRowsOverlay={
           wheels.isError ? (
             <Box color="error.main">Failed to load data</Box>

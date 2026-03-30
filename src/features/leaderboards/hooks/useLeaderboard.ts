@@ -99,5 +99,25 @@ export const useLeaderboard = (params?: {
       queryClient.invalidateQueries({ queryKey: ["leaderboards"] }),
   });
 
-  return { list, create, update, getById, deleteLeaderboard };
+  // UPDATE STATUS
+  const bulkUpdateStatuses = useMutation({
+    mutationFn: ({
+      ids,
+      status,
+    }: {
+      ids: string[];
+      status: "draft" | "active";
+    }) => apiGateway.patch("/leaderboards/status", { ids, status }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["leaderboards"] }),
+  });
+
+  return {
+    list,
+    create,
+    update,
+    getById,
+    deleteLeaderboard,
+    bulkUpdateStatuses,
+  };
 };

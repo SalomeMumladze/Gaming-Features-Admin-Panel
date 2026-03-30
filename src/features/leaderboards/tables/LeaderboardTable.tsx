@@ -30,6 +30,7 @@ export const LeaderboardTable: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
   const { deleteLeaderboard } = useLeaderboard();
+  const { bulkUpdateStatuses } = useLeaderboard();
   const { list } = useLeaderboard({
     _page: paginationModel.page + 1,
     _per_page: paginationModel.pageSize,
@@ -39,8 +40,25 @@ export const LeaderboardTable: React.FC = () => {
     // _order: "asc",  // "asc" or "desc"
   });
 
-  const handleBulkToggle = () => {
-    setSelectedIds([]);
+  // Bulk status toggle handler does not work yet because 
+  // the endpoint is not implemented on the backend, but the code is ready for when it will be implemented.
+  // It sends an array of selected IDs and the new status to set, and then shows a notification based on the result.
+  const handleBulkToggle = (status: "draft" | "active") => {
+    if (selectedIds.length === 0) return;
+
+    bulkUpdateStatuses.mutate(
+      { ids: selectedIds, status },
+      {
+        onSuccess: () => {
+          notify(
+            `Updated ${selectedIds.length} leaderboards to ${status}`,
+            "success",
+          );
+          setSelectedIds([]);
+        },
+        onError: () => notify("Failed to update statuses!", "error"),
+      },
+    );
   };
 
   const columns: GridColDef[] = [
@@ -127,12 +145,7 @@ export const LeaderboardTable: React.FC = () => {
       ),
     },
   ];
-  const goToNextPage = () => {
-    setPaginationModel((prev) => {
-      const nextPage = prev.page + 1;
-      return { ...prev, page: nextPage };
-    });
-  };
+
   return (
     <Box>
       <Box display="flex " gap={2} mb={2} flexWrap="wrap" alignItems="center">
@@ -162,7 +175,7 @@ export const LeaderboardTable: React.FC = () => {
         {selectedIds.length > 0 && (
           <Box display="flex" gap={1}>
             <Button
-              size="small"
+              className="!capitalize w-fit h-14"
               variant="outlined"
               color="success"
               onClick={() => handleBulkToggle("active")}
@@ -170,7 +183,7 @@ export const LeaderboardTable: React.FC = () => {
               Set Active
             </Button>
             <Button
-              size="small"
+              className="!capitalize w-fit h-14"
               variant="outlined"
               color="warning"
               onClick={() => handleBulkToggle("draft")}

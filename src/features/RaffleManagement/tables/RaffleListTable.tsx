@@ -210,8 +210,6 @@ export const RaffleListTable: React.FC = () => {
         loading={raffles.isLoading}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}
-        getRowId={(row) => row.id}
-        onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         noRowsOverlay={
           raffles.isError ? (
             <Box color="error.main">Failed to load data</Box>
