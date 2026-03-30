@@ -20,12 +20,14 @@ interface Props {
   initialData?: Partial<RaffleFormValues>;
   onSubmit: (data: RaffleFormValues) => void;
   isSubmitting?: boolean;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 export const RaffleForm: React.FC<Props> = ({
   initialData,
   onSubmit,
   isSubmitting,
+  onDirtyChange,
 }) => {
   const form = useForm<RaffleFormValues>({
     resolver: zodResolver(raffleSchema),
@@ -51,6 +53,10 @@ export const RaffleForm: React.FC<Props> = ({
       ],
     },
   });
+
+  useEffect(() => {
+    onDirtyChange?.(form.formState.isDirty);
+  }, [form.formState.isDirty]);
 
   useEffect(() => {
     if (initialData) form.reset({ ...form.getValues(), ...initialData });

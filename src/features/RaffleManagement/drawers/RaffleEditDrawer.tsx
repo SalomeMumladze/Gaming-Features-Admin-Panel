@@ -4,6 +4,7 @@ import { useRaffleManagement } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import type { Raffle } from "../hooks/useRaffleManagement";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
+import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -20,7 +21,22 @@ export const RaffleEditDrawer: React.FC<Props> & {
   const { getRaffle, updateRaffle } = useRaffleManagement();
   const { data: row, isLoading, isError } = getRaffle(raffleId);
 
-  const handleClose = () => afterOpenChange?.(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const { confirm } = useConfirm();
+
+  const handleClose = async () => {
+    if (isDirty) {
+      const ok = await confirm({
+        title: "Unsaved Changes",
+        description:
+          "You have unsaved changes. Are you sure you want to leave?",
+      });
+
+      if (!ok) return;
+    }
+
+    afterOpenChange?.(false);
+  };
 
   const handleSubmit = (data: Raffle) => {
     if (!row) return;
@@ -54,6 +70,7 @@ export const RaffleEditDrawer: React.FC<Props> & {
           initialData={row}
           onSubmit={handleSubmit}
           isSubmitting={loading}
+          onDirtyChange={setIsDirty}
         />
       )}
     </DrawerLayout>

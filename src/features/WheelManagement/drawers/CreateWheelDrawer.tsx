@@ -4,6 +4,7 @@ import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import type { Wheel } from "../hooks/useWheelManagement";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
+import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -16,21 +17,32 @@ export const CreateWheelDrawer: React.FC<Props> & {
   const { notify } = useNotification();
   const { createWheel } = searchParams;
   const { create } = useWheelsManagement();
-  const [loading, setLoading] = useState(false);
 
-  const handleClose = () => afterOpenChange?.(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const { confirm } = useConfirm();
+
+  const handleClose = async () => {
+    if (isDirty) {
+      const ok = await confirm({
+        title: "Unsaved Changes",
+        description:
+          "You have unsaved changes. Are you sure you want to leave?",
+      });
+
+      if (!ok) return;
+    }
+
+    afterOpenChange?.(false);
+  };
 
   const handleSubmit = (data: Wheel) => {
-    setLoading(true);
     create.mutate(data, {
       onSuccess: () => {
         notify(`${data.name} created successfully!`, "success");
         handleClose();
-        setLoading(false);
       },
       onError: () => {
         notify("Failed to create wheel!", "error");
-        setLoading(false);
       },
     });
   };
@@ -39,11 +51,15 @@ export const CreateWheelDrawer: React.FC<Props> & {
     <DrawerLayout
       open={!!createWheel}
       title="Create Wheel"
-      loading={loading}
+      loading={create.isLoading}
       error={create.isError}
       onClose={handleClose}
     >
-      <WheelForm onSubmit={handleSubmit} isSubmitting={loading} />
+      <WheelForm
+        onSubmit={handleSubmit}
+        isSubmitting={create.isLoading}
+        onDirtyChange={setIsDirty}
+      />
     </DrawerLayout>
   );
 };

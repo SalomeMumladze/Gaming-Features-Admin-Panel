@@ -20,12 +20,14 @@ interface Props {
   initialData?: Partial<WheelFormValues>;
   onSubmit?: (data: WheelFormValues) => void;
   isSubmitting?: boolean;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 export const WheelForm: React.FC<Props> = ({
   initialData,
   onSubmit,
   isSubmitting,
+  onDirtyChange,
 }) => {
   const form = useForm<WheelFormValues>({
     resolver: zodResolver(wheelSchema),
@@ -70,6 +72,10 @@ export const WheelForm: React.FC<Props> = ({
       }
     });
   }, [prizes, form]);
+
+  useEffect(() => {
+    onDirtyChange?.(form.formState.isDirty);
+  }, [form.formState.isDirty]);
 
   const segmentCount = segmentsFields.length;
   const prizeCount = prizesFields.length;

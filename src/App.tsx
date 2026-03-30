@@ -5,18 +5,21 @@ import { NotificationProvider } from "@/shared/hooks/useNotification";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
+import { ConfirmProvider } from "@/shared/providers/ConfirmProvider";
 import "./App.css";
 
 const App = () => (
   <ReactQueryProvider>
     <ErrorBoundary>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ThemeProvider>
-          <NotificationProvider>
-            <AppRouter />
-          </NotificationProvider>
-        </ThemeProvider>
-      </LocalizationProvider>
+      <ConfirmProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <ThemeProvider>
+            <NotificationProvider>
+              <AppRouter />
+            </NotificationProvider>
+          </ThemeProvider>
+        </LocalizationProvider>
+      </ConfirmProvider>
     </ErrorBoundary>
   </ReactQueryProvider>
 );

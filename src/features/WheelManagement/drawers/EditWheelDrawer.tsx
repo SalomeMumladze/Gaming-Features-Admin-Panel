@@ -4,6 +4,7 @@ import { useWheelsManagement } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/hooks/useNotification";
 import type { Wheel } from "../hooks/useWheelManagement";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
+import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -17,24 +18,36 @@ export const EditWheelDrawer: React.FC<Props> & {
   const { wheelId } = searchParams;
   const { getWheel, updateWheel } = useWheelsManagement();
   const { data: row, isLoading, isError } = getWheel(wheelId);
-  const [loading, setLoading] = useState(false);
 
-  const handleClose = () => afterOpenChange?.(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const { confirm } = useConfirm();
+
+  const handleClose = async () => {
+    if (isDirty) {
+      const ok = await confirm({
+        title: "Unsaved Changes",
+        description:
+          "You have unsaved changes. Are you sure you want to leave?",
+      });
+
+      if (!ok) return;
+    }
+
+    afterOpenChange?.(false);
+  };
 
   const handleSubmit = (data: Wheel) => {
     if (!row) return;
-    setLoading(true);
+
     updateWheel.mutate(
       { ...row, ...data },
       {
         onSuccess: () => {
           notify(`${data.name ?? row.name} updated successfully!`, "success");
           handleClose();
-          setLoading(false);
         },
         onError: () => {
           notify("Failed to update wheel!", "error");
-          setLoading(false);
         },
       },
     );
@@ -44,7 +57,7 @@ export const EditWheelDrawer: React.FC<Props> & {
     <DrawerLayout
       open={!!wheelId}
       title="Edit Wheel"
-      loading={isLoading || loading}
+      loading={isLoading || updateWheel.isLoading}
       error={isError || !row}
       onClose={handleClose}
     >
@@ -52,7 +65,8 @@ export const EditWheelDrawer: React.FC<Props> & {
         <WheelForm
           initialData={row}
           onSubmit={handleSubmit}
-          isSubmitting={loading}
+          isSubmitting={updateWheel.isLoading}
+          onDirtyChange={setIsDirty}
         />
       )}
     </DrawerLayout>

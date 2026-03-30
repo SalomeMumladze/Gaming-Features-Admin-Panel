@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/hooks/useNotification";
 import type { Leaderboard } from "../hooks/useLeaderboard";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
+import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -18,7 +19,22 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
   const { getById, update } = useLeaderboard();
   const { data: row, isLoading, isError } = getById(leaderboardId);
 
-  const handleClose = () => afterOpenChange?.(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const { confirm } = useConfirm();
+
+  const handleClose = async () => {
+    if (isDirty) {
+      const ok = await confirm({
+        title: "Unsaved Changes",
+        description:
+          "You have unsaved changes. Are you sure you want to leave?",
+      });
+
+      if (!ok) return;
+    }
+
+    afterOpenChange?.(false);
+  };
 
   const handleUpdate = (data: Leaderboard) => {
     if (!row) return;
@@ -27,6 +43,7 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
       {
         onSuccess: () => {
           notify(`${data.title ?? row.title} updated successfully!`, "success");
+          setIsDirty(false);
           handleClose();
         },
         onError: () => {
@@ -49,6 +66,7 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
           initialData={row}
           onSubmit={handleUpdate}
           isSubmitting={update.isLoading}
+          onDirtyChange={setIsDirty}
         />
       )}
     </DrawerLayout>

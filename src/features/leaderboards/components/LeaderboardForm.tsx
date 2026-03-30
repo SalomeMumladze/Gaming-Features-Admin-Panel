@@ -23,12 +23,14 @@ interface Props {
   initialData?: Leaderboard;
   onSubmit: (data: LeaderboardFormValues) => void;
   isSubmitting?: boolean;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 export const LeaderboardForm: React.FC<Props> = ({
   initialData,
   onSubmit,
   isSubmitting,
+  onDirtyChange,
 }) => {
   const form = useForm<LeaderboardFormValues>({
     resolver: zodResolver(leaderboardSchema),
@@ -58,9 +60,26 @@ export const LeaderboardForm: React.FC<Props> = ({
     }
   }, [initialData]);
 
+  useEffect(() => {
+    onDirtyChange?.(form.formState.isDirty);
+  }, [form.formState.isDirty]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (form.formState.isDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [form.formState.isDirty]);
+
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
       <Box display="flex" flexDirection="column" gap={3} height="100%">
+        {/* General Info */}
         <SectionCard
           icon={<TuneRounded fontSize="small" />}
           title="General Info"
@@ -105,6 +124,7 @@ export const LeaderboardForm: React.FC<Props> = ({
               name="endDate"
               render={({ field }) => {
                 const startDate = form.watch("startDate");
+
                 return (
                   <DatePicker
                     className="w-full"
@@ -163,7 +183,9 @@ export const LeaderboardForm: React.FC<Props> = ({
           <TextField
             label="Max Participants"
             type="number"
-            {...form.register("maxParticipants", { valueAsNumber: true })}
+            {...form.register("maxParticipants", {
+              valueAsNumber: true,
+            })}
             error={!!form.formState.errors.maxParticipants}
             helperText={form.formState.errors.maxParticipants?.message}
           />

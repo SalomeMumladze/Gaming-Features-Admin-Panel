@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { LeaderboardForm } from "../components/LeaderboardForm";
 import { useLeaderboard } from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/hooks/useNotification";
 import type { Leaderboard } from "../hooks/useLeaderboard";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
+import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -14,20 +15,32 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-
-  const handleClose = () => {
-    afterOpenChange?.(false);
-  };
-
   const { createLeaderboard } = searchParams;
   const { create } = useLeaderboard();
+
+  const [isDirty, setIsDirty] = useState(false);
+  const { confirm } = useConfirm();
+
+  const handleClose = async () => {
+    if (isDirty) {
+      const ok = await confirm({
+        title: "Unsaved Changes",
+        description:
+          "You have unsaved changes. Are you sure you want to leave?",
+      });
+
+      if (!ok) return;
+    }
+
+    afterOpenChange?.(false);
+  };
 
   const handleSubmit = (data: Leaderboard) => {
     create.mutate(data, {
       onSuccess: () => {
-        const title = data.title;
-        notify(`${title} created successfully!`, "success");
-        handleClose();
+        notify(`${data.title} created successfully!`, "success");
+        setIsDirty(false);
+        afterOpenChange?.(false);
       },
       onError: () => {
         notify("Failed to create leaderboard!", "error");
@@ -36,18 +49,21 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
   };
 
   return (
-    <DrawerLayout
-      open={!!createLeaderboard}
-      title="Create Leaderboard"
-      loading={create.isLoading}
-      error={create.isError}
-      onClose={handleClose}
-    >
-      <LeaderboardForm
-        onSubmit={handleSubmit}
-        isSubmitting={create.isLoading}
-      />
-    </DrawerLayout>
+    <>
+      <DrawerLayout
+        open={!!createLeaderboard}
+        title="Create Leaderboard"
+        loading={create.isLoading}
+        error={create.isError}
+        onClose={handleClose}
+      >
+        <LeaderboardForm
+          onSubmit={handleSubmit}
+          isSubmitting={create.isLoading}
+          onDirtyChange={setIsDirty}
+        />
+      </DrawerLayout>
+    </>
   );
 };
 

@@ -17,6 +17,42 @@
         }
       ],
       "id": "gfoFjkgpmSU"
+    },
+    {
+      "title": "dsd",
+      "description": "",
+      "startDate": "2026-03-20T20:00:00.000Z",
+      "endDate": "2026-03-30T20:00:00.000Z",
+      "status": null,
+      "scoringType": null,
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "ds",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "nEGeV7bcdtA"
+    },
+    {
+      "title": "sdsd",
+      "description": "",
+      "startDate": "2026-03-06T20:00:00.000Z",
+      "endDate": "2026-03-26T20:00:00.000Z",
+      "status": null,
+      "scoringType": null,
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "ewewe",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "xCBEc0nQ3jc"
     }
   ],
   "raffles": [
