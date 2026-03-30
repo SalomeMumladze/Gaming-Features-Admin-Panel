@@ -9,8 +9,8 @@ import {
   EmojiEvents as PrizeIcon,
   DonutLarge as SegmentIcon,
 } from "@mui/icons-material";
-import { Section } from "@/shared/components/Section";
-import { Field } from "@/shared/components/Field";
+import { DetailSection } from "@/shared/components/DetailSection";
+import { DetailField } from "@/shared/components/DetailField";
 import { StatusFormatter } from "@/shared/formatters";
 import { RouletteWheel } from "../components/RouletteWheel";
 
@@ -55,7 +55,7 @@ export const WheelDetail: React.FC = () => {
       </div>
 
       {/* Wheel Preview */}
-      <Section
+      <DetailSection
         icon={<WheelIcon fontSize="small" />}
         title="Wheel Preview"
         accent={ACCENTS.amber}
@@ -69,30 +69,30 @@ export const WheelDetail: React.FC = () => {
             borderColor={data.borderColor}
           />
         </div>
-      </Section>
+      </DetailSection>
 
-      <Section
+      <DetailSection
         icon={<CreditIcon fontSize="small" />}
         title="General Settings"
         accent={ACCENTS.blue}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <Field
+         <DetailField
             label="Spin Cost"
             value={`${data.spinCost} Credits`}
             icon={<CreditIcon />}
             accent={blue}
           />
-          <Field
+         <DetailField
             label="Max Spins / User"
             value={data.maxSpinsPerUser}
             icon={<UserIcon />}
             accent={blue}
           />
         </div>
-      </Section>
+      </DetailSection>
 
-      <Section
+      <DetailSection
         icon={<SegmentIcon fontSize="small" />}
         title="Wheel Segments"
         accent={ACCENTS.violet}
@@ -125,17 +125,17 @@ export const WheelDetail: React.FC = () => {
             </div>
           ))}
         </div>
-      </Section>
+      </DetailSection>
 
       {data.prizes?.length > 0 && (
-        <Section
+        <DetailSection
           icon={<PrizeIcon fontSize="small" />}
           title="Prizes"
           accent={ACCENTS.amber}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
             {data.prizes.map((prize: any, i: number) => (
-              <Field
+             <DetailField
                 key={i}
                 label={prize.name}
                 value={prize.prizeAmount}
@@ -144,7 +144,7 @@ export const WheelDetail: React.FC = () => {
               />
             ))}
           </div>
-        </Section>
+        </DetailSection>
       )}
     </div>
   );

@@ -11,8 +11,8 @@ import {
   DateRange as DateRangeIcon,
   Tune as TuneIcon,
 } from "@mui/icons-material";
-import { Section } from "@/shared/components/Section";
-import { Field } from "@/shared/components/Field";
+import { DetailSection } from "@/shared/components/DetailSection";
+import { DetailField } from "@/shared/components/DetailField";
 import {
   RankBadge,
   DateFormatter,
@@ -64,7 +64,7 @@ export const LeaderboardDetail: React.FC = () => {
       </div>
 
       {data.description && (
-        <Section
+        <DetailSection
           icon={<DescIcon fontSize="small" />}
           title="Description"
           accent={ACCENTS.blue}
@@ -72,62 +72,62 @@ export const LeaderboardDetail: React.FC = () => {
           <p className="text-sm text-gray-600 dark:text-gray-300">
             {data.description}
           </p>
-        </Section>
+        </DetailSection>
       )}
 
-      <Section
+      <DetailSection
         icon={<DateRangeIcon fontSize="small" />}
         title="Schedule"
         accent={ACCENTS.violet}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <Field
+         <DetailField
             label="Start Date"
             value={<DateFormatter value={data.startDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
-          <Field
+         <DetailField
             label="End Date"
             value={<DateFormatter value={data.endDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
-          <Field
+         <DetailField
             label="Update Date"
             value={<DateFormatter value={data.updatedAt} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
         </div>
-      </Section>
+      </DetailSection>
 
-      <Section
+      <DetailSection
         icon={<TuneIcon fontSize="small" />}
         title="Configuration"
         accent={ACCENTS.emerald}
       >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <Field
+         <DetailField
             label="Status"
             value={<StatusFormatter value={data.status} />}
           />
-          <Field
+         <DetailField
             label="Scoring Type"
             value={<ScoringTypeFormatter value={data.scoringType} />}
             icon={<ScoringIcon />}
             accent={isDark ? ACCENTS.emerald.dark : ACCENTS.emerald.light}
           />
-          <Field
+         <DetailField
             label="Max Participants"
             value={data.maxParticipants?.toLocaleString() ?? "—"}
             icon={<PeopleIcon />}
             accent={isDark ? ACCENTS.emerald.dark : ACCENTS.emerald.light}
           />
         </div>
-      </Section>
+      </DetailSection>
 
-      <Section
+      <DetailSection
         icon={<TrophyIcon fontSize="small" />}
         title="Prize Structure"
         accent={ACCENTS.amber}
@@ -193,7 +193,7 @@ export const LeaderboardDetail: React.FC = () => {
             })}
           </div>
         )}
-      </Section>
+      </DetailSection>
     </div>
   );
 };

@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Tooltip,
+  Typography,
+  useTheme,
+  alpha,
+} from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
 interface FieldRowProps {
@@ -8,6 +15,7 @@ interface FieldRowProps {
   removeDisabled?: boolean;
   removeTooltip?: string;
   children: React.ReactNode;
+  color?: string;
 }
 
 export const FieldRow: React.FC<FieldRowProps> = ({
@@ -16,23 +24,79 @@ export const FieldRow: React.FC<FieldRowProps> = ({
   removeDisabled,
   removeTooltip,
   children,
-}) => (
-  <Box className="flex items-start gap-3 p-3 py-5 rounded-xl bg-gray-50 border border-gray-100 group transition-all hover:border-indigo-200 hover:bg-indigo-50/30">
-    <Box className="flex items-center justify-center min-w-[24px] h-6 mt-2">
-      <Typography
-        variant="caption"
-        className="!font-mono !font-bold text-gray-400"
+  color,
+}) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+  const mainColor = color || theme.palette.primary.main;
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 2,
+        p: 2,
+        py: 2.5,
+        borderRadius: "12px",
+        border: `1px solid ${alpha(mainColor, isDark ? 0.12 : 0.1)}`,
+        bgcolor: isDark ? alpha("#0d1629", 0.4) : alpha(mainColor, 0.03),
+        transition: "all 0.2s",
+        "&:hover": {
+          borderColor: alpha(mainColor, isDark ? 0.25 : 0.2),
+          bgcolor: alpha(mainColor, isDark ? 0.08 : 0.06),
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minWidth: 24,
+          height: 24,
+          mt: 0.5,
+        }}
       >
-        {String(index + 1).padStart(2, "0")}
-      </Typography>
+        <Typography
+          variant="caption"
+          sx={{
+            fontFamily: "monospace",
+            fontWeight: 700,
+            color: alpha(theme.palette.text.primary, isDark ? 0.5 : 0.4),
+          }}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        {children}
+      </Box>
+
+      <Tooltip title={removeTooltip ?? "Remove"}>
+        <span>
+          <IconButton
+            onClick={onRemove}
+            disabled={removeDisabled}
+            sx={{
+              color: theme.palette.error.main,
+              "&:hover": {
+                bgcolor: alpha(theme.palette.error.main, 0.1),
+              },
+            }}
+          >
+            <Delete />
+          </IconButton>
+        </span>
+      </Tooltip>
     </Box>
-    <Box className="flex-1 flex flex-wrap gap-3">{children}</Box>
-    <Tooltip title={removeTooltip ?? "Remove"}>
-      <span>
-        <IconButton color="error" onClick={onRemove} disabled={removeDisabled}>
-          <Delete />
-        </IconButton>
-      </span>
-    </Tooltip>
-  </Box>
-);
+  );
+};

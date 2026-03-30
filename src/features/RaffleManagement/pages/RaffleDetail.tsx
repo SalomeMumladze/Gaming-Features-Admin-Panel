@@ -9,8 +9,8 @@ import {
   ConfirmationNumber as TicketIcon,
   DateRange as DateRangeIcon,
 } from "@mui/icons-material";
-import { Section } from "@/shared/components/Section";
-import { Field } from "@/shared/components/Field";
+import { DetailSection } from "@/shared/components/DetailSection";
+import { DetailField } from "@/shared/components/DetailField";
 import { DateFormatter, StatusFormatter } from "@/shared/formatters";
 
 const ACCENTS = {
@@ -54,7 +54,7 @@ export const RaffleDetail: React.FC = () => {
       </div>
 
       {data.description && (
-        <Section
+        <DetailSection
           icon={<DescIcon fontSize="small" />}
           title="Description"
           accent={ACCENTS.blue}
@@ -62,29 +62,29 @@ export const RaffleDetail: React.FC = () => {
           <p className="text-sm text-gray-600 dark:text-gray-300">
             {data.description}
           </p>
-        </Section>
+        </DetailSection>
       )}
 
-      <Section
+      <DetailSection
         icon={<DateRangeIcon fontSize="small" />}
         title="Schedule"
         accent={ACCENTS.violet}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <Field
+         <DetailField
             label="Start Date"
             value={<DateFormatter value={data.startDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
-          <Field
+         <DetailField
             label="End Date"
             value={<DateFormatter value={data.endDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
           {data.drawDate && (
-            <Field
+           <DetailField
               label="Draw Date"
               value={<DateFormatter value={data.drawDate} />}
               icon={<CalIcon />}
@@ -92,36 +92,36 @@ export const RaffleDetail: React.FC = () => {
             />
           )}
         </div>
-      </Section>
-      <Section
+      </DetailSection>
+      <DetailSection
         icon={<TicketIcon fontSize="small" />}
         title="Tickets Info"
         accent={ACCENTS.blue}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <Field
+         <DetailField
             label="Max Tickets per User"
             value={data.maxTicketsPerUser ?? "N/A"}
             icon={<TicketIcon />}
             accent={isDark ? ACCENTS.blue.dark : ACCENTS.blue.light}
           />
-          <Field
+         <DetailField
             label="Ticket Price"
             value={data.ticketPrice != null ? `$${data.ticketPrice}` : "N/A"}
             icon={<TicketIcon />}
             accent={isDark ? ACCENTS.blue.dark : ACCENTS.blue.light}
           />
-          <Field
+         <DetailField
             label="Total Ticket Limit"
             value={data.totalTicketLimit ?? "N/A"}
             icon={<TicketIcon />}
             accent={isDark ? ACCENTS.blue.dark : ACCENTS.blue.light}
           />
         </div>
-      </Section>
+      </DetailSection>
 
       {data.prizes && data.prizes.length > 0 && (
-        <Section
+        <DetailSection
           icon={<TrophyIcon fontSize="small" />}
           title="Prizes"
           accent={ACCENTS.amber}
@@ -156,7 +156,7 @@ export const RaffleDetail: React.FC = () => {
               </div>
             ))}
           </div>
-        </Section>
+        </DetailSection>
       )}
     </div>
   );

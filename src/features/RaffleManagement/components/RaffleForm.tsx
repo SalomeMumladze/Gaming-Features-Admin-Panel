@@ -97,6 +97,29 @@ export const RaffleForm: React.FC<Props> = ({
         <div className="flex flex-col sm:flex-row gap-4">
           <Controller
             control={form.control}
+            name="startDate"
+            render={({ field }) => {
+              const startDate = form.watch("startDate");
+              return (
+                <DatePicker
+                  label="Start Date"
+                  format="DD MMM, YYYY"
+                  value={field.value ? dayjs(field.value) : null}
+                  minDate={startDate ? dayjs(startDate) : undefined}
+                  onChange={(date) => field.onChange(date?.toISOString() || "")}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      error: !!form.formState.errors.startDate,
+                      helperText: form.formState.errors.startDate?.message,
+                    },
+                  }}
+                />
+              );
+            }}
+          />
+          <Controller
+            control={form.control}
             name="endDate"
             render={({ field }) => {
               const startDate = form.watch("startDate");

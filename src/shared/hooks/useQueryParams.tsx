@@ -1,9 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -12,10 +7,7 @@ type UrlParams = Record<string, string>;
 interface UrlContextType {
   searchParams: UrlParams;
   setUrlParams: (newParams: UrlParams, withHistory?: boolean) => void;
-  setUrlParam: (param: string, value: string, withHistory?: boolean) => void;
   removeParams: (params: string[], withHistory?: boolean) => void;
-  removeParam: (param: string, withHistory?: boolean) => void;
-  clearParams: (withHistory?: boolean) => void;
 }
 
 const UrlContext = createContext<UrlContextType | undefined>(undefined);
@@ -46,23 +38,10 @@ export const UrlContextProvider: React.FC<UrlContextProviderProps> = ({
     navigate(`${location.pathname}?${params.toString()}`, { replace });
   };
 
-  const setUrlParam = (param: string, value: string, replace = false) => {
-    setUrlParams({ [param]: value }, replace);
-  };
-
   const removeParams = (paramsToRemove: string[], replace = false) => {
     const params = new URLSearchParams(location.search);
     paramsToRemove.forEach((param) => params.delete(param));
     navigate(`${location.pathname}?${params.toString()}`, { replace });
-  };
-
-  const removeParam = (param: string, replace = false) => {
-    removeParams([param], replace);
-  };
-
-  const clearParams = (replace = false) => {
-    navigate(location.pathname, { replace });
-    setSearchParams({});
   };
 
   return (
@@ -70,10 +49,8 @@ export const UrlContextProvider: React.FC<UrlContextProviderProps> = ({
       value={{
         searchParams,
         setUrlParams,
-        setUrlParam,
+
         removeParams,
-        removeParam,
-        clearParams,
       }}
     >
       {children}

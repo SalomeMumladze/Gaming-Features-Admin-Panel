@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, useTheme, alpha } from "@mui/material";
 
-export const Field: React.FC<{
+export const DetailField: React.FC<{
   label: string;
   value?: React.ReactNode;
   icon?: React.ReactNode;

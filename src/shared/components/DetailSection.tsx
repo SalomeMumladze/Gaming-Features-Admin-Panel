@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Paper, useTheme, alpha } from "@mui/material";
 
-export const Section: React.FC<{
+export const DetailSection: React.FC<{
   icon: React.ReactNode;
   title: string;
   accent: { light: string; dark: string };
