@@ -63,7 +63,7 @@
   ],
   "wheels": [
     {
-      "name": "test",
+      "name": "testjsd",
       "segments": [
         {
           "label": "1",

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { WheelForm } from "../components/WheelForm";
-import { useWheelsManagement } from "../hooks/useWheelManagement";
+import { useCreateWheel } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Wheel } from "../hooks/useWheelManagement";
+import type { Wheel } from "../types/wheel.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
@@ -16,7 +16,7 @@ export const CreateWheelDrawer: React.FC<Props> & {
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
   const { createWheel } = searchParams;
-  const { create } = useWheelsManagement();
+  const create = useCreateWheel();
 
   const [isDirty, setIsDirty] = useState(false);
   const { confirm } = useConfirm();

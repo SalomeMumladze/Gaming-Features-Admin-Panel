@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { WheelForm } from "../components/WheelForm";
-import { useWheelsManagement } from "../hooks/useWheelManagement";
+import { useWheelById, useUpdateWheel } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Wheel } from "../hooks/useWheelManagement";
+import type { Wheel } from "../types/wheel.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
@@ -16,14 +16,15 @@ export const EditWheelDrawer: React.FC<Props> & {
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
   const { wheelId } = searchParams;
-  const { getWheel, updateWheel } = useWheelsManagement();
-  const { data: row, isLoading, isError } = getWheel(wheelId);
+
+  const { data: row, isPending, isError } = useWheelById(wheelId);
+  const updateWheel = useUpdateWheel();
 
   const [isDirty, setIsDirty] = useState(false);
   const { confirm } = useConfirm();
 
-  const handleClose = async () => {
-    if (isDirty) {
+  const handleClose = async (force = false) => {
+    if (isDirty && !force) {
       const ok = await confirm({
         title: "Unsaved Changes",
         description:
@@ -44,7 +45,8 @@ export const EditWheelDrawer: React.FC<Props> & {
       {
         onSuccess: () => {
           notify(`${data.name ?? row.name} updated successfully!`, "success");
-          handleClose();
+          setIsDirty(false);
+          handleClose(true);
         },
         onError: () => {
           notify("Failed to update wheel!", "error");
@@ -57,7 +59,7 @@ export const EditWheelDrawer: React.FC<Props> & {
     <DrawerLayout
       open={!!wheelId}
       title="Edit Wheel"
-      loading={isLoading || updateWheel.isLoading}
+      loading={isPending || updateWheel.isLoading}
       error={isError || !row}
       onClose={handleClose}
     >
@@ -65,7 +67,7 @@ export const EditWheelDrawer: React.FC<Props> & {
         <WheelForm
           initialData={row}
           onSubmit={handleSubmit}
-          isSubmitting={updateWheel.isLoading}
+          isSubmitting={updateWheel.isLoading || isPending}
           onDirtyChange={setIsDirty}
         />
       )}

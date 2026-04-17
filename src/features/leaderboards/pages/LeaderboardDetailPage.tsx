@@ -31,11 +31,12 @@ export const LeaderboardDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const safeId = id ?? "0";
 
-  const data = useLeaderboardById(safeId);
+  const { data, isLoading } = useLeaderboardById(safeId);
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  if (!data) return <div className="py-20 text-center">Loading...</div>;
+  if (!data || isLoading)
+    return <div className="py-20 text-center">Loading...</div>;
 
   return (
     <div className="flex flex-col gap-4 p-4 sm:max-w-[900px] mx-auto">

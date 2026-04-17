@@ -1,95 +1,64 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiGateway } from "@/shared/api/httpClient";
+import { wheelApi } from "../api/wheel.api";
+import type { Wheel, WheelListParams } from "../types/wheel.types";
 
-// Wheel & WheelSegment types
-export interface WheelSegment {
-  id: string;
-  label: string;
-  color: string;
-  weight: number;
-  prizeType: "coins" | "freeSpin" | "bonus" | "nothing";
-  prizeAmount: number;
-  imageUrl: string;
-}
-
-export interface Wheel {
-  id: string;
-  name: string;
-  description: string;
-  status: "draft" | "active" | "inactive";
-  segments: WheelSegment[];
-  maxSpinsPerUser: number;
-  spinCost: number;
-  backgroundColor: string;
-  borderColor: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface WheelsListResponse {
-  data: Wheel[];
-  total: number;
-}
-
-interface WheelResponse {
-  data: Wheel;
-}
-
-export const useWheelsManagement = (params?: {
-  _page?: number;
-  _per_page?: number;
-  status?: string;
-}) => {
-  const queryClient = useQueryClient();
-
-  // LIST
-  const rawWheels = useQuery<WheelsListResponse>({
+//  LIST
+export const useWheels = (params?: WheelListParams) => {
+  return useQuery({
     queryKey: ["wheels", params],
     queryFn: async () => {
-      const { data } = await apiGateway.get<WheelsListResponse>("/wheels", {
-        params,
-      });
+      const { data } = await wheelApi.getList(params);
       return data;
     },
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
   });
+};
 
-  const wheels = {
-    ...rawWheels,
-    items: rawWheels.data?.data ?? [],
-    totalRows: rawWheels.data?.items ?? 0,
-  };
+//  GET BY ID
+export const useWheelById = (id?: string) => {
+  return useQuery({
+    queryKey: ["wheels", id],
+    queryFn: async () => {
+      const { data } = await wheelApi.getById(id!);
 
-  // DELETE
-  const deleteWheel = useMutation({
-    mutationFn: (id: string) => apiGateway.delete(`/wheels/${id}`),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wheels"] }),
+      return data;
+    },
+    enabled: !!id,
   });
+};
 
-  // GET BY ID
-  const getWheel = (id: string) =>
-    useQuery<WheelResponse>({
-      queryKey: ["wheels", id],
-      queryFn: async () => {
-        const { data } = await apiGateway.get<WheelResponse>(`/wheels/${id}`);
-        return data;
-      },
-      enabled: !!id,
-    });
+//  CREATE
+export const useCreateWheel = () => {
+  const queryClient = useQueryClient();
 
-  // CREATE
-  const create = useMutation({
-    mutationFn: (payload: Omit<Wheel, "id" | "createdAt" | "updatedAt">) =>
-      apiGateway.post<WheelResponse>("/wheels", payload),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wheels"] }),
+  return useMutation({
+    mutationFn: wheelApi.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["wheels"] });
+    },
   });
+};
 
-  // UPDATE
-  const updateWheel = useMutation({
-    mutationFn: (payload: Wheel) =>
-      apiGateway.put<WheelResponse>(`/wheels/${payload.id}`, payload),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wheels"] }),
+//  UPDATE
+export const useUpdateWheel = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...payload }: Wheel) => wheelApi.update(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["wheels"] });
+    },
   });
+};
 
-  return { wheels, deleteWheel, getWheel, create, updateWheel };
+//  DELETE
+export const useDeleteWheel = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: wheelApi.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["wheels"] });
+    },
+  });
 };

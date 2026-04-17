@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useWheelsManagement } from "../hooks/useWheelManagement";
+import { useWheelById } from "../hooks/useWheelManagement";
 import { Typography, useTheme } from "@mui/material";
 import {
   Casino as WheelIcon,
@@ -22,8 +22,7 @@ const ACCENTS = {
 
 export const WheelDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { getWheel } = useWheelsManagement();
-  const { data, isLoading } = getWheel(id ?? "0");
+  const { data, isLoading } = useWheelById(id ?? "0");
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -50,7 +49,7 @@ export const WheelDetailPage: React.FC = () => {
           <Typography className="!font-extrabold !text-lg !sm:text-xl">
             {data.name || "Untitled"}
           </Typography>
-          <StatusFormatter value={data.status} />
+          <StatusFormatter status={data.status} />
         </div>
       </div>
 

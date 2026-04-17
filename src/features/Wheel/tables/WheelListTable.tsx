@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { useWheelsManagement } from "../hooks/useWheelManagement";
+import { useDeleteWheel, useWheels } from "../hooks/useWheelManagement";
 import useQueryParams from "@/shared/providers/useQueryParams";
 import { useNotification } from "@/shared/providers/useNotification";
 import { SegmentsPreview } from "../components/SegmentsPreview";
@@ -13,6 +13,7 @@ import { WHEEL_STATUSES } from "../constants";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";
 import { TableCellWithTooltip } from "@/shared/components/InfoTooltipLabel";
+import type { WheelStatus } from "../types/wheel.types";
 
 export const WheelListTable: React.FC = () => {
   const { notify } = useNotification();
@@ -22,15 +23,16 @@ export const WheelListTable: React.FC = () => {
     page: 0,
     pageSize: 10,
   });
-  const [filterStatus, setFilterStatus] = useState<string>("");
+  const [filterStatus, setFilterStatus] = useState<WheelStatus | "">("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
 
-  const { deleteWheel } = useWheelsManagement();
-  const { wheels } = useWheelsManagement({
+  const deleteWheel = useDeleteWheel();
+
+  const { data, isPending, isError } = useWheels({
     _page: paginationModel.page + 1,
     _per_page: paginationModel.pageSize,
-    status: filterStatus || undefined,
+    ...(filterStatus ? { status: filterStatus } : {}),
   });
 
   const handleBulkToggle = () => setSelectedIds([]);
@@ -52,7 +54,7 @@ export const WheelListTable: React.FC = () => {
       field: "status",
       headerName: "Status",
       width: 130,
-      renderCell: (params) => <StatusFormatter value={params.value} />,
+      renderCell: (params) => <StatusFormatter status={params.value} />,
     },
     {
       field: "maxSpinsPerUser",
@@ -152,14 +154,14 @@ export const WheelListTable: React.FC = () => {
       </Box>
 
       <ServerDataTable
-        rows={wheels.items ?? []}
+        rows={(!isPending && data.data) ?? []}
         columns={columns}
-        rowCount={wheels.totalRows}
-        loading={wheels.isLoading}
+        rowCount={!isPending && data.items}
+        loading={isPending}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}
         noRowsOverlay={
-          wheels.isError ? (
+          isError ? (
             <Box color="error.main">Failed to load data</Box>
           ) : undefined
         }

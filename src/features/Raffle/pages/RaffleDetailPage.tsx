@@ -22,11 +22,14 @@ const ACCENTS = {
 export const RaffleDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const safeId = id ?? "0";
-  const data = useRaffleById(safeId);
+
+  const { data, isLoading } = useRaffleById(safeId);
+
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  if (!data) return <div className="py-20 text-center">Loading...</div>;
+  if (!data || isLoading)
+    return <div className="py-20 text-center">Loading...</div>;
 
   const amberColor = isDark ? ACCENTS.amber.dark : ACCENTS.amber.light;
 
