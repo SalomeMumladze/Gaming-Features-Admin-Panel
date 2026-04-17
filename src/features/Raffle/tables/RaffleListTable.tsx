@@ -13,7 +13,7 @@ import {
 } from "@/shared/formatters";
 import dayjs, { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { ROUTE_PATHS } from "@/shared/constants/routes";
+import { ROUTE_PATHS } from "@/app/router/paths";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { RAFFLE_STATUSES } from "../constants";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";

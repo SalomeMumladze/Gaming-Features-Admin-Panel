@@ -1,14 +1,18 @@
-export const ROUTES = {
+export const P = {
   HOME: "/",
 
-  LEADERBOARDS: "/leaderboards",
-  LEADERBOARD_DETAILS: "/leaderboards/:id",
-
-  RAFFLES: "/raffles",
-  RAFFLE_DETAILS: "/raffles/:id",
-
-  WHEELS: "/wheels",
-  WHEEL_DETAILS: "/wheels/:id",
+  LEADERBOARDS: {
+    INDEX: "/leaderboards",
+    DETAILS: "/leaderboards/:id",
+  },
+  RAFFLES: {
+    INDEX: "/raffles",
+    DETAILS: "/raffles/:id",
+  },
+  WHEELS: {
+    INDEX: "/wheels",
+    DETAILS: "/wheels/:id",
+  },
 };
 
 export const ROUTE_PATHS = {

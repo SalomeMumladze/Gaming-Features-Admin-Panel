@@ -9,7 +9,7 @@ import { SegmentsPreview } from "../components/SegmentsPreview";
 import { TableActionsFormatter, StatusFormatter } from "@/shared/formatters";
 import { useNavigate } from "react-router-dom";
 import type { GridColDef } from "@mui/x-data-grid";
-import { ROUTE_PATHS } from "@/shared/constants/routes";
+import { ROUTE_PATHS } from "@/app/router/paths";
 import { WHEEL_STATUSES } from "../constants";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";

@@ -7,11 +7,8 @@ import {
 import {
   RaffleEditDrawer,
   CreateRaffleDrawer,
-} from "@/features/RaffleManagement/drawers";
-import {
-  CreateWheelDrawer,
-  EditWheelDrawer,
-} from "@/features/WheelManagement/drawers";
+} from "@/features/Raffle/drawers";
+import { CreateWheelDrawer, EditWheelDrawer } from "@/features/Wheel/drawers";
 
 interface DrawerProps {
   searchParams: Record<string, string>;

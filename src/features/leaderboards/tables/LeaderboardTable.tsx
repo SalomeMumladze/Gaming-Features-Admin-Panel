@@ -12,7 +12,7 @@ import {
 import useQueryParams from "@/shared/providers/useQueryParams";
 import { useNotification } from "@/shared/providers/useNotification";
 import { useNavigate } from "react-router-dom";
-import { ROUTE_PATHS } from "@/shared/constants/routes";
+import { ROUTE_PATHS } from "@/app/router/paths";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";
@@ -40,7 +40,7 @@ export const LeaderboardTable: React.FC = () => {
     // _order: "asc",  // "asc" or "desc"
   });
 
-  // Bulk status toggle handler does not work yet because 
+  // Bulk status toggle handler does not work yet because
   // the endpoint is not implemented on the backend, but the code is ready for when it will be implemented.
   // It sends an array of selected IDs and the new status to set, and then shows a notification based on the result.
   const handleBulkToggle = (status: "draft" | "active") => {

@@ -20,7 +20,7 @@ const ACCENTS = {
   amber: { light: "#d97706", dark: "#f59e0b" },
 };
 
-export const WheelDetail: React.FC = () => {
+export const WheelDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getWheel } = useWheelsManagement();
   const { data, isLoading } = getWheel(id ?? "0");
@@ -77,13 +77,13 @@ export const WheelDetail: React.FC = () => {
         accent={ACCENTS.blue}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-         <DetailField
+          <DetailField
             label="Spin Cost"
             value={`${data.spinCost} Credits`}
             icon={<CreditIcon />}
             accent={blue}
           />
-         <DetailField
+          <DetailField
             label="Max Spins / User"
             value={data.maxSpinsPerUser}
             icon={<UserIcon />}
@@ -135,7 +135,7 @@ export const WheelDetail: React.FC = () => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
             {data.prizes.map((prize: any, i: number) => (
-             <DetailField
+              <DetailField
                 key={i}
                 label={prize.name}
                 value={prize.prizeAmount}

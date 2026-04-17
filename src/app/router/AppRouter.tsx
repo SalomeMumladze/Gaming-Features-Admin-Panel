@@ -1,53 +1,30 @@
 import React from "react";
 import {
   createBrowserRouter,
-  RouterProvider,
   Navigate,
+  RouterProvider,
 } from "react-router-dom";
-import type { RouteObject } from "react-router-dom";
-import { Layout } from "@/shared/ui/Layout";
-import { ROUTES } from "@/shared/constants/routes";
-import { LeaderboardPage } from "@/features/leaderboards/pages/LeaderboardPage";
-import { LeaderboardDetail } from "@/features/leaderboards/pages/LeaderboardDetail";
-import { RafflePage } from "@/features/RaffleManagement/pages/RafflePage";
-import { RaffleDetail } from "@/features/RaffleManagement/pages/RaffleDetail";
-import { WheelManagementPage } from "@/features/WheelManagement/pages/WheelManagementPage";
-import { WheelDetail } from "@/features/WheelManagement/pages/WheelDetail";
-import { NotFound } from "@/pages/NotFound";
 
-const routes: RouteObject[] = [
+import { Layout } from "@/shared/ui/Layout";
+import { NotFound } from "@/pages/NotFound";
+import { leaderboardRoutes } from "@/features/leaderboards/leaderboardRoutes";
+import { raffleRoutes } from "@/features/Raffle/raffleRoutes";
+import { WheelRoutes } from "@/features/Wheel/wheelRoutes";
+
+const routes = [
   {
-    path: ROUTES.HOME,
+    path: "/",
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <Navigate to={ROUTES.LEADERBOARDS} replace />,
+        element: <Navigate to="/leaderboards" replace />,
       },
-      {
-        path: ROUTES.LEADERBOARDS,
-        element: <LeaderboardPage />,
-      },
-      {
-        path: ROUTES.LEADERBOARD_DETAILS,
-        element: <LeaderboardDetail />,
-      },
-      {
-        path: ROUTES.RAFFLES,
-        element: <RafflePage />,
-      },
-      {
-        path: ROUTES.RAFFLE_DETAILS,
-        element: <RaffleDetail />,
-      },
-      {
-        path: ROUTES.WHEELS,
-        element: <WheelManagementPage />,
-      },
-      {
-        path: ROUTES.WHEEL_DETAILS,
-        element: <WheelDetail />,
-      },
+
+      // feature routes (clean composition)
+      ...leaderboardRoutes,
+      ...raffleRoutes,
+      ...WheelRoutes,
 
       {
         path: "*",
@@ -57,7 +34,8 @@ const routes: RouteObject[] = [
   },
 ];
 
-export const AppRouter: React.FC = () => {
-  const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes);
+
+export const AppRouter = () => {
   return <RouterProvider router={router} />;
 };

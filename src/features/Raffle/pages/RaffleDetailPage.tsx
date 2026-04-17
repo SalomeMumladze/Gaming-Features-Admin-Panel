@@ -19,7 +19,7 @@ const ACCENTS = {
   amber: { light: "#d97706", dark: "#f59e0b" },
 };
 
-export const RaffleDetail: React.FC = () => {
+export const RaffleDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getRaffle } = useRaffleManagement();
   const safeId = id ?? "0";

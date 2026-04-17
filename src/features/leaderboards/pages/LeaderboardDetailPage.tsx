@@ -31,7 +31,7 @@ const ACCENTS = {
   amber: { light: "#d97706", dark: "#f59e0b" },
 };
 
-export const LeaderboardDetail: React.FC = () => {
+export const LeaderboardDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getById } = useLeaderboard();
   const safeId = id ?? "0";
@@ -81,19 +81,19 @@ export const LeaderboardDetail: React.FC = () => {
         accent={ACCENTS.violet}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-         <DetailField
+          <DetailField
             label="Start Date"
             value={<DateFormatter value={data.startDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
-         <DetailField
+          <DetailField
             label="End Date"
             value={<DateFormatter value={data.endDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
-         <DetailField
+          <DetailField
             label="Update Date"
             value={<DateFormatter value={data.updatedAt} />}
             icon={<CalIcon />}
@@ -108,17 +108,17 @@ export const LeaderboardDetail: React.FC = () => {
         accent={ACCENTS.emerald}
       >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-         <DetailField
+          <DetailField
             label="Status"
             value={<StatusFormatter value={data.status} />}
           />
-         <DetailField
+          <DetailField
             label="Scoring Type"
             value={<ScoringTypeFormatter value={data.scoringType} />}
             icon={<ScoringIcon />}
             accent={isDark ? ACCENTS.emerald.dark : ACCENTS.emerald.light}
           />
-         <DetailField
+          <DetailField
             label="Max Participants"
             value={data.maxParticipants?.toLocaleString() ?? "—"}
             icon={<PeopleIcon />}
