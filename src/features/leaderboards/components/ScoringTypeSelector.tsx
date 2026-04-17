@@ -9,7 +9,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { ScoringTypeFormatter } from "@/shared/formatters";
+import { ScoringTypeFormatter } from "./ScoringTypeFormatter";
 
 export type ScoringTypes = "points" | "wins" | "wagered";
 

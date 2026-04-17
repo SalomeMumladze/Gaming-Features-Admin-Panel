@@ -1,97 +1,64 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiGateway } from "@/shared/api/httpClient";
+import { raffleApi } from "../api/raffle.api";
+import type { Raffle, RaffleListParams } from "../types/raffle.types";
 
-export interface RafflePrize {
-  id: string;
-  name: string;
-  type: "coins" | "freeSpin" | "bonus";
-  amount: number;
-  quantity: number;
-  imageUrl: string;
-}
-
-export interface Raffle {
-  id: string;
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  drawDate: string;
-  status: "draft" | "active" | "drawn" | "cancelled";
-  ticketPrice: number;
-  maxTicketsPerUser: number;
-  prizes: RafflePrize[];
-  totalTicketLimit: number | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface RafflesListResponse {
-  data: Raffle[];
-  total: number;
-}
-
-interface RaffleResponse {
-  data: Raffle;
-}
-
-export const useRaffleManagement = (params?: {
-  _page?: number;
-  _per_page?: number;
-  status?: string;
-  startDate_gte?: string;
-  endDate_lte?: string;
-}) => {
-  const queryClient = useQueryClient();
-
-  // LIST
-  const rawRaffles = useQuery<RafflesListResponse>({
+//  LIST
+export const useRaffles = (params?: RaffleListParams) => {
+  return useQuery({
     queryKey: ["raffles", params],
     queryFn: async () => {
-      const { data } = await apiGateway.get<RafflesListResponse>("/raffles", {
-        params,
-      });
+      const { data } = await raffleApi.getList(params);
       return data;
     },
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
   });
+};
 
-  const raffles = {
-    ...rawRaffles,
-    items: rawRaffles.data?.data ?? [],
-    totalRows: rawRaffles.data?.items ?? 0,
-  };
+//  GET BY ID
+export const useRaffleById = (id?: string) => {
+  return useQuery({
+    queryKey: ["raffles", id],
+    queryFn: async () => {
+      const { data } = await raffleApi.getById(id!);
 
-  // CREATE
-  const create = useMutation({
-    mutationFn: (payload: Omit<Raffle, "id" | "createdAt" | "updatedAt">) =>
-      apiGateway.post<RaffleResponse>("/raffles", payload),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
+      return data;
+    },
+    enabled: !!id,
   });
+};
 
-  // DELETE
-  const deleteRaffle = useMutation({
-    mutationFn: (id: string) => apiGateway.delete(`/raffles/${id}`),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
+//  CREATE
+export const useCreateRaffle = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: raffleApi.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["raffles"] });
+    },
   });
+};
 
-  // UPDATE
-  const updateRaffle = useMutation({
-    mutationFn: (payload: Raffle) =>
-      apiGateway.put<RaffleResponse>(`/raffles/${payload.id}`, payload),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["raffles"] }),
+//  UPDATE
+export const useUpdateRaffle = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...payload }: Raffle) => raffleApi.update(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["raffles"] });
+    },
   });
+};
 
-  // GET BY ID
-  const getRaffle = (id: string) =>
-    useQuery<RaffleResponse>({
-      queryKey: ["raffles", id],
-      queryFn: async () => {
-        const { data } = await apiGateway.get<RaffleResponse>(`/raffles/${id}`);
-        return data;
-      },
-      enabled: !!id,
-    });
+//  DELETE
+export const useDeleteRaffle = () => {
+  const queryClient = useQueryClient();
 
-  return { raffles, create, deleteRaffle, updateRaffle, getRaffle };
+  return useMutation({
+    mutationFn: raffleApi.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["raffles"] });
+    },
+  });
 };

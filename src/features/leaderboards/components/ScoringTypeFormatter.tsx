@@ -1,17 +1,16 @@
 import React from "react";
 import { Chip } from "@mui/material";
-
-type ScoringType = "points" | "wins" | "wagered";
+import type { LeaderboardScoringType } from "@/features/leaderboards/types/leaderboard.types";
 
 type Props = {
-  value?: ScoringType;
+  value?: LeaderboardScoringType;
 };
 
 export const ScoringTypeFormatter: React.FC<Props> = ({ value }) => {
   if (!value) return null;
 
   const map: Record<
-    ScoringType,
+    LeaderboardScoringType,
     { label: string; color: "default" | "primary" | "success" | "warning" }
   > = {
     points: { label: "Points", color: "primary" },

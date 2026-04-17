@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useLeaderboard } from "../hooks/useLeaderboard";
+import { useLeaderboardById } from "../hooks/useLeaderboard";
 import { alpha, useTheme, Avatar, Typography } from "@mui/material";
 import {
   EmojiEvents as TrophyIcon,
@@ -13,16 +13,12 @@ import {
 } from "@mui/icons-material";
 import { DetailSection } from "@/shared/components/DetailSection";
 import { DetailField } from "@/shared/components/DetailField";
-import {
-  RankBadge,
-  DateFormatter,
-  ScoringTypeFormatter,
-  StatusFormatter,
-} from "@/shared/formatters";
+import { RankBadge, DateFormatter, StatusFormatter } from "@/shared/formatters";
 import {
   RANK_COLORS,
   TYPE_CONFIG,
 } from "@/features/leaderboards/components/Config";
+import { ScoringTypeFormatter } from "../components/ScoringTypeFormatter";
 
 const ACCENTS = {
   blue: { light: "#3b6ef0", dark: "#4f8eff" },
@@ -33,9 +29,9 @@ const ACCENTS = {
 
 export const LeaderboardDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { getById } = useLeaderboard();
   const safeId = id ?? "0";
-  const { data } = getById(safeId);
+
+  const data = useLeaderboardById(safeId);
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -58,7 +54,7 @@ export const LeaderboardDetailPage: React.FC = () => {
             <Typography className="!font-extrabold !text-lg !sm:text-xl">
               {data.title || "Untitled Leaderboard"}
             </Typography>
-            <StatusFormatter value={data.status} />
+            <StatusFormatter status={data.status} />
           </div>
         </div>
       </div>
@@ -110,7 +106,7 @@ export const LeaderboardDetailPage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <DetailField
             label="Status"
-            value={<StatusFormatter value={data.status} />}
+            value={<StatusFormatter status={data.status} />}
           />
           <DetailField
             label="Scoring Type"

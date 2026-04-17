@@ -7,7 +7,7 @@ import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
 import { LeaderBoardPrizeForm } from "./LeaderBoardPrizeForm";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import type { Leaderboard } from "../hooks/useLeaderboard";
+import type { Leaderboard } from "../types/leaderboard.types";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
 import { ScoringTypeSelector } from "./ScoringTypeSelector";
@@ -39,8 +39,8 @@ export const LeaderboardForm: React.FC<Props> = ({
       description: "",
       startDate: "",
       endDate: "",
-      status: null,
-      scoringType: null,
+      status: undefined,
+      scoringType: undefined,
       maxParticipants: 2,
       prizes: [
         {

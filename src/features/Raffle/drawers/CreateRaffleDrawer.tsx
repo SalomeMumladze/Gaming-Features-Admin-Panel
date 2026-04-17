@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { RaffleForm } from "../components/RaffleForm";
-import { useRaffleManagement } from "../hooks/useRaffleManagement";
+import { useCreateRaffle } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Raffle } from "../hooks/useRaffleManagement";
+import type { Raffle } from "../types/raffle.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
@@ -17,7 +17,7 @@ export const CreateRaffleDrawer: React.FC<Props> & {
   const { notify } = useNotification();
   const [loading, setLoading] = useState(false);
   const { createRaffle } = searchParams;
-  const { create } = useRaffleManagement();
+  const create = useCreateRaffle();
 
   const [isDirty, setIsDirty] = useState(false);
   const { confirm } = useConfirm();

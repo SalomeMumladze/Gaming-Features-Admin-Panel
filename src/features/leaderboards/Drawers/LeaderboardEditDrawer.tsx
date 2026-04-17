@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import { LeaderboardForm } from "../components/LeaderboardForm";
-import { useLeaderboard } from "../hooks/useLeaderboard";
+import {
+  useLeaderboardById,
+  useUpdateLeaderboard,
+} from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Leaderboard } from "../hooks/useLeaderboard";
+import type { LeaderboardFormData } from "../types/leaderboard.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
+interface EditLeaderboardSearchParams {
+  leaderboardId?: string;
+}
+
 interface Props {
-  searchParams: Record<string, string>;
+  searchParams: EditLeaderboardSearchParams;
   afterOpenChange?: (open: boolean) => void;
 }
 
@@ -16,14 +23,16 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
   const { leaderboardId } = searchParams;
-  const { getById, update } = useLeaderboard();
-  const { data: row, isLoading, isError } = getById(leaderboardId);
+
+  const { data: row, isPending, isError } = useLeaderboardById(leaderboardId);
+
+  const update = useUpdateLeaderboard();
 
   const [isDirty, setIsDirty] = useState(false);
   const { confirm } = useConfirm();
 
-  const handleClose = async () => {
-    if (isDirty) {
+  const handleClose = async (force = false) => {
+    if (isDirty && !force) {
       const ok = await confirm({
         title: "Unsaved Changes",
         description:
@@ -36,18 +45,22 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleUpdate = (data: Leaderboard) => {
-    if (!row) return;
+  const handleUpdate = (data: LeaderboardFormData) => {
+    if (!leaderboardId) return;
+
     update.mutate(
-      { ...row, ...data },
+      { id: leaderboardId, ...data },
       {
         onSuccess: () => {
-          notify(`${data.title ?? row.title} updated successfully!`, "success");
+          notify(`${data.title} updated successfully!`, "success");
           setIsDirty(false);
-          handleClose();
+          handleClose(true);
         },
-        onError: () => {
-          notify("Failed to update leaderboard!", "error");
+        onError: (error: any) => {
+          notify(
+            error?.response?.data?.message || "Failed to update leaderboard!",
+            "error",
+          );
         },
       },
     );
@@ -55,17 +68,17 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
 
   return (
     <DrawerLayout
-      open={!!leaderboardId}
+      open={leaderboardId === "true" ? false : !!leaderboardId}
       title="Edit Leaderboard"
-      loading={isLoading || update.isLoading}
-      error={isError || !row}
+      loading={isPending || update.isPending}
+      error={isError || (!isPending && !row)}
       onClose={handleClose}
     >
       {row && (
         <LeaderboardForm
           initialData={row}
           onSubmit={handleUpdate}
-          isSubmitting={update.isLoading}
+          isSubmitting={update.isPending}
           onDirtyChange={setIsDirty}
         />
       )}

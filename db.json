@@ -1,13 +1,13 @@
 {
   "leaderboards": [
     {
-      "title": "test",
-      "description": "",
+      "title": "qw12uy7",
+      "description": "jhbsdjbhs",
       "startDate": "2026-03-06T20:00:00.000Z",
       "endDate": "2026-03-07T20:00:00.000Z",
       "status": "draft",
       "scoringType": "points",
-      "maxParticipants": 2,
+      "maxParticipants": 123132,
       "prizes": [
         {
           "rank": 1,
@@ -39,7 +39,7 @@
   ],
   "raffles": [
     {
-      "name": "test",
+      "name": "testi",
       "description": "",
       "startDate": "2026-03-10T20:00:00.000Z",
       "endDate": "2026-03-12T20:00:00.000Z",

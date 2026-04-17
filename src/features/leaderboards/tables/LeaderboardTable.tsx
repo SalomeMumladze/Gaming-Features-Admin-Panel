@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import type { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { Tooltip, Button, Box } from "@mui/material";
-import { useLeaderboard } from "../hooks/useLeaderboard";
-import { Help, Add } from "@mui/icons-material";
+import type { GridColDef } from "@mui/x-data-grid";
+import { Button, Box } from "@mui/material";
+import { useDeleteLeaderboard, useLeaderboards } from "../hooks/useLeaderboard";
+import { Add } from "@mui/icons-material";
 import {
   DateFormatter,
   StatusFormatter,
-  ScoringTypeFormatter,
   TableActionsFormatter,
 } from "@/shared/formatters";
 import useQueryParams from "@/shared/providers/useQueryParams";
@@ -16,6 +15,9 @@ import { ROUTE_PATHS } from "@/app/router/paths";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";
+import type { LeaderboardStatus } from "../types/leaderboard.types";
+import { TableCellWithTooltip } from "@/shared/components/InfoTooltipLabel";
+import { ScoringTypeFormatter } from "../components/ScoringTypeFormatter";
 
 export const LeaderboardTable: React.FC = () => {
   const { notify } = useNotification();
@@ -26,40 +28,14 @@ export const LeaderboardTable: React.FC = () => {
     pageSize: 10,
   });
 
-  const [filterStatus, setFilterStatus] = useState<string>("");
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [filterStatus, setFilterStatus] = useState<LeaderboardStatus | "">("");
   const { setUrlParams } = useQueryParams();
-  const { deleteLeaderboard } = useLeaderboard();
-  const { bulkUpdateStatuses } = useLeaderboard();
-  const { list } = useLeaderboard({
+  const deleteLeaderboard = useDeleteLeaderboard();
+  const { data, isPending, isError } = useLeaderboards({
     _page: paginationModel.page + 1,
     _per_page: paginationModel.pageSize,
-    status: filterStatus || undefined,
-    // Optional: Sorting can also be done by sending these params to the backend
-    // _sort: "title", // field to sort by
-    // _order: "asc",  // "asc" or "desc"
+    ...(filterStatus ? { status: filterStatus } : {}),
   });
-
-  // Bulk status toggle handler does not work yet because
-  // the endpoint is not implemented on the backend, but the code is ready for when it will be implemented.
-  // It sends an array of selected IDs and the new status to set, and then shows a notification based on the result.
-  const handleBulkToggle = (status: "draft" | "active") => {
-    if (selectedIds.length === 0) return;
-
-    bulkUpdateStatuses.mutate(
-      { ids: selectedIds, status },
-      {
-        onSuccess: () => {
-          notify(
-            `Updated ${selectedIds.length} leaderboards to ${status}`,
-            "success",
-          );
-          setSelectedIds([]);
-        },
-        onError: () => notify("Failed to update statuses!", "error"),
-      },
-    );
-  };
 
   const columns: GridColDef[] = [
     {
@@ -67,26 +43,18 @@ export const LeaderboardTable: React.FC = () => {
       headerName: "Title",
       flex: 1,
       minWidth: 200,
-      renderCell: (params: GridRenderCellParams<string>) => (
-        <div className="flex items-center gap-2">
-          <span>{params.value}</span>
-          {params.row.description && (
-            <Tooltip
-              disableInteractive
-              title={params.row.description ?? ""}
-              className="cursor-pointer"
-            >
-              <Help fontSize="small" color="info" />
-            </Tooltip>
-          )}
-        </div>
+      renderCell: (params) => (
+        <TableCellWithTooltip
+          value={params.value}
+          description={params.row.description}
+        />
       ),
     },
     {
       field: "status",
       headerName: "Status",
       minWidth: 120,
-      renderCell: (params) => <StatusFormatter value={params.value} />,
+      renderCell: (params) => <StatusFormatter status={params.value} />,
     },
     {
       field: "scoringType",
@@ -171,41 +139,19 @@ export const LeaderboardTable: React.FC = () => {
           statuses={LEADERBOARD_STATUSES}
           onChange={(value) => setFilterStatus(value)}
         />
-
-        {selectedIds.length > 0 && (
-          <Box display="flex" gap={1}>
-            <Button
-              className="!capitalize w-fit h-14"
-              variant="outlined"
-              color="success"
-              onClick={() => handleBulkToggle("active")}
-            >
-              Set Active
-            </Button>
-            <Button
-              className="!capitalize w-fit h-14"
-              variant="outlined"
-              color="warning"
-              onClick={() => handleBulkToggle("draft")}
-            >
-              Set Draft
-            </Button>
-          </Box>
-        )}
       </Box>
 
       <ServerDataTable
-        rows={list.items ?? []}
+        rows={(!isPending && data.data) ?? []}
         columns={columns}
-        rowCount={list.totalRows}
-        loading={list.isLoading}
+        rowCount={!isPending && data.items}
+        loading={isPending}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}
         getRowId={(row) => row.id}
         checkboxSelection
-        onSelectionModelChange={(ids) => setSelectedIds(ids as string[])}
         noRowsOverlay={
-          list.isError ? (
+          isError ? (
             <Box color="error.main">Failed to load data</Box>
           ) : undefined
         }

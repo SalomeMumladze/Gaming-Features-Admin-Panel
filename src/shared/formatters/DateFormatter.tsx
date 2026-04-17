@@ -13,7 +13,7 @@ export const DateFormatter: React.FC<Props> = ({
   value,
   format = "MMM D, YYYY",
   timeFormat = "HH:mm:ss",
-  showTime = true,
+  showTime = false,
 }) => {
   if (!value) return null;
 

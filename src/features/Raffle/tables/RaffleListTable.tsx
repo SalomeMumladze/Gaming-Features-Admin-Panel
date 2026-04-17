@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import type { GridRenderCellParams } from "@mui/x-data-grid";
-import { Box, Button, Tooltip } from "@mui/material";
-import { Add, Help } from "@mui/icons-material";
-import { useRaffleManagement } from "../hooks/useRaffleManagement";
+import { Box, Button } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { useRaffles, useDeleteRaffle } from "../hooks/useRaffleManagement";
 import useQueryParams from "@/shared/providers/useQueryParams";
 import { useNotification } from "@/shared/providers/useNotification";
+import type { GridColDef } from "@mui/x-data-grid";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import {
   DateFormatter,
@@ -17,6 +17,8 @@ import { ROUTE_PATHS } from "@/app/router/paths";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { RAFFLE_STATUSES } from "../constants";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";
+import { TableCellWithTooltip } from "@/shared/components/InfoTooltipLabel";
+import type { RaffleStatus } from "../types/raffle.types";
 
 export const RaffleListTable: React.FC = () => {
   const { notify } = useNotification();
@@ -26,49 +28,41 @@ export const RaffleListTable: React.FC = () => {
     page: 0,
     pageSize: 10,
   });
-  const [filterStatus, setFilterStatus] = useState<string>("");
+  const [filterStatus, setFilterStatus] = useState<RaffleStatus | "">("");
   const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
   const [filterEndDate, setFilterEndDate] = useState<Dayjs | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
 
-  const { deleteRaffle } = useRaffleManagement();
-  const { raffles } = useRaffleManagement({
+  const deleteRaffle = useDeleteRaffle();
+  const { data, isPending, isError } = useRaffles({
     _page: paginationModel.page + 1,
     _per_page: paginationModel.pageSize,
-    status: filterStatus || undefined,
-    startDate_gte: filterStartDate || undefined,
-    endDate_lte: filterEndDate || undefined,
+    ...(filterStatus ? { status: filterStatus } : {}),
+    ...(filterStartDate ? { startDate_gte: filterStartDate } : {}),
+    ...(filterEndDate ? { endDate_lte: filterEndDate } : {}),
   });
 
   const handleBulkToggle = () => setSelectedIds([]);
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: "name",
       headerName: "Name",
       flex: 1,
       minWidth: 200,
-      renderCell: (params: GridRenderCellParams<string>) => (
-        <div className="flex items-center gap-2">
-          <span>{params.value}</span>
-          {params.row.description && (
-            <Tooltip
-              disableInteractive
-              title={params.row.description ?? ""}
-              className="cursor-pointer"
-            >
-              <Help fontSize="small" color="info" />
-            </Tooltip>
-          )}
-        </div>
+      renderCell: (params) => (
+        <TableCellWithTooltip
+          value={params.value}
+          description={params.row.description}
+        />
       ),
     },
     {
       field: "status",
       headerName: "Status",
       minWidth: 120,
-      renderCell: (params) => <StatusFormatter value={params.value} />,
+      renderCell: (params) => <StatusFormatter status={params.value} />,
     },
     {
       field: "ticketPrice",
@@ -204,14 +198,14 @@ export const RaffleListTable: React.FC = () => {
       </Box>
 
       <ServerDataTable
-        rows={raffles.items ?? []}
+        rows={(!isPending && data.data) ?? []}
         columns={columns}
-        rowCount={raffles.totalRows}
-        loading={raffles.isLoading}
+        rowCount={!isPending && data.items}
+        loading={isPending}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}
         noRowsOverlay={
-          raffles.isError ? (
+          isError ? (
             <Box color="error.main">Failed to load data</Box>
           ) : undefined
         }

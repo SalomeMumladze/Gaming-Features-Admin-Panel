@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { LeaderboardForm } from "../components/LeaderboardForm";
-import { useLeaderboard } from "../hooks/useLeaderboard";
+import { useCreateLeaderboard } from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Leaderboard } from "../hooks/useLeaderboard";
+import type { LeaderboardFormData } from "../types/leaderboard.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
@@ -16,7 +16,8 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
   const { createLeaderboard } = searchParams;
-  const { create } = useLeaderboard();
+
+  const create = useCreateLeaderboard();
 
   const [isDirty, setIsDirty] = useState(false);
   const { confirm } = useConfirm();
@@ -35,7 +36,7 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleSubmit = (data: Leaderboard) => {
+  const handleSubmit = (data: LeaderboardFormData) => {
     create.mutate(data, {
       onSuccess: () => {
         notify(`${data.title} created successfully!`, "success");
@@ -49,21 +50,19 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
   };
 
   return (
-    <>
-      <DrawerLayout
-        open={!!createLeaderboard}
-        title="Create Leaderboard"
-        loading={create.isLoading}
-        error={create.isError}
-        onClose={handleClose}
-      >
-        <LeaderboardForm
-          onSubmit={handleSubmit}
-          isSubmitting={create.isLoading}
-          onDirtyChange={setIsDirty}
-        />
-      </DrawerLayout>
-    </>
+    <DrawerLayout
+      open={!!createLeaderboard}
+      title="Create Leaderboard"
+      loading={create.isPending}
+      error={create.isError}
+      onClose={handleClose}
+    >
+      <LeaderboardForm
+        onSubmit={handleSubmit}
+        isSubmitting={create.isPending}
+        onDirtyChange={setIsDirty}
+      />
+    </DrawerLayout>
   );
 };
 

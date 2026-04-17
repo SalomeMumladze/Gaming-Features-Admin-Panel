@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useRaffleManagement } from "../hooks/useRaffleManagement";
+import { useRaffleById } from "../hooks/useRaffleManagement";
 import { alpha, Typography, useTheme } from "@mui/material";
 import {
   EmojiEvents as TrophyIcon,
@@ -21,9 +21,8 @@ const ACCENTS = {
 
 export const RaffleDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { getRaffle } = useRaffleManagement();
   const safeId = id ?? "0";
-  const { data } = getRaffle(safeId);
+  const data = useRaffleById(safeId);
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -48,7 +47,7 @@ export const RaffleDetailPage: React.FC = () => {
             <Typography className="!font-extrabold !text-lg !sm:text-xl">
               {data.name || "Untitled"}
             </Typography>
-            <StatusFormatter value={data.status} />
+            <StatusFormatter status={data.status} />
           </div>
         </div>
       </div>
@@ -71,20 +70,20 @@ export const RaffleDetailPage: React.FC = () => {
         accent={ACCENTS.violet}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-         <DetailField
+          <DetailField
             label="Start Date"
             value={<DateFormatter value={data.startDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
-         <DetailField
+          <DetailField
             label="End Date"
             value={<DateFormatter value={data.endDate} />}
             icon={<CalIcon />}
             accent={isDark ? ACCENTS.violet.dark : ACCENTS.violet.light}
           />
           {data.drawDate && (
-           <DetailField
+            <DetailField
               label="Draw Date"
               value={<DateFormatter value={data.drawDate} />}
               icon={<CalIcon />}
@@ -99,19 +98,19 @@ export const RaffleDetailPage: React.FC = () => {
         accent={ACCENTS.blue}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-         <DetailField
+          <DetailField
             label="Max Tickets per User"
             value={data.maxTicketsPerUser ?? "N/A"}
             icon={<TicketIcon />}
             accent={isDark ? ACCENTS.blue.dark : ACCENTS.blue.light}
           />
-         <DetailField
+          <DetailField
             label="Ticket Price"
             value={data.ticketPrice != null ? `$${data.ticketPrice}` : "N/A"}
             icon={<TicketIcon />}
             accent={isDark ? ACCENTS.blue.dark : ACCENTS.blue.light}
           />
-         <DetailField
+          <DetailField
             label="Total Ticket Limit"
             value={data.totalTicketLimit ?? "N/A"}
             icon={<TicketIcon />}

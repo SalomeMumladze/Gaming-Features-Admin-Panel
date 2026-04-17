@@ -43,7 +43,7 @@ export const StatusesSelector: React.FC<StatusesSelectorProps> = ({
         onChange={(e) => onChange(e.target.value)}
         renderValue={(selected) => {
           if (!selected) return allowNull ? "None" : "";
-          return <StatusFormatter value={selected} />;
+          return <StatusFormatter status={selected} />;
         }}
       >
         {allowNull && <MenuItem value="">None</MenuItem>}
@@ -51,7 +51,7 @@ export const StatusesSelector: React.FC<StatusesSelectorProps> = ({
         {statuses.map((status) => (
           <MenuItem key={status} value={status}>
             <Box display="flex" alignItems="center">
-              <StatusFormatter value={status} />
+              <StatusFormatter status={status} />
             </Box>
           </MenuItem>
         ))}

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-type UrlParams = Record<string, string>;
+type UrlParams = Record<string, unknown>;
 
 interface UrlContextType {
   searchParams: UrlParams;

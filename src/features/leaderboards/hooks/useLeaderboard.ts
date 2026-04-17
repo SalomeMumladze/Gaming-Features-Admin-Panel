@@ -1,123 +1,87 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiGateway } from "@/shared/api/httpClient";
 
-export interface LeaderboardPrize {
-  id: string;
-  rank: number;
-  name: string;
-  type: "coins" | "freeSpin" | "bonus";
-  amount: number;
-  imageUrl: string;
-}
+import { leaderboardApi } from "../api/leaderboard.api";
+import type {
+  Leaderboard,
+  LeaderboardListParams,
+} from "../types/leaderboard.types";
 
-export interface Leaderboard {
-  id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  status: "draft" | "active" | "completed";
-  scoringType: "points" | "wins" | "wagered";
-  prizes: LeaderboardPrize[];
-  maxParticipants: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface LeaderboardsListResponse {
-  data: Leaderboard[];
-  total: number;
-}
-
-interface LeaderboardResponse {
-  data: Leaderboard;
-}
-
-export const useLeaderboard = (params?: {
-  _page?: number;
-  _per_page?: number;
-  status?: string;
-}) => {
-  const queryClient = useQueryClient();
-
-  // LIST
-  const rawList = useQuery<LeaderboardsListResponse>({
+//  LIST
+export const useLeaderboards = (params?: LeaderboardListParams) => {
+  return useQuery({
     queryKey: ["leaderboards", params],
     queryFn: async () => {
-      const { data } = await apiGateway.get<LeaderboardsListResponse>(
-        "/leaderboards",
-        { params },
-      );
+      const { data } = await leaderboardApi.getList(params);
       return data;
     },
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
   });
+};
 
-  const list = {
-    ...rawList,
-    items: rawList.data?.data ?? [],
-    totalRows: rawList.data?.items ?? 0,
-  };
+//  GET BY ID
+export const useLeaderboardById = (id?: string) => {
+  return useQuery({
+    queryKey: ["leaderboard", id],
+    queryFn: async () => {
+      const { data } = await leaderboardApi.getById(id!);
 
-  // CREATE
-  const create = useMutation({
-    mutationFn: (
-      payload: Omit<Leaderboard, "id" | "createdAt" | "updatedAt">,
-    ) => apiGateway.post<LeaderboardResponse>("/leaderboards", payload),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] }),
+      return data;
+    },
+    enabled: !!id,
   });
+};
 
-  // UPDATE
-  const update = useMutation({
-    mutationFn: (payload: Leaderboard) =>
-      apiGateway.put<LeaderboardResponse>(
-        `/leaderboards/${payload.id}`,
-        payload,
-      ),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] }),
+//  CREATE
+export const useCreateLeaderboard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: leaderboardApi.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+    },
   });
+};
 
-  // GET BY ID
-  const getById = (id: string) =>
-    useQuery<LeaderboardResponse>({
-      queryKey: ["leaderboard", id],
-      queryFn: async () => {
-        const { data } = await apiGateway.get<LeaderboardResponse>(
-          `/leaderboards/${id}`,
-        );
-        return data;
-      },
-      enabled: !!id,
-    });
+//  UPDATE
+export const useUpdateLeaderboard = () => {
+  const queryClient = useQueryClient();
 
-  // DELETE
-  const deleteLeaderboard = useMutation({
-    mutationFn: (id: string) => apiGateway.delete(`/leaderboards/${id}`),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] }),
+  return useMutation({
+    mutationFn: ({ id, ...payload }: Leaderboard) =>
+      leaderboardApi.update(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+    },
   });
+};
 
-  // UPDATE STATUS
-  const bulkUpdateStatuses = useMutation({
+//  DELETE
+export const useDeleteLeaderboard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: leaderboardApi.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+    },
+  });
+};
+
+//  BULK STATUS UPDATE
+export const useBulkUpdateLeaderboardStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: ({
       ids,
       status,
     }: {
       ids: string[];
       status: "draft" | "active";
-    }) => apiGateway.patch("/leaderboards/status", { ids, status }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] }),
+    }) => leaderboardApi.bulkUpdateStatus(ids, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+    },
   });
-
-  return {
-    list,
-    create,
-    update,
-    getById,
-    deleteLeaderboard,
-    bulkUpdateStatuses,
-  };
 };

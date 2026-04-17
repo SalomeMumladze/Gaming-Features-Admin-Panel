@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { RaffleForm } from "../components/RaffleForm";
-import { useRaffleManagement } from "../hooks/useRaffleManagement";
+import { useRaffleById, useUpdateRaffle } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Raffle } from "../hooks/useRaffleManagement";
+import type { Raffle } from "../types/raffle.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
@@ -15,17 +15,17 @@ export const RaffleEditDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-  const [loading, setLoading] = useState(false);
 
   const { raffleId } = searchParams;
-  const { getRaffle, updateRaffle } = useRaffleManagement();
-  const { data: row, isLoading, isError } = getRaffle(raffleId);
+
+  const { data: row, isPending, isError } = useRaffleById(raffleId);
+  const updateRaffle = useUpdateRaffle();
 
   const [isDirty, setIsDirty] = useState(false);
   const { confirm } = useConfirm();
 
-  const handleClose = async () => {
-    if (isDirty) {
+  const handleClose = async (force = false) => {
+    if (isDirty && !force) {
       const ok = await confirm({
         title: "Unsaved Changes",
         description:
@@ -40,18 +40,17 @@ export const RaffleEditDrawer: React.FC<Props> & {
 
   const handleSubmit = (data: Raffle) => {
     if (!row) return;
-    setLoading(true);
+
     updateRaffle.mutate(
       { ...row, ...data },
       {
         onSuccess: () => {
           notify(`${data.name ?? row.name} updated successfully!`, "success");
-          handleClose();
-          setLoading(false);
+          setIsDirty(false);
+          handleClose(true);
         },
         onError: (err) => {
           notify(err?.message || `Failed to update raffle!`, "error");
-          setLoading(false);
         },
       },
     );
@@ -61,15 +60,15 @@ export const RaffleEditDrawer: React.FC<Props> & {
     <DrawerLayout
       open={!!raffleId}
       title="Edit Raffle"
-      loading={isLoading || loading}
+      loading={isPending}
       error={isError || !row}
       onClose={handleClose}
     >
-      {row && (
+      {!isPending && row && (
         <RaffleForm
           initialData={row}
           onSubmit={handleSubmit}
-          isSubmitting={loading}
+          isSubmitting={isPending}
           onDirtyChange={setIsDirty}
         />
       )}

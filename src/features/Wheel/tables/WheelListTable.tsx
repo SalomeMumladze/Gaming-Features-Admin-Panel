@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import type { GridRenderCellParams } from "@mui/x-data-grid";
-import { Box, Button, Tooltip } from "@mui/material";
-import { Add, Help } from "@mui/icons-material";
+import { Box, Button } from "@mui/material";
+import { Add } from "@mui/icons-material";
 import { useWheelsManagement } from "../hooks/useWheelManagement";
 import useQueryParams from "@/shared/providers/useQueryParams";
 import { useNotification } from "@/shared/providers/useNotification";
@@ -13,6 +12,7 @@ import { ROUTE_PATHS } from "@/app/router/paths";
 import { WHEEL_STATUSES } from "../constants";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";
+import { TableCellWithTooltip } from "@/shared/components/InfoTooltipLabel";
 
 export const WheelListTable: React.FC = () => {
   const { notify } = useNotification();
@@ -41,28 +41,11 @@ export const WheelListTable: React.FC = () => {
       headerName: "Wheel Preview",
       flex: 1,
       minWidth: 250,
-      renderCell: (params: GridRenderCellParams) => (
-        <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-full border-4 flex-shrink-0 shadow-sm"
-            style={{
-              backgroundColor: params.row.backgroundColor,
-              borderColor: params.row.borderColor,
-            }}
-          />
-          <div className="flex items-center gap-2">
-            <span> {params.value}</span>
-            {params.row.description && (
-              <Tooltip
-                disableInteractive
-                title={params.row.description ?? ""}
-                className="cursor-pointer"
-              >
-                <Help fontSize="small" color="info" />
-              </Tooltip>
-            )}
-          </div>
-        </div>
+      renderCell: (params) => (
+        <TableCellWithTooltip
+          value={params.value}
+          description={params.row.description}
+        />
       ),
     },
     {
