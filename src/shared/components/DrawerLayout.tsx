@@ -47,8 +47,6 @@ export const DrawerLayout: React.FC<DrawerLayoutProps> = ({
         <CardHeader
           sx={{
             borderRadius: 0,
-            backgroundColor: "primary.light",
-            color: "primary.contrastText",
           }}
           avatar={
             <IconButton onClick={onClose} color="inherit">

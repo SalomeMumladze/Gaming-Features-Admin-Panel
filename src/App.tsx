@@ -1,6 +1,6 @@
 import { ReactQueryProvider } from "@/app/providers/ReactQueryProvider";
 import { AppRouter } from "@/app/router/AppRouter";
-import { ThemeProvider } from "@/shared/providers/useTheme";
+import { ThemeProvider } from "@/shared/theme/useTheme";
 import { NotificationProvider } from "@/shared/providers/useNotification";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
