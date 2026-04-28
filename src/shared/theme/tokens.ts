@@ -1,31 +1,57 @@
-// theme/tokens.ts
+export const darkTheme = {
+  bg: "#0f172a",
+  text: "#e2e8f0",
 
-export const lightTheme = {
-  bg: "#f1f5f8",
-  text: "#2c435a",
+  primary: "#60a5fa",
 
-  primary: "#2C7DF0",
+  // SUCCESS
+  success: "#4ade80",
+  successBg: "#052e1f",
 
-  danger: "#eb2f20",
-  dangerBg: "#fbecea",
+  // DANGER
+  danger: "#f87171",
+  dangerBg: "#2a0f0f",
 
-  success: "#91c716",
-  successBg: "#f3fae3",
+  // INFO
+  info: "#38bdf8",
+  infoBg: "#082f49",
 
-  surface: "#ffffff",
+  // NEUTRAL
+  neutral: "#94a3b8",
+  neutralBg: "#1e293b",
+
+  // WARNING
+  warning: "#fbbf24",
+  warningBg: "#2a2105",
+
+  surface: "#1e293b",
 };
 
-export const darkTheme = {
-  bg: "#151a22",
-  text: "#ffffff",
+export const lightTheme = {
+  bg: "#f8fafc",
+  text: "#1e293b",
 
-  primary: "#BDDBFF",
+  primary: "#3b82f6",
 
-  danger: "#ff6b6b",
-  dangerBg: "transparent",
+  // SUCCESS
+  success: "#16a34a",
+  successBg: "#ecfdf5",
 
-  success: "#a3d977",
-  successBg: "#1f2e1a",
+  // DANGER
+  danger: "#dc2626",
+  dangerBg: "#fef2f2",
 
-  surface: "#1e2632",
+  // INFO
+  info: "#0284c7",
+  infoBg: "#f0f9ff",
+
+  // NEUTRAL
+  neutral: "#64748b",
+  neutralBg: "#f1f5f9",
+
+  // WARNING
+  warning: "#f59e0b",
+  warningBg: "#fffbeb",
+
+  surface: "#ffffff",
 };

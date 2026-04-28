@@ -69,17 +69,17 @@ export const useDeleteLeaderboard = () => {
 };
 
 //  BULK STATUS UPDATE
-export const useBulkUpdateLeaderboardStatus = () => {
+export const useUpdateLeaderboardStatus = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({
-      ids,
+      id,
       status,
     }: {
-      ids: string[];
+      id: string[];
       status: "draft" | "active";
-    }) => leaderboardApi.bulkUpdateStatus(ids, status),
+    }) => leaderboardApi.bulkUpdateStatus(id, status),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
     },

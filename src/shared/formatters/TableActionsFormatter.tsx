@@ -7,7 +7,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { Edit, Info, Delete } from "@mui/icons-material";
+import { Edit, Delete, RemoveRedEye } from "@mui/icons-material";
 
 interface TableActionsFormatterProps {
   id: string | number;
@@ -46,14 +46,6 @@ export const TableActionsFormatter: React.FC<TableActionsFormatterProps> = ({
   return (
     <>
       <div className="flex h-full gap-1 items-center justify-end">
-        {showEdit && (
-          <Tooltip title={editTooltip} className="h-fit m-auto">
-            <IconButton color="primary" size="small" onClick={onEditClick}>
-              <Edit fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        )}
-
         {showInfo && (
           <Tooltip title={infoTooltip} className="h-fit m-auto">
             <IconButton
@@ -61,11 +53,17 @@ export const TableActionsFormatter: React.FC<TableActionsFormatterProps> = ({
               size="small"
               onClick={() => onInfoClick?.(id)}
             >
-              <Info fontSize="small" />
+              <RemoveRedEye fontSize="small" />
             </IconButton>
           </Tooltip>
         )}
-
+        {showEdit && (
+          <Tooltip title={editTooltip} className="h-fit m-auto">
+            <IconButton color="primary" size="small" onClick={onEditClick}>
+              <Edit fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        )}
         {showDelete && (
           <Tooltip title={deleteTooltip} className="h-fit m-auto">
             <IconButton

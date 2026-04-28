@@ -5,6 +5,60 @@
       "description": "jhbsdjbhs",
       "startDate": "2026-03-06T20:00:00.000Z",
       "endDate": "2026-03-07T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "points",
+      "maxParticipants": 123132,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "test",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "gfoFjkgpmsdSU"
+    },
+    {
+      "title": "sdsdsd",
+      "description": "",
+      "startDate": "2026-04-10T20:00:00.000Z",
+      "endDate": "2026-04-22T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "wewe",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "as"
+    },
+    {
+      "title": "sdsdsd",
+      "description": "",
+      "startDate": "2026-04-10T20:00:00.000Z",
+      "endDate": "2026-04-22T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "wewe",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "6_rZQKXD9OI12"
+    },
+    {
+      "title": "qw12uy7",
+      "description": "jhbsdjbhs",
+      "startDate": "2026-03-06T20:00:00.000Z",
+      "endDate": "2026-03-07T20:00:00.000Z",
       "status": "draft",
       "scoringType": "points",
       "maxParticipants": 123132,
@@ -16,7 +70,7 @@
           "amount": 1
         }
       ],
-      "id": "gfoFjkgpmSU"
+      "id": "gfoFjksdgpmSU"
     },
     {
       "title": "asas",
@@ -24,7 +78,7 @@
       "startDate": "2026-03-12T20:00:00.000Z",
       "endDate": "2026-03-18T20:00:00.000Z",
       "status": "active",
-      "scoringType": "points",
+      "scoringType": "wins",
       "maxParticipants": 2,
       "prizes": [
         {
@@ -34,7 +88,259 @@
           "amount": 1
         }
       ],
-      "id": "9M305AUEJec"
+      "id": "9M305AUEsdJec"
+    },
+    {
+      "title": "dsd",
+      "description": "sd",
+      "startDate": "2026-04-03T20:00:00.000Z",
+      "endDate": "2026-04-05T20:00:00.000Z",
+      "status": "draft",
+      "scoringType": "wagered",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "as",
+          "type": "freeSpin",
+          "amount": 2
+        }
+      ],
+      "id": "cDrJfCzUzRg"
+    },
+    {
+      "title": "sdsdsd",
+      "description": "",
+      "startDate": "2026-04-10T20:00:00.000Z",
+      "endDate": "2026-04-22T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "wewe",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "6_rZQKXD12d9OI"
+    },
+    {
+      "title": "qw12uy7",
+      "description": "jhbsdjbhs",
+      "startDate": "2026-03-06T20:00:00.000Z",
+      "endDate": "2026-03-07T20:00:00.000Z",
+      "status": "draft",
+      "scoringType": "points",
+      "maxParticipants": 123132,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "test",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "gfoFjkgsdpmSU"
+    },
+    {
+      "title": "asas",
+      "description": "",
+      "startDate": "2026-03-12T20:00:00.000Z",
+      "endDate": "2026-03-18T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "as",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "9M305AsdUEJec"
+    },
+    {
+      "title": "dsd",
+      "description": "sd",
+      "startDate": "2026-04-03T20:00:00.000Z",
+      "endDate": "2026-04-05T20:00:00.000Z",
+      "status": "completed",
+      "scoringType": "wagered",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "as",
+          "type": "freeSpin",
+          "amount": 2
+        }
+      ],
+      "id": "sda1212"
+    },
+    {
+      "title": "sdsdsd",
+      "description": "",
+      "startDate": "2026-04-10T20:00:00.000Z",
+      "endDate": "2026-04-22T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "wewe",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "6_rZQKXD9OI"
+    },
+    {
+      "title": "qw12uy7",
+      "description": "jhbsdjbhs",
+      "startDate": "2026-03-06T20:00:00.000Z",
+      "endDate": "2026-03-07T20:00:00.000Z",
+      "status": "draft",
+      "scoringType": "points",
+      "maxParticipants": 123132,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "test",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "gfoFjksddsagpmSU"
+    },
+    {
+      "title": "asas",
+      "description": "",
+      "startDate": "2026-03-12T20:00:00.000Z",
+      "endDate": "2026-03-18T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "as",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "9M30sd5sdAUEJec"
+    },
+    {
+      "title": "dsd",
+      "description": "sd",
+      "startDate": "2026-04-03T20:00:00.000Z",
+      "endDate": "2026-04-05T20:00:00.000Z",
+      "status": "completed",
+      "scoringType": "wagered",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "as",
+          "type": "freeSpin",
+          "amount": 2
+        }
+      ],
+      "id": "cDrJfCzUszRg"
+    },
+    {
+      "title": "sdsdsd",
+      "description": "",
+      "startDate": "2026-04-10T20:00:00.000Z",
+      "endDate": "2026-04-22T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "wewe",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "6_rZQKXDas9OI"
+    },
+    {
+      "title": "qw12uy7",
+      "description": "jhbsdjbhs",
+      "startDate": "2026-03-06T20:00:00.000Z",
+      "endDate": "2026-03-07T20:00:00.000Z",
+      "status": "draft",
+      "scoringType": "points",
+      "maxParticipants": 123132,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "test",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "gfoFjksdgp11mSU"
+    },
+    {
+      "title": "asas",
+      "description": "",
+      "startDate": "2026-03-12T20:00:00.000Z",
+      "endDate": "2026-03-18T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "as",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "9M305AUsdEJec"
+    },
+    {
+      "title": "dsd",
+      "description": "sd",
+      "startDate": "2026-04-03T20:00:00.000Z",
+      "endDate": "2026-04-05T20:00:00.000Z",
+      "status": "completed",
+      "scoringType": "wagered",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "as",
+          "type": "freeSpin",
+          "amount": 2
+        }
+      ],
+      "id": "cDrJfCsdzUzRg"
+    },
+    {
+      "title": "sdsdsd",
+      "description": "",
+      "startDate": "2026-04-10T20:00:00.000Z",
+      "endDate": "2026-04-22T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "rank": 1,
+          "name": "wewe",
+          "type": "freeSpin",
+          "amount": 1
+        }
+      ],
+      "id": "6_rZQKdsXD9OI"
     }
   ],
   "raffles": [

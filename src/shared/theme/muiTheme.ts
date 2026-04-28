@@ -8,7 +8,6 @@ export const getMuiTheme = (mode: Mode) => {
   return createTheme({
     palette: {
       mode,
-      primary: { main: color.primary },
       background: {
         default: color.bg,
         paper: color.surface,
@@ -16,8 +15,25 @@ export const getMuiTheme = (mode: Mode) => {
       text: {
         primary: color.text,
       },
+      warning: { main: color.warning },
+      primary: { main: color.primary },
+      info: { main: color.info },
       error: { main: color.danger },
       success: { main: color.success },
+    },
+    components: {
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            backgroundColor: color.bg,
+            color: color.text,
+            fontSize: "12px",
+          },
+          arrow: {
+            color: "#000",
+          },
+        },
+      },
     },
   });
 };

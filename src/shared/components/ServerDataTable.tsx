@@ -1,7 +1,7 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import type { GridColDef } from "@mui/x-data-grid";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 
 interface ServerDataTableProps<T> {
   rows: T[];
@@ -31,7 +31,7 @@ export function ServerDataTable<T>({
   noRowsOverlay,
 }: ServerDataTableProps<T>) {
   return (
-    <Box sx={{ height: 630, width: "100%" }}>
+    <Box sx={{ width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -45,9 +45,10 @@ export function ServerDataTable<T>({
         disableRowSelectionOnClick
         disableColumnMenu
         hideFooter={hideFooter}
-        // does not work selecting rows, needs to be fixed
         checkboxSelection={checkboxSelection}
-        onSelectionModelChange={onSelectionModelChange}
+        onRowSelectionModelChange={(data) =>
+          onSelectionModelChange?.(Array.from(data.ids))
+        }
         slots={{
           noRowsOverlay: () => (
             <Box p={2} textAlign="center">
@@ -55,7 +56,7 @@ export function ServerDataTable<T>({
             </Box>
           ),
         }}
-        sx={{ minHeight: 400 }}
+        sx={{ maxHeight: 630 }}
       />
     </Box>
   );

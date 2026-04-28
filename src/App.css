@@ -7,3 +7,13 @@
   bottom: -18px;
   font-size: 11px !important;
 }
+
+/* Table styles */
+.css-1hzu6eb-MuiDataGrid-root .MuiDataGrid-cell:focus {
+  outline: none !important;
+}
+
+.MuiDataGrid-columnHeaderTitle > .css-1qb993p-MuiDataGrid-columnHeaderTitle {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}

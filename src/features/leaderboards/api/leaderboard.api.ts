@@ -21,6 +21,6 @@ export const leaderboardApi = {
 
   delete: (id: string) => apiGateway.delete(`/leaderboards/${id}`),
 
-  bulkUpdateStatus: (ids: string[], status: "draft" | "active") =>
-    apiGateway.patch("/leaderboards/status", { ids, status }),
+  bulkUpdateStatus: (id: string, status: "draft" | "active") =>
+    apiGateway.patch(`/leaderboards/${id}`, { status }),
 };
