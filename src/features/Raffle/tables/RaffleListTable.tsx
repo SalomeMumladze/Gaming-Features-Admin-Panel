@@ -154,7 +154,7 @@ export const RaffleListTable: React.FC = () => {
           className="w-44"
           label="Status Filter"
           allowNull
-          statuses={RAFFLE_STATUSES}
+          statuses={[...RAFFLE_STATUSES]}
           onChange={(value) => setFilterStatus(value)}
         />
 

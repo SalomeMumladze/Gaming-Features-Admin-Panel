@@ -20,11 +20,10 @@ export const useLeaderboards = (params?: LeaderboardListParams) => {
 
 //  GET BY ID
 export const useLeaderboardById = (id?: string) => {
-  return useQuery({
+  return useQuery<Leaderboard>({
     queryKey: ["leaderboard", id],
     queryFn: async () => {
       const { data } = await leaderboardApi.getById(id!);
-
       return data;
     },
     enabled: !!id,
@@ -73,13 +72,8 @@ export const useUpdateLeaderboardStatus = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      status,
-    }: {
-      id: string[];
-      status: "draft" | "active";
-    }) => leaderboardApi.bulkUpdateStatus(id, status),
+    mutationFn: ({ id, status }: { id: string; status: "draft" | "active" }) =>
+      leaderboardApi.bulkUpdateStatus(id, status),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
     },

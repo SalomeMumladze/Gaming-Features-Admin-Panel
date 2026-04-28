@@ -21,15 +21,15 @@ import type {
   UseFormSetValue,
   Control,
 } from "react-hook-form";
-import type { leaderboardSchema } from "@/features/leaderboards/schemas/leaderboard.schema";
+import type { LeaderboardFormValues } from "@/features/leaderboards/schemas/leaderboard.schema";
 
 import type { DragEndEvent } from "@dnd-kit/core";
 
 interface PrizeFieldsProps {
-  register: UseFormRegister<leaderboardSchema>;
-  errors: FieldErrors<leaderboardSchema["raffles"]>;
-  setValue: UseFormSetValue<leaderboardSchema>;
-  control: Control<leaderboardSchema>;
+  register: UseFormRegister<LeaderboardFormValues>;
+  errors: FieldErrors<LeaderboardFormValues["prizes"]>;
+  setValue: UseFormSetValue<LeaderboardFormValues>;
+  control: Control<LeaderboardFormValues>;
 }
 
 export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({
@@ -121,6 +121,9 @@ export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({
           append({
             id: crypto.randomUUID(),
             rank: fields.length + 1,
+            name: "",
+            type: "coins",
+            amount: 0,
           })
         }
         className="!self-start !rounded-lg !border-dashed !border-gray-300 !text-gray-600 "

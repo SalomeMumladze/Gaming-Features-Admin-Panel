@@ -59,7 +59,11 @@ export const TableActionsFormatter: React.FC<TableActionsFormatterProps> = ({
         )}
         {showEdit && (
           <Tooltip title={editTooltip} className="h-fit m-auto">
-            <IconButton color="primary" size="small" onClick={onEditClick}>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => onEditClick?.(id)}
+            >
               <Edit fontSize="small" />
             </IconButton>
           </Tooltip>

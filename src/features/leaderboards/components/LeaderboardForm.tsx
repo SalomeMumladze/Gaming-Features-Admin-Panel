@@ -39,8 +39,8 @@ export const LeaderboardForm: React.FC<Props> = ({
       description: "",
       startDate: "",
       endDate: "",
-      status: undefined,
-      scoringType: undefined,
+      status: null,
+      scoringType: null,
       maxParticipants: 2,
       prizes: [
         {
@@ -155,7 +155,7 @@ export const LeaderboardForm: React.FC<Props> = ({
               name="status"
               render={({ field }) => (
                 <StatusesSelector
-                  statuses={LEADERBOARD_STATUSES}
+                  statuses={[...LEADERBOARD_STATUSES]}
                   {...field}
                   allowNull
                   label="Choose Status"
@@ -195,7 +195,7 @@ export const LeaderboardForm: React.FC<Props> = ({
           <LeaderBoardPrizeForm
             control={form.control}
             register={form.register}
-            errors={form.formState.errors.prizes}
+            errors={form.formState.errors.prizes || []}
             setValue={form.setValue}
           />
         </SectionCard>

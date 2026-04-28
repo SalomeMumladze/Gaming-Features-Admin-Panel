@@ -14,7 +14,7 @@ import { ScoringTypeFormatter } from "./ScoringTypeFormatter";
 export type ScoringTypes = "points" | "wins" | "wagered";
 
 interface ScoringTypeSelectorProps {
-  value: ScoringTypes | "" | null;
+  value: ScoringTypes | "" | null | undefined;
   onChange: (value: ScoringTypes | null) => void;
   label?: string;
   fullWidth?: boolean;

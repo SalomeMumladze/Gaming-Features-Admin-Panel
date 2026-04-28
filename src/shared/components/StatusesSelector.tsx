@@ -12,12 +12,12 @@ import { StatusFormatter } from "@/shared/formatters";
 export type Status = string;
 
 interface StatusesSelectorProps {
-  value: Status | "";
+  value: Status | "" | null | undefined;
   onChange: (value: Status | "") => void;
   label?: string;
   className?: string;
   allowNull?: boolean;
-  statuses: Status[];
+  statuses: string[];
   error?: boolean;
   helperText?: string;
 }
@@ -37,7 +37,7 @@ export const StatusesSelector: React.FC<StatusesSelectorProps> = ({
       <InputLabel>{label}</InputLabel>
 
       <Select
-        value={value}
+        value={value ?? ""}
         label={label}
         className="h-full"
         onChange={(e) => onChange(e.target.value)}

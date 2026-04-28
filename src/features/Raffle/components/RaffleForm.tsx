@@ -88,7 +88,7 @@ export const RaffleForm: React.FC<Props> = ({
           name="status"
           render={({ field }) => (
             <StatusesSelector
-              statuses={RAFFLE_STATUSES}
+              statuses={[...RAFFLE_STATUSES]}
               {...field}
               allowNull
               label="Choose Status"

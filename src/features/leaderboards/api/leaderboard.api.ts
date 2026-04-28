@@ -4,14 +4,14 @@ import type {
   LeaderboardListResponse,
   LeaderboardResponse,
   LeaderboardFormData,
+  Leaderboard,
 } from "../types/leaderboard.types";
 
 export const leaderboardApi = {
   getList: (params?: LeaderboardListParams) =>
     apiGateway.get<LeaderboardListResponse>("/leaderboards", { params }),
 
-  getById: (id: string) =>
-    apiGateway.get<LeaderboardResponse>(`/leaderboards/${id}`),
+  getById: (id: string) => apiGateway.get<Leaderboard>(`/leaderboards/${id}`),
 
   create: (payload: LeaderboardFormData) =>
     apiGateway.post<LeaderboardResponse>("/leaderboards", payload),

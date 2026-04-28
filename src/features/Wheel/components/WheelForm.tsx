@@ -104,7 +104,7 @@ export const WheelForm: React.FC<Props> = ({
           render={({ field }) => (
             <StatusesSelector
               error={!!form.formState.errors.status}
-              statuses={WHEEL_STATUSES}
+              statuses={[...WHEEL_STATUSES]}
               {...field}
               allowNull
               label="Status"

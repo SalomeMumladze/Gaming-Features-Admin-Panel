@@ -162,7 +162,7 @@ export const LeaderboardTable: React.FC = () => {
           className="w-44"
           label="Status Filter"
           allowNull
-          statuses={LEADERBOARD_STATUSES}
+          statuses={[...LEADERBOARD_STATUSES]}
           onChange={(value) => setFilterStatus(value)}
         />
         {selectedIds.length > 0 && (

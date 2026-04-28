@@ -10,7 +10,8 @@ import {
   Box,
 } from "@mui/material";
 import { Clear, AutoAwesome } from "@mui/icons-material";
-import type { RafflePrize } from "../hooks/useRaffleManagement";
+import type { RafflePrize } from "@/features/Raffle/types/raffle.types";
+
 import { TYPE_META } from "../Config";
 import { FieldRow } from "@/shared/components/FieldRow";
 

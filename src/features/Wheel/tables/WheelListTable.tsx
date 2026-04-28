@@ -123,7 +123,7 @@ export const WheelListTable: React.FC = () => {
           Create wheels
         </Button>
         <StatusesSelector
-          statuses={WHEEL_STATUSES}
+          statuses={[...WHEEL_STATUSES]}
           value={filterStatus}
           allowNull
           className="w-44"

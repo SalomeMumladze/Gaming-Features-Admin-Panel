@@ -1,4 +1,3 @@
-import React from "react";
 import { Chip, type ChipProps } from "@mui/material";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
