@@ -23,7 +23,7 @@ export const WheelListTable: React.FC = () => {
     page: 0,
     pageSize: 10,
   });
-  const [filterStatus, setFilterStatus] = useState<WheelStatus | "">("");
+  const [filterStatus, setFilterStatus] = useState<WheelStatus | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { setUrlParams } = useQueryParams();
 
@@ -116,7 +116,7 @@ export const WheelListTable: React.FC = () => {
           className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
-              createWheel: true,
+              createWheel: "true",
             })
           }
         >
@@ -128,7 +128,7 @@ export const WheelListTable: React.FC = () => {
           allowNull
           className="w-44"
           label="Status Filter"
-          onChange={(value) => setFilterStatus(value)}
+          onChange={(value) => setFilterStatus(value as WheelStatus | null)}
         />
 
         {selectedIds.length > 0 && (
@@ -154,9 +154,9 @@ export const WheelListTable: React.FC = () => {
       </Box>
 
       <ServerDataTable
-        rows={(!isPending && data.data) ?? []}
+        rows={data?.data ?? []}
         columns={columns}
-        rowCount={!isPending && data.items}
+        rowCount={data?.items ?? 0}
         loading={isPending}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}

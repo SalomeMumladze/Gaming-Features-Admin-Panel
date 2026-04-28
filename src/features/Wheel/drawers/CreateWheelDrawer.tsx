@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { WheelForm } from "../components/WheelForm";
 import { useCreateWheel } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Wheel } from "../types/wheel.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
+import type { WheelFormValues } from "../schema/wheel.schema";
+import type { WheelFormData } from "../types/wheel.types";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -35,8 +36,21 @@ export const CreateWheelDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleSubmit = (data: Wheel) => {
-    create.mutate(data, {
+  const handleSubmit = (data: WheelFormValues) => {
+    const payload: WheelFormData = {
+      ...data,
+      segments: data.segments.map((seg) => ({
+        id: crypto.randomUUID(),
+        label: seg.label,
+        weight: seg.weight,
+        color: seg.color,
+        prizeType: "nothing",
+        prizeAmount: 0,
+        imageUrl: "",
+      })),
+    };
+
+    create.mutate(payload, {
       onSuccess: () => {
         notify(`${data.name} created successfully!`, "success");
         handleClose();
@@ -51,13 +65,13 @@ export const CreateWheelDrawer: React.FC<Props> & {
     <DrawerLayout
       open={!!createWheel}
       title="Create Wheel"
-      loading={create.isLoading}
+      loading={create.isPending}
       error={create.isError}
       onClose={handleClose}
     >
       <WheelForm
         onSubmit={handleSubmit}
-        isSubmitting={create.isLoading}
+        isSubmitting={create.isPending}
         onDirtyChange={setIsDirty}
       />
     </DrawerLayout>

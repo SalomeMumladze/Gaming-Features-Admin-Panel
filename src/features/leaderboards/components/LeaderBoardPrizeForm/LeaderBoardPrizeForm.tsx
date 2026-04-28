@@ -26,7 +26,7 @@ import type { DragEndEvent } from "@dnd-kit/core";
 
 interface PrizeFieldsProps {
   register: UseFormRegister<LeaderboardFormValues>;
-  errors?: any;
+  errors?: unknown;
   setValue: UseFormSetValue<LeaderboardFormValues>;
   control: Control<LeaderboardFormValues>;
 }

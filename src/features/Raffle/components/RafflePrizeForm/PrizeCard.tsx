@@ -11,9 +11,10 @@ import {
 } from "@mui/material";
 import { Clear, AutoAwesome } from "@mui/icons-material";
 import type { RafflePrize } from "@/features/Raffle/types/raffle.types";
-
+import type { FieldErrors } from "react-hook-form";
 import { TYPE_META } from "../Config";
 import { FieldRow } from "@/shared/components/FieldRow";
+import type { RaffleFormValues } from "@/features/Raffle/schema/raffle.schema";
 
 interface PrizeCardProps {
   id: string;
@@ -27,7 +28,7 @@ interface PrizeCardProps {
   ) => void;
   onRemove: (id: string) => void;
   onRemoveImage: (id: string) => void;
-  errors: unknown;
+  errors?: FieldErrors<RaffleFormValues["prizes"][number]>;
   register: unknown;
 }
 
@@ -52,7 +53,7 @@ const PrizeCard: React.FC<PrizeCardProps> = ({
           <TextField
             label="Prize Name"
             value={prize.name}
-            error={errors?.name}
+            error={!!errors?.name}
             helperText={errors?.name?.message}
             onChange={(e) => onChange(prize.id, "name", e.target.value)}
             fullWidth
@@ -109,7 +110,7 @@ const PrizeCard: React.FC<PrizeCardProps> = ({
             }
             fullWidth
             size="small"
-            error={errors?.quantity}
+            error={!!errors?.quantity}
             helperText={errors?.quantity?.message}
           />
         </div>

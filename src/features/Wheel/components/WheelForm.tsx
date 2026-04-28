@@ -1,15 +1,10 @@
 import React, { useEffect } from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextField, Button, Box, Typography, MenuItem } from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 import { wheelSchema } from "../schema/wheel.schema";
 import type { WheelFormValues } from "../schema/wheel.schema";
-import {
-  Add,
-  TuneRounded,
-  EmojiEventsRounded,
-  SavingsRounded,
-} from "@mui/icons-material";
+import { Add, TuneRounded, SavingsRounded } from "@mui/icons-material";
 import { WHEEL_STATUSES } from "../constants";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { SectionCard } from "@/shared/components/SectionCard";
@@ -18,7 +13,7 @@ import { RouletteWheel } from "./RouletteWheel";
 
 interface Props {
   initialData?: Partial<WheelFormValues>;
-  onSubmit?: (data: WheelFormValues) => void;
+  onSubmit: (data: WheelFormValues) => void;
   isSubmitting?: boolean;
   onDirtyChange?: (dirty: boolean) => void;
 }
@@ -42,11 +37,9 @@ export const WheelForm: React.FC<Props> = ({
       ],
       spinCost: 0,
       maxSpinsPerUser: 1,
-      prizes: [{ name: "", prizeType: "nothing", prizeAmount: 0 }],
     },
   });
 
-  const prizes = form.watch("prizes");
   const segments = form.watch("segments");
 
   const {
@@ -55,30 +48,15 @@ export const WheelForm: React.FC<Props> = ({
     remove: removeSegment,
   } = useFieldArray({ control: form.control, name: "segments" });
 
-  const {
-    fields: prizesFields,
-    append: appendPrize,
-    remove: removePrize,
-  } = useFieldArray({ control: form.control, name: "prizes" });
-
   useEffect(() => {
     if (initialData) form.reset({ ...form.getValues(), ...initialData });
   }, [initialData]);
-
-  useEffect(() => {
-    prizes.forEach((p, idx) => {
-      if (p.prizeType === "nothing" && p.prizeAmount !== 0) {
-        form.setValue(`prizes.${idx}.prizeAmount`, 0);
-      }
-    });
-  }, [prizes, form]);
 
   useEffect(() => {
     onDirtyChange?.(form.formState.isDirty);
   }, [form.formState.isDirty]);
 
   const segmentCount = segmentsFields.length;
-  const prizeCount = prizesFields.length;
 
   return (
     <form
@@ -123,8 +101,8 @@ export const WheelForm: React.FC<Props> = ({
           segments={segments}
           withSpin
           useWeight
-          backgroundColor={form.formState?.values?.backgroundColor}
-          borderColor={form.formState?.values?.borderColor}
+          backgroundColor={form.watch("backgroundColor")}
+          borderColor={form.watch("borderColor")}
         />
         <Box className="grid grid-cols-2 gap-4">
           <Box>
@@ -251,98 +229,6 @@ export const WheelForm: React.FC<Props> = ({
             }
           />
         </Box>
-      </SectionCard>
-
-      <SectionCard
-        icon={<EmojiEventsRounded fontSize="small" />}
-        title="Prizes"
-        subtitle={`${prizeCount} prize${prizeCount !== 1 ? "s" : ""} configured`}
-      >
-        {prizesFields.map((field, index) => {
-          const prizeType = prizes?.[index]?.prizeType;
-          const isNothing = prizeType === "nothing";
-
-          return (
-            <Box key={field.id} className="flex flex-col gap-1">
-              <FieldRow
-                removeDisabled={prizesFields.length <= 1}
-                index={index}
-                onRemove={() => removePrize(index)}
-                removeTooltip="Remove prize"
-              >
-                <TextField
-                  label="Prize Name"
-                  placeholder="e.g. 100 Coins"
-                  size="small"
-                  className="flex-1 min-w-[140px]"
-                  {...form.register(`prizes.${index}.name` as const)}
-                  error={!!form.formState.errors.prizes?.[index]?.name}
-                  helperText={
-                    form.formState.errors.prizes?.[index]?.name?.message
-                  }
-                />
-                <TextField
-                  select
-                  label="Type"
-                  size="small"
-                  className="w-32"
-                  defaultValue="nothing"
-                  {...form.register(`prizes.${index}.prizeType` as const)}
-                >
-                  <MenuItem value="nothing">
-                    <Box className="flex items-center gap-2">Nothing</Box>
-                  </MenuItem>
-                  <MenuItem value="coins">
-                    <Box className="flex items-center gap-2">Coins</Box>
-                  </MenuItem>
-                  <MenuItem value="item">
-                    <Box className="flex items-center gap-2">Item</Box>
-                  </MenuItem>
-                </TextField>
-                <TextField
-                  label="Amount"
-                  type="number"
-                  size="small"
-                  className="w-28"
-                  disabled={isNothing}
-                  error={!!form.formState.errors.prizes?.[index]?.prizeAmount}
-                  helperText={
-                    form.formState.errors.prizes?.[index]?.prizeAmount?.message
-                  }
-                  {...form.register(`prizes.${index}.prizeAmount` as const, {
-                    valueAsNumber: true,
-                    setValueAs: (v) => (v === "" ? 0 : Number(v)),
-                    validate: (value) => {
-                      if (prizeType === "nothing") {
-                        return (
-                          value === 0 || "Amount must be 0 when type is Nothing"
-                        );
-                      }
-                      return value > 0 || "Amount must be greater than 0";
-                    },
-                  })}
-                />
-              </FieldRow>
-              {form.formState.errors?.prizes?.root?.message && (
-                <Typography variant="caption" color="error" className="pl-10">
-                  {form.formState.errors.prizes.root.message}
-                </Typography>
-              )}
-            </Box>
-          );
-        })}
-
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<Add />}
-          onClick={() =>
-            appendPrize({ name: "", prizeType: "nothing", prizeAmount: 0 })
-          }
-          className="!self-start !rounded-lg !border-dashed !border-gray-300 !text-gray-600 "
-        >
-          Add Prize
-        </Button>
       </SectionCard>
 
       <Box className="flex justify-end gap-3 pt-2">

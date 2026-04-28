@@ -2,7 +2,6 @@ import { apiGateway } from "@/shared/api/httpClient";
 import type {
   RaffleListParams,
   RaffleListResponse,
-  RaffleResponse,
   RaffleFormData,
   Raffle,
 } from "../types/raffle.types";
@@ -19,5 +18,5 @@ export const raffleApi = {
   update: (id: string, payload: RaffleFormData) =>
     apiGateway.put<RaffleFormData>(`/raffles/${id}`, payload),
 
-  delete: (id: string) => apiGateway.delete(`/raffles/${id}`),
+  delete: (id: string | number) => apiGateway.delete(`/raffles/${id}`),
 };

@@ -5,6 +5,7 @@ import { useNotification } from "@/shared/providers/useNotification";
 import type { Raffle } from "../types/raffle.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
+import type { RaffleFormValues } from "../schema/raffle.schema";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -38,25 +39,20 @@ export const RaffleEditDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleSubmit = (raffle: Raffle) => {
-    if (!data) return;
-
-    updateRaffle.mutate(
-      { ...data, ...raffle },
-      {
-        onSuccess: () => {
-          notify(
-            `${raffle.name ?? data.name} updated successfully!`,
-            "success",
-          );
-          setIsDirty(false);
-          handleClose(true);
-        },
-        onError: (err) => {
-          notify(err?.message || `Failed to update raffle!`, "error");
-        },
+  const handleSubmit = (raffle: RaffleFormValues) => {
+    updateRaffle.mutate({ id: raffleId, ...raffle } as Raffle, {
+      onSuccess: () => {
+        notify(
+          `${raffle.name ?? raffle.name} updated successfully!`,
+          "success",
+        );
+        setIsDirty(false);
+        handleClose(true);
       },
-    );
+      onError: (err) => {
+        notify(err?.message || `Failed to update raffle!`, "error");
+      },
+    });
   };
 
   return (
@@ -64,12 +60,12 @@ export const RaffleEditDrawer: React.FC<Props> & {
       open={!!raffleId}
       title="Edit Raffle"
       loading={isPending}
-      error={isError || !row}
+      error={isError || !data}
       onClose={handleClose}
     >
-      {!isPending && row && (
+      {!isPending && data && (
         <RaffleForm
-          initialData={row}
+          initialData={data}
           onSubmit={handleSubmit}
           isSubmitting={isPending}
           onDirtyChange={setIsDirty}

@@ -16,11 +16,10 @@ export const useWheels = (params?: WheelListParams) => {
 
 //  GET BY ID
 export const useWheelById = (id?: string) => {
-  return useQuery({
+  return useQuery<Wheel>({
     queryKey: ["wheels", id],
     queryFn: async () => {
       const { data } = await wheelApi.getById(id!);
-
       return data;
     },
     enabled: !!id,
@@ -56,7 +55,7 @@ export const useDeleteWheel = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: wheelApi.delete,
+    mutationFn: (id: string | number) => wheelApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wheels"] });
     },

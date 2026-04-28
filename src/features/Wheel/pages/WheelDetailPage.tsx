@@ -6,7 +6,6 @@ import {
   Casino as WheelIcon,
   Paid as CreditIcon,
   PersonPin as UserIcon,
-  EmojiEvents as PrizeIcon,
   DonutLarge as SegmentIcon,
 } from "@mui/icons-material";
 import { DetailSection } from "@/shared/components/DetailSection";
@@ -125,26 +124,6 @@ export const WheelDetailPage: React.FC = () => {
           ))}
         </div>
       </DetailSection>
-
-      {data.prizes?.length > 0 && (
-        <DetailSection
-          icon={<PrizeIcon fontSize="small" />}
-          title="Prizes"
-          accent={ACCENTS.amber}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-            {data.prizes.map((prize: any, i: number) => (
-              <DetailField
-                key={i}
-                label={prize.name}
-                value={prize.prizeAmount}
-                icon={<PrizeIcon />}
-                accent={amber}
-              />
-            ))}
-          </div>
-        </DetailSection>
-      )}
     </div>
   );
 };

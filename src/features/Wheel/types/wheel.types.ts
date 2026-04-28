@@ -1,19 +1,21 @@
 export type WheelStatus = "draft" | "active" | "inactive";
 
 export interface WheelSegment {
-  id: string;
+  id: string | number;
   label: string;
   color: string;
   weight: number;
-  prizeType: "coins" | "freeSpin" | "bonus" | "nothing";
-  prizeAmount: number;
-  imageUrl: string;
+  // prizeType?: "coins" | "freeSpin" | "bonus" | "nothing";
+  // prizeAmount?: number;
+  // imageUrl?: string;
 }
+
+export type ISODateString = string;
 
 export interface Wheel {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   status: "draft" | "active" | "inactive";
   segments: WheelSegment[];
   maxSpinsPerUser: number;
@@ -39,6 +41,7 @@ export interface WheelListParams extends WheelFilters {
 export interface WheelsListResponse {
   data: Wheel[];
   total: number;
+  items?: number;
 }
 
 export interface WheelResponse {

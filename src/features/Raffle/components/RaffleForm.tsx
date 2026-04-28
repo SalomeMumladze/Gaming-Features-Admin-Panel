@@ -15,9 +15,10 @@ import {
   ConfirmationNumber,
   CalendarMonth,
 } from "@mui/icons-material";
+import type { Raffle } from "../types/raffle.types";
 
 interface Props {
-  initialData?: Partial<RaffleFormValues>;
+  initialData?: Raffle;
   onSubmit: (data: RaffleFormValues) => void;
   isSubmitting?: boolean;
   onDirtyChange?: (dirty: boolean) => void;
@@ -55,12 +56,14 @@ export const RaffleForm: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    onDirtyChange?.(form.formState.isDirty);
-  }, [form.formState.isDirty]);
+    if (initialData) {
+      form.reset({ ...initialData });
+    }
+  }, [initialData]);
 
   useEffect(() => {
-    if (initialData) form.reset({ ...form.getValues(), ...initialData });
-  }, [initialData]);
+    onDirtyChange?.(form.formState.isDirty);
+  }, [form.formState.isDirty]);
 
   return (
     <form
@@ -201,17 +204,16 @@ export const RaffleForm: React.FC<Props> = ({
         errors={form.formState.errors.prizes}
         setValue={form.setValue}
         register={form.register}
-        initialPrizes={initialData?.prizes}
       />
 
-      <Box className="flex justify-center !my-4">
+      <Box display="flex" justifyContent="center">
         <Button
           size="large"
           type="submit"
           variant="contained"
           disabled={isSubmitting}
         >
-          {initialData ? "Update Raffle" : "Create Raffle"}
+          Save
         </Button>
       </Box>
     </form>

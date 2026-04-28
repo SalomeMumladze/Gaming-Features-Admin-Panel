@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { RaffleForm } from "../components/RaffleForm";
 import { useCreateRaffle } from "../hooks/useRaffleManagement";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Raffle } from "../types/raffle.types";
+import type { RaffleFormData } from "../types/raffle.types";
+import type { RaffleFormValues } from "../schema/raffle.schema";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
 
@@ -15,7 +16,6 @@ export const CreateRaffleDrawer: React.FC<Props> & {
   requiredParams: Record<string, boolean>;
 } = ({ searchParams, afterOpenChange }) => {
   const { notify } = useNotification();
-  const [loading, setLoading] = useState(false);
   const { createRaffle } = searchParams;
   const create = useCreateRaffle();
 
@@ -36,17 +36,14 @@ export const CreateRaffleDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleSubmit = (data: Raffle) => {
-    setLoading(true);
-    create.mutate(data, {
+  const handleSubmit = (data: RaffleFormValues) => {
+    create.mutate(data as RaffleFormData, {
       onSuccess: () => {
         notify(`${data.name} created successfully!`, "success");
         handleClose();
-        setLoading(false);
       },
       onError: () => {
         notify("Failed to create raffle!", "error");
-        setLoading(false);
       },
     });
   };
@@ -55,15 +52,10 @@ export const CreateRaffleDrawer: React.FC<Props> & {
     <DrawerLayout
       open={!!createRaffle}
       title="Create Raffle"
-      loading={loading}
       error={create.isError}
       onClose={handleClose}
     >
-      <RaffleForm
-        onSubmit={handleSubmit}
-        isSubmitting={loading}
-        onDirtyChange={setIsDirty}
-      />
+      <RaffleForm onSubmit={handleSubmit} onDirtyChange={setIsDirty} />
     </DrawerLayout>
   );
 };

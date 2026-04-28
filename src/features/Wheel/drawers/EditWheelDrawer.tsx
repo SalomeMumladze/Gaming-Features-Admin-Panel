@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { WheelForm } from "../components/WheelForm";
 import { useWheelById, useUpdateWheel } from "../hooks/useWheelManagement";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { Wheel } from "../types/wheel.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
+import type { WheelFormValues } from "../schema/wheel.schema";
+import type { Wheel } from "../types/wheel.types";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -37,29 +38,26 @@ export const EditWheelDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleSubmit = (data: Wheel) => {
-    if (!row) return;
+  const handleSubmit = (data: WheelFormValues) => {
+    if (!row || !wheelId) return;
 
-    updateWheel.mutate(
-      { ...row, ...data },
-      {
-        onSuccess: () => {
-          notify(`${data.name ?? row.name} updated successfully!`, "success");
-          setIsDirty(false);
-          handleClose(true);
-        },
-        onError: () => {
-          notify("Failed to update wheel!", "error");
-        },
+    updateWheel.mutate({ id: wheelId, ...data } as Wheel, {
+      onSuccess: () => {
+        notify(`${data.name ?? row.name} updated successfully!`, "success");
+        setIsDirty(false);
+        handleClose(true);
       },
-    );
+      onError: () => {
+        notify("Failed to update wheel!", "error");
+      },
+    });
   };
 
   return (
     <DrawerLayout
       open={!!wheelId}
       title="Edit Wheel"
-      loading={isPending || updateWheel.isLoading}
+      loading={isPending || updateWheel.isPending}
       error={isError || !row}
       onClose={handleClose}
     >
@@ -67,7 +65,7 @@ export const EditWheelDrawer: React.FC<Props> & {
         <WheelForm
           initialData={row}
           onSubmit={handleSubmit}
-          isSubmitting={updateWheel.isLoading || isPending}
+          isSubmitting={updateWheel.isPending || isPending}
           onDirtyChange={setIsDirty}
         />
       )}

@@ -3,17 +3,13 @@ import { Button } from "@mui/material";
 import type { RafflePrize } from "@/features/Raffle/types/raffle.types";
 import PrizeCard from "./PrizeCard";
 import type { RaffleFormValues } from "../../schema/raffle.schema";
-import type {
-  UseFormRegister,
-  FieldErrors,
-  UseFormSetValue,
-} from "react-hook-form";
+import type { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { SectionCard } from "@/shared/components/SectionCard";
 import { Add, EmojiEventsRounded } from "@mui/icons-material";
 
 interface PrizeFieldsProps {
   register: UseFormRegister<RaffleFormValues>;
-  errors: FieldErrors<RaffleFormValues["prizes"]>;
+  errors?: unknown;
   setValue: UseFormSetValue<RaffleFormValues>;
   initialPrizes?: RafflePrize[];
 }
@@ -113,7 +109,7 @@ export const RafflePrizeForm: React.FC<PrizeFieldsProps> = ({
           prize={prize}
           index={i}
           register={register}
-          errors={errors?.[i]}
+          errors={Array.isArray(errors) ? errors[i] : undefined}
           canDelete={prizes.length > 1}
           onChange={handleChange}
           onRemove={removePrize}

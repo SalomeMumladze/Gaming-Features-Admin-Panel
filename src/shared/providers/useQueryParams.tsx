@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-type UrlParams = Record<string, unknown>;
+type UrlParams = Record<string, string>;
 
 interface UrlContextType {
   searchParams: UrlParams;
@@ -33,7 +33,7 @@ export const UrlContextProvider: React.FC<UrlContextProviderProps> = ({
   const setUrlParams = (newParams: UrlParams, replace = false) => {
     const params = new URLSearchParams(location.search);
     Object.entries(newParams).forEach(([key, value]) => {
-      params.set(key, value);
+      params.set(key, String(value));
     });
     navigate(`${location.pathname}?${params.toString()}`, { replace });
   };

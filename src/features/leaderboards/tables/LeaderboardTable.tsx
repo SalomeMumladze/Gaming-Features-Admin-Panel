@@ -152,7 +152,7 @@ export const LeaderboardTable: React.FC = () => {
           className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
-              createLeaderboard: true,
+              createLeaderboard: 'true',
             })
           }
         >

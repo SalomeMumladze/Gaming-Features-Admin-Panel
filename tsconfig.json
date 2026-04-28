@@ -5,12 +5,15 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "types": ["react", "react-dom"],
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "jsx": "react-jsx",
-    "strict": true,
-    "moduleResolution": "node"
+    "strict": true
+    // "moduleResolution": "node"
   }
 }

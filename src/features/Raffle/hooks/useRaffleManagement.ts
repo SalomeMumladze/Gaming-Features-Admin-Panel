@@ -16,7 +16,7 @@ export const useRaffles = (params?: RaffleListParams) => {
 
 //  GET BY ID
 export const useRaffleById = (id?: string) => {
-  return useQuery({
+  return useQuery<Raffle>({
     queryKey: ["raffles", id],
     queryFn: async () => {
       const { data } = await raffleApi.getById(id!);
@@ -56,7 +56,8 @@ export const useDeleteRaffle = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: raffleApi.delete,
+    mutationFn: (id: string | number) => raffleApi.delete(id),
+    
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
     },

@@ -18,5 +18,5 @@ export const wheelApi = {
   update: (id: string, payload: WheelFormData) =>
     apiGateway.put<WheelFormData>(`/wheels/${id}`, payload),
 
-  delete: (id: string) => apiGateway.delete(`/wheels/${id}`),
+  delete: (id: string | number) => apiGateway.delete(`/wheels/${id}`),
 };

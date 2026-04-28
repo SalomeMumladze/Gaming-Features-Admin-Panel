@@ -11,7 +11,7 @@ import {
   StatusFormatter,
   TableActionsFormatter,
 } from "@/shared/formatters";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/app/router/paths";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
@@ -28,7 +28,7 @@ export const RaffleListTable: React.FC = () => {
     page: 0,
     pageSize: 10,
   });
-  const [filterStatus, setFilterStatus] = useState<RaffleStatus | "">("");
+  const [filterStatus, setFilterStatus] = useState<RaffleStatus | null>(null);
   const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
   const [filterEndDate, setFilterEndDate] = useState<Dayjs | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -142,7 +142,7 @@ export const RaffleListTable: React.FC = () => {
           className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
-              createRaffle: true,
+              createRaffle: 'true',
             })
           }
         >
@@ -155,24 +155,20 @@ export const RaffleListTable: React.FC = () => {
           label="Status Filter"
           allowNull
           statuses={[...RAFFLE_STATUSES]}
-          onChange={(value) => setFilterStatus(value)}
+          onChange={(value) => setFilterStatus(value as RaffleStatus | null)}
         />
 
         <DatePicker
           label="Start Date"
-          value={filterStartDate ? dayjs(filterStartDate) : null}
+          value={filterStartDate}
           format="DD MMM, YYYY"
-          onChange={(date: Dayjs | null) =>
-            setFilterStartDate(date ? date.toISOString() : null)
-          }
+          onChange={(date: Dayjs | null) => setFilterStartDate(date)}
         />
         <DatePicker
           label="End Date"
-          value={filterEndDate ? dayjs(filterEndDate) : null}
+          value={filterEndDate}
           format="DD MMM, YYYY"
-          onChange={(date: Dayjs | null) =>
-            setFilterEndDate(date ? date.toISOString() : null)
-          }
+          onChange={(date: Dayjs | null) => setFilterEndDate(date)}
         />
 
         {selectedIds.length > 0 && (
@@ -198,9 +194,9 @@ export const RaffleListTable: React.FC = () => {
       </Box>
 
       <ServerDataTable
-        rows={(!isPending && data.data) ?? []}
+        rows={data?.data ?? []}
         columns={columns}
-        rowCount={!isPending && data.items}
+        rowCount={data?.items ?? 0}
         loading={isPending}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}

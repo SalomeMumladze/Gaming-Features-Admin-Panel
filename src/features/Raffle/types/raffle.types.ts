@@ -9,6 +9,8 @@ export interface RafflePrize {
   imageUrl: string;
 }
 
+export type ISODateString = string;
+
 export interface Raffle {
   id: string;
   name: string;
@@ -21,8 +23,8 @@ export interface Raffle {
   maxTicketsPerUser: number;
   prizes: RafflePrize[];
   totalTicketLimit: number | null;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: ISODateString;
+  updatedAt: ISODateString;
 }
 
 export interface RaffleFilters {
@@ -40,6 +42,7 @@ export interface RaffleListParams extends RaffleFilters {
 export interface RaffleListResponse {
   data: Raffle[];
   total: number;
+  items?: number;
 }
 
 export interface RaffleResponse {

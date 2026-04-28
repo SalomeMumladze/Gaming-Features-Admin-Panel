@@ -31,23 +31,6 @@ export const wheelSchema = z.object({
   borderColor: z
     .string()
     .regex(/^#([0-9A-Fa-f]{3}){1,2}$/, "Invalid hex color"),
-  prizes: z
-    .array(
-      z.object({
-        name: z.string().min(1, "Prize name required"),
-        prizeType: z.enum(["coins", "item", "nothing"]),
-        prizeAmount: z.number(),
-      }),
-    )
-    .refine(
-      (prizes) =>
-        prizes.every(
-          (p) =>
-            (p.prizeType === "nothing" && p.prizeAmount === 0) ||
-            (p.prizeType !== "nothing" && p.prizeAmount > 0),
-        ),
-      "Prize amounts must be 0 for 'nothing' or > 0 otherwise",
-    ),
 });
 
 export type WheelFormValues = z.infer<typeof wheelSchema>;
