@@ -5,6 +5,7 @@ import { useNotification } from "@/shared/providers/useNotification";
 import type { LeaderboardFormData } from "../types/leaderboard.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
+import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
 
 interface Props {
   searchParams: Record<string, string>;
@@ -36,8 +37,8 @@ export const CreateLeaderboardDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleSubmit = (data: LeaderboardFormData) => {
-    create.mutate(data, {
+  const handleSubmit = (data: LeaderboardFormValues) => {
+    create.mutate(data as LeaderboardFormData, {
       onSuccess: () => {
         notify(`${data.title} created successfully!`, "success");
         setIsDirty(false);

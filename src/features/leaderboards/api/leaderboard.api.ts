@@ -19,7 +19,7 @@ export const leaderboardApi = {
   update: (id: string, payload: LeaderboardFormData) =>
     apiGateway.put<LeaderboardResponse>(`/leaderboards/${id}`, payload),
 
-  delete: (id: string) => apiGateway.delete(`/leaderboards/${id}`),
+  delete: (id: string | number) => apiGateway.delete(`/leaderboards/${id}`),
 
   bulkUpdateStatus: (id: string, status: "draft" | "active") =>
     apiGateway.patch(`/leaderboards/${id}`, { status }),

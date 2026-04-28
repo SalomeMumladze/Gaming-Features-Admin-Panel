@@ -17,7 +17,6 @@ import { PrizeItem } from "./PrizeItem";
 import { RANK_COLORS } from "@/features/leaderboards/components/Config";
 import type {
   UseFormRegister,
-  FieldErrors,
   UseFormSetValue,
   Control,
 } from "react-hook-form";
@@ -27,7 +26,7 @@ import type { DragEndEvent } from "@dnd-kit/core";
 
 interface PrizeFieldsProps {
   register: UseFormRegister<LeaderboardFormValues>;
-  errors: FieldErrors<LeaderboardFormValues["prizes"]>;
+  errors?: any;
   setValue: UseFormSetValue<LeaderboardFormValues>;
   control: Control<LeaderboardFormValues>;
 }
@@ -59,7 +58,7 @@ export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({
 
     setValue("prizes", withRanks, { shouldValidate: true, shouldDirty: true });
   };
-
+  console.log(errors);
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -107,7 +106,7 @@ export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({
                 rankInfo={rankInfo}
                 register={register}
                 remove={handleRemove}
-                errors={errors?.[index]}
+                errors={Array.isArray(errors) ? errors[index] : undefined}
                 fieldsLength={fields.length}
               />
             );

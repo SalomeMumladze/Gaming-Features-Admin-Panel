@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
-import type { RafflePrize } from "@/hooks/useRaffleManagement";
+import type { RafflePrize } from "@/features/Raffle/types/raffle.types";
 import PrizeCard from "./PrizeCard";
-import type { RaffleFormValues } from "@/features/RaffleManagement/schema/raffle.schema";
+import type { RaffleFormValues } from "../../schema/raffle.schema";
 import type {
   UseFormRegister,
   FieldErrors,

@@ -2,15 +2,15 @@ import { apiGateway } from "@/shared/api/httpClient";
 import type {
   WheelListParams,
   WheelsListResponse,
-  WheelResponse,
   WheelFormData,
+  Wheel,
 } from "../types/wheel.types";
 
 export const wheelApi = {
   getList: (params?: WheelListParams) =>
     apiGateway.get<WheelsListResponse>(`/wheels`, { params }),
 
-  getById: (id: string) => apiGateway.get<WheelResponse>(`/wheels/${id}`),
+  getById: (id: string) => apiGateway.get<Wheel>(`/wheels/${id}`),
 
   create: (payload: WheelFormData) =>
     apiGateway.post<WheelFormData>("/wheels", payload),

@@ -5,9 +5,10 @@ import {
   useUpdateLeaderboard,
 } from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { LeaderboardFormData } from "../types/leaderboard.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
+import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
+import type { Leaderboard } from "../types/leaderboard.types";
 
 interface EditLeaderboardSearchParams {
   leaderboardId?: string;
@@ -45,25 +46,20 @@ export const LeaderboardEditDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleUpdate = (data: LeaderboardFormData) => {
-    if (!leaderboardId) return;
-
-    update.mutate(
-      { id: leaderboardId, ...data },
-      {
-        onSuccess: () => {
-          notify(`${data.title} updated successfully!`, "success");
-          setIsDirty(false);
-          handleClose(true);
-        },
-        onError: (error: any) => {
-          notify(
-            error?.response?.data?.message || "Failed to update leaderboard!",
-            "error",
-          );
-        },
+  const handleUpdate = (data: LeaderboardFormValues) => {
+    update.mutate({ id: leaderboardId, ...data } as Leaderboard, {
+      onSuccess: () => {
+        notify(`${data.title} updated successfully!`, "success");
+        setIsDirty(false);
+        handleClose(true);
       },
-    );
+      onError: (error: any) => {
+        notify(
+          error?.response?.data?.message || "Failed to update leaderboard!",
+          "error",
+        );
+      },
+    });
   };
 
   return (

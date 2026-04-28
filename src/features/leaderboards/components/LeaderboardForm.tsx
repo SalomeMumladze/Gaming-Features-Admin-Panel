@@ -46,7 +46,7 @@ export const LeaderboardForm: React.FC<Props> = ({
         {
           id: crypto.randomUUID(),
           name: "",
-          type: "",
+          type: "coins",
           amount: 0,
           rank: 1,
         },
@@ -195,7 +195,7 @@ export const LeaderboardForm: React.FC<Props> = ({
           <LeaderBoardPrizeForm
             control={form.control}
             register={form.register}
-            errors={form.formState.errors.prizes || []}
+            errors={form.formState.errors.prizes}
             setValue={form.setValue}
           />
         </SectionCard>

@@ -33,7 +33,7 @@ export const WheelForm: React.FC<Props> = ({
     resolver: zodResolver(wheelSchema),
     defaultValues: {
       name: "",
-      status: "",
+      status: "draft",
       backgroundColor: "#ffffff",
       borderColor: "#000000",
       segments: [

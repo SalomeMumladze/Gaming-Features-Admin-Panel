@@ -10,7 +10,7 @@ export interface LeaderboardPrize {
   name: string;
   type: PrizeType;
   amount: number;
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 export type ISODateString = string;
@@ -18,7 +18,7 @@ export type ISODateString = string;
 export interface Leaderboard {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   startDate: ISODateString;
   endDate: ISODateString;
   status: LeaderboardStatus;
@@ -50,6 +50,7 @@ export interface LeaderboardListParams extends LeaderboardFilters {
 export interface LeaderboardListResponse {
   data: Leaderboard[];
   total: number;
+  items?: number;
 }
 
 export interface LeaderboardResponse {

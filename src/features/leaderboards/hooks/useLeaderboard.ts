@@ -4,6 +4,7 @@ import { leaderboardApi } from "../api/leaderboard.api";
 import type {
   Leaderboard,
   LeaderboardListParams,
+  LeaderboardFormData,
 } from "../types/leaderboard.types";
 
 //  LIST
@@ -47,7 +48,7 @@ export const useUpdateLeaderboard = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, ...payload }: Leaderboard) =>
+    mutationFn: ({ id, ...payload }: { id: string } & LeaderboardFormData) =>
       leaderboardApi.update(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
@@ -60,7 +61,8 @@ export const useDeleteLeaderboard = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: leaderboardApi.delete,
+    mutationFn: (id: string | number) => leaderboardApi.delete(id),
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
     },

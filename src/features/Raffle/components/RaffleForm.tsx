@@ -37,7 +37,7 @@ export const RaffleForm: React.FC<Props> = ({
       startDate: "",
       endDate: "",
       drawDate: "",
-      status: "",
+      status: "draft",
       ticketPrice: 0,
       maxTicketsPerUser: 1,
       totalTicketLimit: null,

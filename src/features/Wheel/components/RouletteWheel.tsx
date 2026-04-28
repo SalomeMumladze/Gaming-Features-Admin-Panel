@@ -21,7 +21,6 @@ export const RouletteWheel: React.FC<Props> = ({
   segments,
   withSpin = false,
   useWeight = false,
-  size = 100,
   backgroundColor,
   borderColor,
 }) => {

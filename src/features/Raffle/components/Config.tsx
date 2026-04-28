@@ -1,5 +1,5 @@
 import { MonetizationOn, Casino, CardGiftcard } from "@mui/icons-material";
-import type { RafflePrize } from "../hooks/useRaffleManagement";
+import type { RafflePrize } from "../types/raffle.types";
 import type { OverridableComponent } from "@mui/material/OverridableComponent";
 import type { SvgIconTypeMap } from "@mui/material/SvgIcon";
 

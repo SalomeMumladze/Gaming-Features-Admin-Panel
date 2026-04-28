@@ -35,7 +35,9 @@ export const LeaderboardTable: React.FC = () => {
     page: 0,
     pageSize: 10,
   });
-  const [filterStatus, setFilterStatus] = useState<LeaderboardStatus | "">("");
+  const [filterStatus, setFilterStatus] = useState<LeaderboardStatus | null>(
+    null,
+  );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const { setUrlParams } = useQueryParams();
@@ -59,8 +61,8 @@ export const LeaderboardTable: React.FC = () => {
       notify("Failed to update status", "error");
     }
   };
-  const onRowSelectionModelChange = (ids: string[]) => {
-    setSelectedIds(ids);
+  const onRowSelectionModelChange = (ids: Array<string | number>) => {
+    setSelectedIds(ids.map(String));
   };
   const columns: GridColDef[] = [
     {
@@ -163,7 +165,9 @@ export const LeaderboardTable: React.FC = () => {
           label="Status Filter"
           allowNull
           statuses={[...LEADERBOARD_STATUSES]}
-          onChange={(value) => setFilterStatus(value)}
+          onChange={(value) =>
+            setFilterStatus(value as LeaderboardStatus | null)
+          }
         />
         {selectedIds.length > 0 && (
           <Box
@@ -202,9 +206,9 @@ export const LeaderboardTable: React.FC = () => {
 
       <ServerDataTable
         onSelectionModelChange={onRowSelectionModelChange}
-        rows={(!isPending && data.data) ?? []}
+        rows={data?.data ?? []}
         columns={columns}
-        rowCount={!isPending && data.items}
+        rowCount={data?.items ?? 0}
         loading={isPending}
         paginationModel={paginationModel}
         setPaginationModel={setPaginationModel}

@@ -18,7 +18,7 @@ export const RaffleEditDrawer: React.FC<Props> & {
 
   const { raffleId } = searchParams;
 
-  const { data: row, isPending, isError } = useRaffleById(raffleId);
+  const { data, isPending, isError } = useRaffleById(raffleId);
   const updateRaffle = useUpdateRaffle();
 
   const [isDirty, setIsDirty] = useState(false);
@@ -38,14 +38,17 @@ export const RaffleEditDrawer: React.FC<Props> & {
     afterOpenChange?.(false);
   };
 
-  const handleSubmit = (data: Raffle) => {
-    if (!row) return;
+  const handleSubmit = (raffle: Raffle) => {
+    if (!data) return;
 
     updateRaffle.mutate(
-      { ...row, ...data },
+      { ...data, ...raffle },
       {
         onSuccess: () => {
-          notify(`${data.name ?? row.name} updated successfully!`, "success");
+          notify(
+            `${raffle.name ?? data.name} updated successfully!`,
+            "success",
+          );
           setIsDirty(false);
           handleClose(true);
         },

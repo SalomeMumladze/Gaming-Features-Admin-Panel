@@ -4,13 +4,14 @@ import type {
   RaffleListResponse,
   RaffleResponse,
   RaffleFormData,
+  Raffle,
 } from "../types/raffle.types";
 
 export const raffleApi = {
   getList: (params?: RaffleListParams) =>
     apiGateway.get<RaffleListResponse>(`/raffles`, { params }),
 
-  getById: (id: string) => apiGateway.get<RaffleResponse>(`/raffles/${id}`),
+  getById: (id: string) => apiGateway.get<Raffle>(`/raffles/${id}`),
 
   create: (payload: RaffleFormData) =>
     apiGateway.post<RaffleFormData>("/raffles", payload),
