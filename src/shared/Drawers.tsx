@@ -1,16 +1,15 @@
 import React from "react";
 import useQueryParams from "@/shared/providers/useQueryParams";
-import { LeaderboardEditDrawer } from "@/features/leaderboards/drawers/LeaderboardEditDrawer";
-import { CreateLeaderboardDrawer } from "@/features/leaderboards/drawers/CreateLeaderboardDrawer";
-
-import { RaffleEditDrawer } from "@/features/Raffle/drawers/RaffleEditDrawer";
-import { CreateRaffleDrawer } from "@/features/Raffle/drawers/CreateRaffleDrawer";
+import {LeaderboardEditDrawer} from '../features/leaderboards/drawers/LeaderboardEditDrawer';
+import {CreateLeaderboardDrawer} from '../features/leaderboards/drawers/CreateLeaderboardDrawer';
+import { RaffleEditDrawer } from "../features/Raffle/drawers/RaffleEditDrawer";
+import { CreateRaffleDrawer } from "../features/Raffle/drawers/CreateRaffleDrawer";
 // import {
 //   RaffleEditDrawer,
 //   CreateRaffleDrawer,
 // } from "@/features/Raffle/drawers";
-import { CreateWheelDrawer } from "@/features/Wheel/drawers/CreateWheelDrawer";
-import { EditWheelDrawer } from "@/features/Wheel/drawers/EditWheelDrawer";
+import { CreateWheelDrawer } from "../features/Wheel/drawers/CreateWheelDrawer";
+import { EditWheelDrawer } from "../features/Wheel/drawers/EditWheelDrawer";
 // import { CreateWheelDrawer, EditWheelDrawer } from "@/features/Wheel/drawers";
 
 interface DrawerProps {
