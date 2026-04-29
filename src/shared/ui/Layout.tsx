@@ -9,7 +9,7 @@ import {
   COLLAPSED_WIDTH,
   TOPBAR_HEIGHT,
 } from "@/shared/utils/const";
-import Drawers from "../Drawers";
+import Drawers from "./Drawers";
 
 export const Layout: React.FC = () => {
   const theme = useTheme();

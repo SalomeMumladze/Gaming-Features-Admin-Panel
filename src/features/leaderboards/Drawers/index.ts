@@ -1,2 +1,2 @@
-// export { CreateLeaderboardDrawer } from "./CreateLeaderboardDrawer";
-// export { LeaderboardEditDrawer } from "./LeaderboardEditDrawer";
+export { CreateLeaderboardDrawer } from "./CreateLeaderboardDrawer";
+export { LeaderboardEditDrawer } from "./LeaderboardEditDrawer";

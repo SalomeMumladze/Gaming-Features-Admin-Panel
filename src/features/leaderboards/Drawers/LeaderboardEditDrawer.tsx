@@ -3,7 +3,7 @@ import { LeaderboardForm } from "@/features/leaderboards/components/LeaderboardF
 import {
   useLeaderboardById,
   useUpdateLeaderboard,
-} from "./hooks/useLeaderboard";
+} from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
