@@ -1,9 +1,9 @@
 import React from "react";
 import useQueryParams from "@/shared/providers/useQueryParams";
-// import {
-//   LeaderboardEditDrawer,
-//   CreateLeaderboardDrawer,
-// } from "@/features/leaderboards/drawers";
+import {
+  LeaderboardEditDrawer,
+  CreateLeaderboardDrawer,
+} from "@/features/leaderboards/drawers";
 import {
   RaffleEditDrawer,
   CreateRaffleDrawer,
@@ -25,12 +25,12 @@ const Drawers: React.FC = () => {
   const params = useQueryParams();
 
   const drawerComponents = [
-    // LeaderboardEditDrawer,
-    // CreateLeaderboardDrawer,
     RaffleEditDrawer,
     CreateRaffleDrawer,
     CreateWheelDrawer,
     EditWheelDrawer,
+    LeaderboardEditDrawer,
+    CreateLeaderboardDrawer,
   ] as DrawerComponentType[];
 
   return (
