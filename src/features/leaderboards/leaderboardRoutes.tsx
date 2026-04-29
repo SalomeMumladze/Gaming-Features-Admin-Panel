@@ -1,5 +1,5 @@
-import { LeaderboardPage } from "./pages/LeaderboardPage";
-import { LeaderboardDetailPage } from "./pages/LeaderboardDetailPage";
+import { LeaderboardPage } from "@/features/leaderboards/pages/LeaderboardPage";
+import { LeaderboardDetailPage } from "@/features/leaderboards/pages/LeaderboardDetailPage";
 import { P } from "@/app/router/paths";
 
 export const leaderboardRoutes = [
