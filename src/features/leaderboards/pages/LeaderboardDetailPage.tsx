@@ -17,7 +17,7 @@ import { RankBadge, DateFormatter, StatusFormatter } from "@/shared/formatters";
 import {
   RANK_COLORS,
   TYPE_CONFIG,
-} from "@/features/leaderboards/components/Config";
+} from "@/features/Leaderboards/components/Config";
 import { ScoringTypeFormatter } from "../components/ScoringTypeFormatter";
 
 const ACCENTS = {

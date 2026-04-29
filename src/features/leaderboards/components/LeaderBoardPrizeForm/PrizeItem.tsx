@@ -20,7 +20,7 @@ import { TYPE_CONFIG } from "../Config";
 import { RankBadge } from "@/shared/formatters";
 
 import type { UseFormRegister, FieldErrors } from "react-hook-form";
-import type { LeaderboardFormValues } from "@/features/leaderboards/schemas/leaderboard.schema";
+import type { LeaderboardFormValues } from "@/features/Leaderboards/schemas/leaderboard.schema";
 
 interface PrizeItemProps {
   id: string;

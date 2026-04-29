@@ -1,6 +1,6 @@
 import React from "react";
 import { Chip } from "@mui/material";
-import type { LeaderboardScoringType } from "@/features/leaderboards/types/leaderboard.types";
+import type { LeaderboardScoringType } from "@/features/Leaderboards/types/leaderboard.types";
 
 type Props = {
   value?: LeaderboardScoringType;
