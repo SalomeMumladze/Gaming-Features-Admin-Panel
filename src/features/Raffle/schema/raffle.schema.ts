@@ -16,7 +16,7 @@ export const raffleSchema = z
       .min(3, "Raffle name must be at least 3 characters")
       .max(80, "Raffle name must be at most 80 characters"),
     description: z.string().optional(),
-    startDate: z.coerce.date("Start date is required"),
+    startDate: z.string().min(1, "Start date is required"),
     endDate: z.string().min(1, "End date is required"),
     drawDate: z.string().min(1, "Draw date is required"),
     status: z.enum(["draft", "active", "drawn", "cancelled"]),

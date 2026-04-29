@@ -18,7 +18,7 @@ export interface Raffle {
   startDate: string;
   endDate: string;
   drawDate: string;
-  status: "draft" | "active" | "drawn" | "cancelled";
+  status: RaffleStatus;
   ticketPrice: number;
   maxTicketsPerUser: number;
   prizes: RafflePrize[];
