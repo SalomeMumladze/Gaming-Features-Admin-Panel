@@ -21,7 +21,7 @@ export const leaderboardSchema = z
 
     maxParticipants: z.number().int().min(2),
 
-    prizes: z.array(prizeSchema),
+    prizes: z.array(prizeSchema).min(1, "At least 1 prize is required"),
   })
   .refine((data) => new Date(data.endDate) > new Date(data.startDate), {
     message: "End date must be after start date",
