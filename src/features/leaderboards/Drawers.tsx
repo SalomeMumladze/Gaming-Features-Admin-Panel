@@ -1,9 +1,8 @@
 import React from "react";
 import useQueryParams from "@/shared/providers/useQueryParams";
-import {
-  LeaderboardEditDrawer,
-  CreateLeaderboardDrawer,
-} from "@/features/leaderboards/drawers";
+
+import { LeaderboardEditDrawer } from "@/features/leaderboards/LeaderboardEditDrawer";
+import { CreateLeaderboardDrawer } from "@/features/leaderboards/CreateLeaderboardDrawer";
 import {
   RaffleEditDrawer,
   CreateRaffleDrawer,

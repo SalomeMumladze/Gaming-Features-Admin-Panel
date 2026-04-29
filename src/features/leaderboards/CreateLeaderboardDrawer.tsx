@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { LeaderboardForm } from "@/features/leaderboards/components/LeaderboardForm";
-import { useCreateLeaderboard } from "../hooks/useLeaderboard";
+import { useCreateLeaderboard } from "./hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
 import type { LeaderboardFormData } from "@/features/leaderboards/types/leaderboard.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
