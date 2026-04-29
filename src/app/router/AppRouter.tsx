@@ -6,7 +6,7 @@ import {
 
 import { Layout } from "@/shared/ui/Layout";
 import { NotFound } from "@/pages/NotFound";
-import { leaderboardRoutes } from "@/features/Leaderboards/leaderboardRoutes";
+import { leaderboardRoutes } from "@/features/leaderboards/leaderboardRoutes";
 import { raffleRoutes } from "@/features/Raffle/raffleRoutes";
 import { WheelRoutes } from "@/features/Wheel/wheelRoutes";
 

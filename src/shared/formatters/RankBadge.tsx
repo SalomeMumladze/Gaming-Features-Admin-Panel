@@ -1,7 +1,7 @@
 import React from "react";
 import { alpha, useTheme } from "@mui/material";
 import { WorkspacePremium } from "@mui/icons-material";
-import { RANK_COLORS } from "@/features/Leaderboards/components/Config";
+import { RANK_COLORS } from "@/features/leaderboards/components/Config";
 
 interface Rank {
   id: string;

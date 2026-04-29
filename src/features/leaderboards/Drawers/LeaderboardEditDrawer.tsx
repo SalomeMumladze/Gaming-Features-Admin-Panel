@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LeaderboardForm } from "../components/LeaderboardForm";
+import { LeaderboardForm } from "@/features/leaderboards/components/LeaderboardForm";
 import {
   useLeaderboardById,
   useUpdateLeaderboard,
@@ -7,8 +7,8 @@ import {
 import { useNotification } from "@/shared/providers/useNotification";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
-import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
-import type { Leaderboard } from "../types/leaderboard.types";
+import type { LeaderboardFormValues } from "@/features/leaderboards/schemas/leaderboard.schema";
+import type { Leaderboard } from "@/features/leaderboards/types/leaderboard.types";
 
 interface EditLeaderboardSearchParams {
   leaderboardId?: string;

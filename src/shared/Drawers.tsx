@@ -3,7 +3,7 @@ import useQueryParams from "@/shared/providers/useQueryParams";
 import {
   LeaderboardEditDrawer,
   CreateLeaderboardDrawer,
-} from "@/features/Leaderboards/drawers/index";
+} from "@/features/leaderboards/drawers/index";
 import {
   RaffleEditDrawer,
   CreateRaffleDrawer,

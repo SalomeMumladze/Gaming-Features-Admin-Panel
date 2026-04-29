@@ -20,9 +20,9 @@ import { ROUTE_PATHS } from "@/app/router/paths";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";
-import type { LeaderboardStatus } from "../types/leaderboard.types";
+import type { LeaderboardStatus } from "@/features/leaderboards/types/leaderboard.types";
 import { TableCellWithTooltip } from "@/shared/components/InfoTooltipLabel";
-import { ScoringTypeFormatter } from "../components/ScoringTypeFormatter";
+import { ScoringTypeFormatter } from "@/features/leaderboards/components/ScoringTypeFormatter";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const LeaderboardTable: React.FC = () => {
@@ -152,7 +152,7 @@ export const LeaderboardTable: React.FC = () => {
           className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
-              createLeaderboard: 'true',
+              createLeaderboard: "true",
             })
           }
         >

@@ -17,8 +17,8 @@ import { RankBadge, DateFormatter, StatusFormatter } from "@/shared/formatters";
 import {
   RANK_COLORS,
   TYPE_CONFIG,
-} from "@/features/Leaderboards/components/Config";
-import { ScoringTypeFormatter } from "../components/ScoringTypeFormatter";
+} from "@/features/leaderboards/components/Config";
+import { ScoringTypeFormatter } from "@/features/leaderboards/components/ScoringTypeFormatter";
 
 const ACCENTS = {
   blue: { light: "#3b6ef0", dark: "#4f8eff" },

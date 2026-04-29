@@ -14,13 +14,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { PrizeItem } from "./PrizeItem";
-import { RANK_COLORS } from "@/features/Leaderboards/components/Config";
+import { RANK_COLORS } from "../Config";
 import type {
   UseFormRegister,
   UseFormSetValue,
   Control,
 } from "react-hook-form";
-import type { LeaderboardFormValues } from "@/features/Leaderboards/schemas/leaderboard.schema";
+import type { LeaderboardFormValues } from "@/features/leaderboards/schemas/leaderboard.schema";
 
 import type { DragEndEvent } from "@dnd-kit/core";
 

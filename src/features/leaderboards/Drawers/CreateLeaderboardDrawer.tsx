@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { LeaderboardForm } from "../components/LeaderboardForm";
+import { LeaderboardForm } from "@/features/leaderboards/components/LeaderboardForm";
 import { useCreateLeaderboard } from "../hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
-import type { LeaderboardFormData } from "../types/leaderboard.types";
+import type { LeaderboardFormData } from "@/features/leaderboards/types/leaderboard.types";
 import { DrawerLayout } from "@/shared/components/DrawerLayout";
 import { useConfirm } from "@/shared/providers/ConfirmProvider";
-import type { LeaderboardFormValues } from "../schemas/leaderboard.schema";
+import type { LeaderboardFormValues } from "@/features/leaderboards/schemas/leaderboard.schema";
 
 interface Props {
   searchParams: Record<string, string>;
