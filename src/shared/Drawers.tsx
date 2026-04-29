@@ -3,12 +3,12 @@ import useQueryParams from "@/shared/providers/useQueryParams";
 import {
   LeaderboardEditDrawer,
   CreateLeaderboardDrawer,
-} from "@/features/leaderboards/drawers";
+} from "@/features/leaderboards/drawers/index";
 import {
   RaffleEditDrawer,
   CreateRaffleDrawer,
-} from "../features/Raffle/drawers";
-import { CreateWheelDrawer, EditWheelDrawer } from "@/features/Wheel/drawers";
+} from "../features/Raffle/drawers/index";
+import { CreateWheelDrawer, EditWheelDrawer } from "@/features/Wheel/drawers/index";
 
 interface DrawerProps {
   searchParams: Record<string, string>;
