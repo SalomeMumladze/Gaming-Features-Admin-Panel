@@ -3,17 +3,12 @@ import useQueryParams from "@/shared/providers/useQueryParams";
 // import {
 //   LeaderboardEditDrawer,
 //   CreateLeaderboardDrawer,
-// } from "@/features/leaderboards/drawers/index";
-import  { CreateLeaderboardDrawer } from "@/features/leaderboards/drawers/CreateLeaderboardDrawer";
-import  { LeaderboardEditDrawer } from "@/features/leaderboards/drawers/LeaderboardEditDrawer";
+// } from "@/features/leaderboards/drawers";
 import {
   RaffleEditDrawer,
   CreateRaffleDrawer,
-} from "@/features/Raffle/drawers/index";
-import {
-  CreateWheelDrawer,
-  EditWheelDrawer,
-} from "@/features/Wheel/drawers/index";
+} from "@/features/Raffle/drawers";
+import { CreateWheelDrawer, EditWheelDrawer } from "@/features/Wheel/drawers";
 
 interface DrawerProps {
   searchParams: Record<string, string>;
@@ -30,8 +25,8 @@ const Drawers: React.FC = () => {
   const params = useQueryParams();
 
   const drawerComponents = [
-    LeaderboardEditDrawer,
-    CreateLeaderboardDrawer,
+    // LeaderboardEditDrawer,
+    // CreateLeaderboardDrawer,
     RaffleEditDrawer,
     CreateRaffleDrawer,
     CreateWheelDrawer,
