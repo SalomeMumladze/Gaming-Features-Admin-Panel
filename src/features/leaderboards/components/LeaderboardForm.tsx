@@ -39,8 +39,8 @@ export const LeaderboardForm: React.FC<Props> = ({
       description: "",
       startDate: "",
       endDate: "",
-      status: null,
-      scoringType: null,
+      status: undefined,
+      scoringType: undefined,
       maxParticipants: 2,
       prizes: [
         {

@@ -27,18 +27,13 @@ export const leaderboardSchema = z
       .max(100, "Title is required, 3–100 characters"),
 
     description: z.string().optional(),
-
     startDate: z.string().min(1, "Start date is required"),
     endDate: z.string().min(1, "End date is required"),
-
     status: z.enum(["draft", "active", "completed"]).optional(),
-
     scoringType: z.enum(["points", "wins", "wagered"]).optional(),
-
     maxParticipants: z
       .int("maxParticipants must be a positive integer, minimum 2")
       .min(2, "maxParticipants must be a positive integer, minimum 2"),
-
     prizes: z.array(prizeSchema).min(1, "At least 1 prize required"),
   })
   .refine((data) => new Date(data.endDate) > new Date(data.startDate), {

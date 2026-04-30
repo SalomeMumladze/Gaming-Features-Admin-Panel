@@ -190,7 +190,14 @@ export const WheelForm: React.FC<Props> = ({
             size="small"
             startIcon={<Add />}
             onClick={() =>
-              appendSegment({ label: "", weight: 0, color: "#6366f1" })
+              appendSegment({
+                label: "",
+                weight: 0,
+                color: "#6366f1",
+                id: crypto.randomUUID(),
+                prizeType: "coins",
+                prizeAmount: 0,
+              })
             }
             className="!self-start !rounded-lg !border-dashed !border-gray-300 !text-gray-600 hover:!border-indigo-400 hover:!text-indigo-600"
           >
