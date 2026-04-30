@@ -10,9 +10,10 @@ import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { SectionCard } from "@/shared/components/SectionCard";
 import { FieldRow } from "@/shared/components/FieldRow";
 import { RouletteWheel } from "./RouletteWheel";
+import type { Wheel } from "../types/wheel.types";
 
 interface Props {
-  initialData?: Partial<WheelFormValues>;
+  initialData?: Wheel;
   onSubmit: (data: WheelFormValues) => void;
   isSubmitting?: boolean;
   onDirtyChange?: (dirty: boolean) => void;
@@ -32,8 +33,22 @@ export const WheelForm: React.FC<Props> = ({
       backgroundColor: "#ffffff",
       borderColor: "#000000",
       segments: [
-        { label: "", weight: 50, color: "#6366f1" },
-        { label: "", weight: 50, color: "#10b981" },
+        {
+          id: crypto.randomUUID(),
+          label: "test",
+          weight: 50,
+          color: "#6366f1",
+          prizeType: "coins",
+          prizeAmount: 1,
+        },
+        {
+          id: crypto.randomUUID(),
+          label: "test",
+          weight: 50,
+          color: "#10b981",
+          prizeType: "coins",
+          prizeAmount: 1,
+        },
       ],
       spinCost: 0,
       maxSpinsPerUser: 1,
@@ -49,7 +64,9 @@ export const WheelForm: React.FC<Props> = ({
   } = useFieldArray({ control: form.control, name: "segments" });
 
   useEffect(() => {
-    if (initialData) form.reset({ ...form.getValues(), ...initialData });
+    if (initialData) {
+      form.reset({ ...initialData, segments: initialData.segments.map(segment => ({ ...segment, id: String(segment.id) })) });
+    }
   }, [initialData]);
 
   useEffect(() => {

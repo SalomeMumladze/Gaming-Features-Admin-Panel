@@ -1,6 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { wheelApi } from "../api/wheel.api";
-import type { Wheel, WheelListParams } from "../types/wheel.types";
+import type {
+  Wheel,
+  WheelListParams,
+  WheelFormData,
+} from "../types/wheel.types";
 
 //  LIST
 export const useWheels = (params?: WheelListParams) => {
@@ -43,7 +47,8 @@ export const useUpdateWheel = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, ...payload }: Wheel) => wheelApi.update(id, payload),
+    mutationFn: ({ id, ...payload }: { id: string } & WheelFormData) =>
+      wheelApi.update(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wheels"] });
     },

@@ -41,7 +41,7 @@ export const EditWheelDrawer: React.FC<Props> & {
   const handleSubmit = (data: WheelFormValues) => {
     if (!row || !wheelId) return;
 
-    updateWheel.mutate({ id: wheelId, ...data } as Wheel, {
+    updateWheel.mutate({ ...data, id: wheelId } as Wheel, {
       onSuccess: () => {
         notify(`${data.name ?? row.name} updated successfully!`, "success");
         setIsDirty(false);
