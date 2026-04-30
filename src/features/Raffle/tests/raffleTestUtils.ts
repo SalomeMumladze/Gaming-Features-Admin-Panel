@@ -18,13 +18,10 @@ export const baseRaffleData = (
     startDate: "2026-01-02",
     endDate: "2026-01-10",
     drawDate: "2026-01-15",
-
     status: "draft" as const,
-
     ticketPrice: 10,
     maxTicketsPerUser: 5,
     totalTicketLimit: null,
-
     prizes: [basePrize],
 
     ...override,

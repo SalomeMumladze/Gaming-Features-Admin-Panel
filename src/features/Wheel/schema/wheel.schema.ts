@@ -1,36 +1,78 @@
 import { z } from "zod";
 
 export const segmentSchema = z.object({
-  label: z.string().min(1, "Segment label is required"),
-  weight: z.number("Weight Is required").min(0, "Weight must be ≥ 0"),
-  color: z.string().regex(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i, "Invalid hex color"),
+  id: z.string(),
+  label: z
+    .string()
+    .trim()
+    .min(1, "Each segment must have a label"),
+  weight: z
+    .number()
+    .min(0, "Weight must be ≥ 0"),
+  color: z
+    .string()
+    .regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, "Invalid hex color"),
+  prizeType: z.enum(["coins", "freeSpin", "bonus", "nothing"]),
+  prizeAmount: z.number().min(0),
+  imageUrl: z.string().url().optional(),
+}).superRefine((seg, ctx) => {
+  if (seg.prizeType === "nothing" && seg.prizeAmount !== 0) {
+    ctx.addIssue({
+      code: "custom",
+      message: "prizeAmount must be 0 when prizeType is nothing",
+      path: ["prizeAmount"],
+    });
+  }
+
+  if (seg.prizeType !== "nothing" && seg.prizeAmount <= 0) {
+    ctx.addIssue({
+      code: "custom",
+      message: "prizeAmount must be > 0 when prizeType is not nothing",
+      path: ["prizeAmount"],
+    });
+  }
 });
 
 export const wheelSchema = z.object({
+  id: z.string(),
+
   name: z
     .string()
+    .trim()
     .min(3, "Name must be 3–80 characters")
     .max(80, "Name must be 3–80 characters"),
+  description: z.string().optional(),
+  status: z.enum(["draft", "active", "inactive"]),
   segments: z
     .array(segmentSchema)
-    .min(2, "At least 2 segments required")
+    .min(2, "Minimum 2 segments required")
     .max(12, "Maximum 12 segments allowed")
-    .refine((segments) => {
-      const total = segments.reduce((acc, seg) => acc + seg.weight, 0);
-      return total === 100;
-    }, "Segment weights must sum to 100"),
-  spinCost: z.number("Is required").min(0, "Spin cost must be ≥ 0"),
+    .superRefine((segments, ctx) => {
+      const total = segments.reduce((sum, s) => sum + s.weight, 0);
+
+      if (total !== 100) {
+        ctx.addIssue({
+          code: "custom",
+          message: "All segment weight values must sum to 100",
+          path: ["segments"],
+        });
+      }
+    }),
+  spinCost: z
+    .number()
+    .min(0, "spinCost must be a non-negative number"),
   maxSpinsPerUser: z
-    .number("Is required")
-    .min(1, "Must allow at least 1 spin per user"),
-  status: z.enum(["draft", "active", "inactive"]),
+    .number()
+    .int()
+    .min(1, "maxSpinsPerUser must be at least 1"),
   backgroundColor: z
     .string()
-    .regex(/^#([0-9A-Fa-f]{3}){1,2}$/, "Invalid hex color"),
-
+    .regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, "Invalid hex color"),
   borderColor: z
     .string()
-    .regex(/^#([0-9A-Fa-f]{3}){1,2}$/, "Invalid hex color"),
+    .regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, "Invalid hex color"),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
 });
 
 export type WheelFormValues = z.infer<typeof wheelSchema>;
