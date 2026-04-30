@@ -2,11 +2,14 @@ import { z } from "zod";
 
 export const rafflePrizeSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, "Name is required"),
+  name: z.string().trim().min(1, "Each prize must have a name"),
   type: z.enum(["coins", "freeSpin", "bonus"]),
   amount: z.number().nonnegative("Amount must be 0 or more"),
-  quantity: z.number("Quantity is required").int().min(1, "Must be at least 1"),
-  imageUrl: z.string().optional(),
+  quantity: z
+    .number()
+    .int("Quantity must be an integer")
+    .min(1, "Each prize must have quantity >= 1"),
+  imageUrl: z.string().url().optional(),
 });
 
 export const raffleSchema = z
@@ -15,17 +18,24 @@ export const raffleSchema = z
       .string()
       .min(3, "Raffle name must be at least 3 characters")
       .max(80, "Raffle name must be at most 80 characters"),
+
     description: z.string().optional(),
+
     startDate: z.string().min(1, "Start date is required"),
     endDate: z.string().min(1, "End date is required"),
     drawDate: z.string().min(1, "Draw date is required"),
+
     status: z.enum(["draft", "active", "drawn", "cancelled"]),
+
     ticketPrice: z.number().positive("Ticket price must be positive"),
+
     maxTicketsPerUser: z
       .number("Max tickets is required")
-      .int("")
+      .int("Max tickets must be an integer")
       .min(1, "Max tickets per user must be at least 1"),
+
     totalTicketLimit: z.number().int().nullable().optional(),
+
     prizes: z.array(rafflePrizeSchema).min(1, "At least 1 prize is required"),
   })
   .refine((data) => new Date(data.endDate) > new Date(data.startDate), {
