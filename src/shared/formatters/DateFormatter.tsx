@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Box } from "@mui/material";
 import dayjs from "dayjs";
+import { CalendarTodayOutlined } from "@mui/icons-material";
 
 type Props = {
   value?: string | Date;
@@ -25,20 +26,28 @@ export const DateFormatter: React.FC<Props> = ({
   const timePart = date.format(timeFormat);
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      height="100%"
-    >
-      <Typography fontWeight={600} variant="body2">
-        {datePart}
-      </Typography>
-      {showTime && (
-        <Typography variant="caption" color="text.secondary">
-          {timePart}
+    <div className="flex items-center h-full w-full gap-4">
+      <CalendarTodayOutlined
+        sx={{
+          fontSize: 16,
+          color: "text.secondary",
+        }}
+      />
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        height="100%"
+      >
+        <Typography fontWeight={500} variant="subtitle2">
+          {datePart}
         </Typography>
-      )}
-    </Box>
+        {showTime && (
+          <Typography variant="caption" color="text.secondary">
+            {timePart}
+          </Typography>
+        )}
+      </Box>
+    </div>
   );
 };

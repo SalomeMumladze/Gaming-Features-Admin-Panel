@@ -1,4 +1,4 @@
-import { leaderboardSchema } from "../schemas/leaderboard.schema";
+import { leaderboardSchema } from "../leaderboard.schema";
 import { baseLeaderboardData } from "./leaderboardTestUtils";
 
 const parse = (override = {}) =>

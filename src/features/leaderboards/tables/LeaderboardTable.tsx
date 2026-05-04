@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import type { GridColDef } from "@mui/x-data-grid";
-import { Button, Box } from "@mui/material";
 import {
   useDeleteLeaderboard,
   useLeaderboards,
   useUpdateLeaderboardStatus,
 } from "../hooks/useLeaderboard";
-import { Add } from "@mui/icons-material";
 import {
   DateFormatter,
   StatusFormatter,
@@ -17,13 +15,12 @@ import useQueryParams from "@/shared/providers/useQueryParams";
 import { useNotification } from "@/shared/providers/useNotification";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/app/router/paths";
-import { StatusesSelector } from "@/shared/components/StatusesSelector";
-import { LEADERBOARD_STATUSES } from "../constants";
 import { ServerDataTable } from "@/shared/components/ServerDataTable";
 import type { LeaderboardStatus } from "@/features/leaderboards/types/leaderboard.types";
 import { TableCellWithTooltip } from "@/shared/components/InfoTooltipLabel";
 import { ScoringTypeFormatter } from "@/features/leaderboards/components/ScoringTypeFormatter";
 import { useQueryClient } from "@tanstack/react-query";
+import LeaderboardToolBar from "../components/LeaderboardToolBar";
 
 export const LeaderboardTable: React.FC = () => {
   const { notify } = useNotification();
@@ -61,9 +58,11 @@ export const LeaderboardTable: React.FC = () => {
       notify("Failed to update status", "error");
     }
   };
+  
   const onRowSelectionModelChange = (ids: Array<string | number>) => {
     setSelectedIds(ids.map(String));
   };
+
   const columns: GridColDef[] = [
     {
       field: "title",
@@ -143,83 +142,25 @@ export const LeaderboardTable: React.FC = () => {
   ];
 
   return (
-    <Box>
-      <Box display="flex " gap={2} mb={2} flexWrap="wrap" alignItems="center">
-        <Button
-          variant="outlined"
-          startIcon={<Add />}
-          size="large"
-          className="!capitalize w-fit h-14"
-          onClick={() =>
-            setUrlParams({
-              createLeaderboard: "true",
-            })
-          }
-        >
-          Create Leaderboard
-        </Button>
-
-        <StatusesSelector
-          value={filterStatus}
-          className="w-44"
-          label="Status Filter"
-          allowNull
-          statuses={[...LEADERBOARD_STATUSES]}
-          onChange={(value) =>
-            setFilterStatus(value as LeaderboardStatus | null)
-          }
-        />
-        {selectedIds.length > 0 && (
-          <Box
-            display="flex"
-            alignItems="center"
-            gap={2}
-            px={2}
-            py={1}
-            bgcolor="grey.100"
-            borderRadius={2}
-          >
-            <Box fontWeight={500}>{selectedIds.length} selected</Box>
-
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() => handleBulkChange("active")}
-            >
-              Set Active
-            </Button>
-
-            <Button
-              variant="outlined"
-              color="warning"
-              onClick={() => handleBulkChange("draft")}
-            >
-              Set Draft
-            </Button>
-
-            <Button variant="text" onClick={() => setSelectedIds([])}>
-              Clear
-            </Button>
-          </Box>
-        )}
-      </Box>
-
-      <ServerDataTable
-        onSelectionModelChange={onRowSelectionModelChange}
-        rows={data?.data ?? []}
-        columns={columns}
-        rowCount={data?.items ?? 0}
-        loading={isPending}
-        paginationModel={paginationModel}
-        setPaginationModel={setPaginationModel}
-        getRowId={(row) => row.id}
-        checkboxSelection
-        noRowsOverlay={
-          isError ? (
-            <Box color="error.main">Failed to load data</Box>
-          ) : undefined
-        }
-      />
-    </Box>
+    <ServerDataTable
+      header={LeaderboardToolBar}
+      headerProps={{
+        filterStatus,
+        setFilterStatus,
+        selectedIds,
+        setSelectedIds,
+        handleBulkChange,
+      }}
+      onSelectionModelChange={onRowSelectionModelChange}
+      rows={data?.data ?? []}
+      columns={columns}
+      rowCount={data?.items ?? 0}
+      loading={isPending}
+      isError={isError}
+      paginationModel={paginationModel}
+      setPaginationModel={setPaginationModel}
+      getRowId={(row) => row.id}
+      checkboxSelection
+    />
   );
 };

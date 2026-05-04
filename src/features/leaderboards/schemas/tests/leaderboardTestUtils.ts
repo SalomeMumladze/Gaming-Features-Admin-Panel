@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { leaderboardSchema } from "../schemas/leaderboard.schema";
+import type { leaderboardSchema } from "../leaderboard.schema";
 
 export const basePrize = {
   id: "1",

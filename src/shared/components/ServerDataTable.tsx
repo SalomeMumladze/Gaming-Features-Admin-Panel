@@ -8,6 +8,7 @@ interface ServerDataTableProps<T> {
   columns: GridColDef[];
   rowCount: number;
   loading: boolean;
+  isError: boolean;
   paginationModel: { page: number; pageSize: number };
   setPaginationModel: (model: { page: number; pageSize: number }) => void;
   getRowId?: (row: T) => string | number;
@@ -15,6 +16,8 @@ interface ServerDataTableProps<T> {
   checkboxSelection?: boolean;
   onSelectionModelChange?: (ids: (string | number)[]) => void;
   noRowsOverlay?: React.ReactNode;
+  header?: React.ComponentType<any>;
+  headerProps?: any;
 }
 
 export function ServerDataTable<T>({
@@ -22,6 +25,7 @@ export function ServerDataTable<T>({
   columns,
   rowCount,
   loading,
+  isError,
   paginationModel,
   setPaginationModel,
   getRowId,
@@ -29,9 +33,18 @@ export function ServerDataTable<T>({
   checkboxSelection,
   onSelectionModelChange,
   noRowsOverlay,
+  header,
+  headerProps,
 }: ServerDataTableProps<T>) {
+  const Header = header;
+
   return (
     <Box sx={{ width: "100%" }}>
+      {Header && (
+        <Box mb={2}>
+          <Header {...headerProps} />
+        </Box>
+      )}
       <DataGrid
         rows={rows}
         columns={columns}
