@@ -38,6 +38,14 @@ export function ServerDataTable<T>({
 }: ServerDataTableProps<T>) {
   const Header = header;
 
+  if (isError) {
+    return (
+      <Box p={2} textAlign="center">
+        Error loading data.
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
       {Header && (
