@@ -9,7 +9,15 @@ export const createLeaderboardMock = (
   endDate: "2026-01-10",
   status: "draft",
   scoringType: "points",
-  prizes: [],
   maxParticipants: 100,
+  prizes: [
+    {
+      id: "1",
+      name: "Prize 1",
+      type: "coins",
+      amount: 100,
+      rank: 1,
+    },
+  ],
   ...overrides,
 });

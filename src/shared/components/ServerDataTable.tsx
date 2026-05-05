@@ -8,7 +8,7 @@ interface ServerDataTableProps<T> {
   columns: GridColDef[];
   rowCount: number;
   loading: boolean;
-  isError?: boolean;
+  isError: boolean;
   paginationModel: { page: number; pageSize: number };
   setPaginationModel: (model: { page: number; pageSize: number }) => void;
   getRowId?: (row: T) => string | number;
@@ -37,14 +37,6 @@ export function ServerDataTable<T>({
   headerProps,
 }: ServerDataTableProps<T>) {
   const Header = header;
-
-  if (isError) {
-    return (
-      <Box p={2} textAlign="center">
-        Error loading data.
-      </Box>
-    );
-  }
 
   return (
     <Box sx={{ width: "100%" }}>

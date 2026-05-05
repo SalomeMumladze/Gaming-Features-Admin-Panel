@@ -142,7 +142,7 @@ export const RaffleListTable: React.FC = () => {
           className="!capitalize w-fit h-14"
           onClick={() =>
             setUrlParams({
-              createRaffle: 'true',
+              createRaffle: "true",
             })
           }
         >

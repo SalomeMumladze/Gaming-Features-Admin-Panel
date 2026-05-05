@@ -1,24 +1,6 @@
 {
   "leaderboards": [
     {
-      "title": "qw12uy7",
-      "description": "jhbsdjbhs",
-      "startDate": "2026-03-06T20:00:00.000Z",
-      "endDate": "2026-03-07T20:00:00.000Z",
-      "status": "draft",
-      "scoringType": "points",
-      "maxParticipants": 123132,
-      "prizes": [
-        {
-          "rank": 1,
-          "name": "test",
-          "type": "freeSpin",
-          "amount": 1
-        }
-      ],
-      "id": "gfoFjkgpmsdSU"
-    },
-    {
       "title": "sdsdsd",
       "description": "",
       "startDate": "2026-04-10T20:00:00.000Z",

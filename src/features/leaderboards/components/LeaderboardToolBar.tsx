@@ -1,58 +1,135 @@
-import React from "react";
-import { Button, Box } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { useState } from "react";
+import { Button, Box, Badge, Popover, Card, TextField } from "@mui/material";
+import { Add, FilterList } from "@mui/icons-material";
 import useQueryParams from "@/shared/providers/useQueryParams";
-import type { LeaderboardStatus } from "@/features/leaderboards/types/leaderboard.types";
+import { useServerTable } from "@/shared/components/tables/serverTable.context";
 import { StatusesSelector } from "@/shared/components/StatusesSelector";
 import { LEADERBOARD_STATUSES } from "../constants";
+import { ScoringTypeSelector } from "./ScoringTypeSelector";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useUpdateLeaderboardStatus } from "../hooks/useLeaderboard";
+import { useNotification } from "@/shared/providers/useNotification";
+import dayjs from "dayjs";
+import { useQueryClient } from "@tanstack/react-query";
 
-type Props = {
-  filterStatus: LeaderboardStatus | null;
-  setFilterStatus: (v: LeaderboardStatus | null) => void;
-  selectedIds: string[];
-  setSelectedIds: (ids: string[]) => void;
-  handleBulkChange: (status: "draft" | "active") => void;
-};
-
-const LeaderboardToolBar: React.FC<Props> = ({
-  filterStatus,
-  setFilterStatus,
-  selectedIds,
-  setSelectedIds,
-  handleBulkChange,
-}) => {
+const LeaderboardToolBar = () => {
   const { setUrlParams } = useQueryParams();
+  const { mutateAsync } = useUpdateLeaderboardStatus();
+  const { notify } = useNotification();
+  const queryClient = useQueryClient();
+
+  const { filters, setFilter, clearFilters, selectedIds, setSelectedIds } =
+    useServerTable();
+
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const open = Boolean(anchorEl);
+
+  const hasFilters = Object.keys(filters || {}).length > 0;
+
+  const handleBulkChange = async (status: "draft" | "active") => {
+    try {
+      await Promise.all(
+        selectedIds.map((id: string) => mutateAsync({ id, status })),
+      );
+
+      notify("Status updated successfully", "success");
+      setSelectedIds([]);
+
+      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+    } catch (e) {
+      notify("Failed to update status", "error");
+    }
+  };
 
   return (
-    <div className="bg-white rounded-md p-2 h-18 mb-2 flex items-center gap-2 shadow-sm">
+    <div className="bg-white/10 p-2 flex gap-2 items-center">
       <Button
         variant="contained"
         startIcon={<Add />}
-        className="!capitalize w-fit"
-        onClick={() =>
-          setUrlParams({
-            createLeaderboard: "true",
-          })
-        }
+        onClick={() => setUrlParams({ createLeaderboard: "true" })}
       >
-        Create Leaderboard
+        Create
       </Button>
 
-      <StatusesSelector
-        value={filterStatus}
-        className="w-44 h-9"
-        label="Status Filter"
-        allowNull
-        statuses={[...LEADERBOARD_STATUSES]}
-        onChange={(value) => setFilterStatus(value as LeaderboardStatus | null)}
-      />
+      <Badge color="error" variant="dot" invisible={!hasFilters}>
+        <Button
+          startIcon={<FilterList />}
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+        >
+          Filter
+        </Button>
+      </Badge>
+
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Card
+          sx={{
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            width: 320,
+          }}
+        >
+          <StatusesSelector
+            value={filters?.status ?? null}
+            allowNull
+            statuses={[...LEADERBOARD_STATUSES]}
+            onChange={(v) => setFilter("status", v)}
+          />
+
+          <ScoringTypeSelector
+            allowNull
+            value={filters?.scoringType ?? null}
+            onChange={(v) => setFilter("scoringType", v)}
+          />
+
+          <TextField
+            label="Max Participants"
+            type="number"
+            value={filters?.maxParticipants ?? ""}
+            onChange={(e) =>
+              setFilter(
+                "maxParticipants",
+                e.target.value ? Number(e.target.value) : null,
+              )
+            }
+          />
+
+          <DatePicker
+            label="Start Date"
+            value={filters?.startDate ? dayjs(filters.startDate) : null}
+            onChange={(d) =>
+              setFilter("startDate", d ? d.format("YYYY-MM-DD") : null)
+            }
+          />
+
+          <DatePicker
+            label="End Date"
+            value={filters?.endDate ? dayjs(filters.endDate) : null}
+            onChange={(d) =>
+              setFilter("endDate", d ? d.format("YYYY-MM-DD") : null)
+            }
+          />
+
+          <Button color="error" onClick={clearFilters}>
+            Clear Filters
+          </Button>
+        </Card>
+      </Popover>
 
       {selectedIds.length > 0 && (
         <Box
           height="36px"
           display="flex"
           alignItems="center"
-          bgcolor="grey.100"
           borderRadius={1}
           gap={2}
           px={2}

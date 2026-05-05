@@ -37,6 +37,9 @@ export type LeaderboardFormData = Omit<
 export interface LeaderboardFilters {
   status?: LeaderboardStatus;
   scoringType?: LeaderboardScoringType;
+  maxParticipants?: number;
+  startDate_gte?: string;
+  endDate_lte?: string;
   q?: string;
 }
 
