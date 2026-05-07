@@ -8,7 +8,6 @@ interface ServerDataTableProps<T> {
   columns: GridColDef[];
   rowCount: number;
   loading: boolean;
-  isError: boolean;
   paginationModel: { page: number; pageSize: number };
   setPaginationModel: (model: { page: number; pageSize: number }) => void;
   getRowId?: (row: T) => string | number;
@@ -25,7 +24,6 @@ export function ServerDataTable<T>({
   columns,
   rowCount,
   loading,
-  isError,
   paginationModel,
   setPaginationModel,
   getRowId,

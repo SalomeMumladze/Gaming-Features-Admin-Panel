@@ -5,7 +5,7 @@
       "description": "",
       "startDate": "2026-04-10T20:00:00.000Z",
       "endDate": "2026-04-22T20:00:00.000Z",
-      "status": "draft",
+      "status": "active",
       "scoringType": "wins",
       "maxParticipants": 2,
       "prizes": [
@@ -23,7 +23,7 @@
       "description": "",
       "startDate": "2026-04-10T20:00:00.000Z",
       "endDate": "2026-04-22T20:00:00.000Z",
-      "status": "active",
+      "status": "draft",
       "scoringType": "wins",
       "maxParticipants": 2,
       "prizes": [
@@ -35,24 +35,6 @@
         }
       ],
       "id": "6_rZQKXD9OI12"
-    },
-    {
-      "title": "qw12uy7",
-      "description": "jhbsdjbhs",
-      "startDate": "2026-03-06T20:00:00.000Z",
-      "endDate": "2026-03-07T20:00:00.000Z",
-      "status": "draft",
-      "scoringType": "points",
-      "maxParticipants": 123132,
-      "prizes": [
-        {
-          "rank": 1,
-          "name": "test",
-          "type": "freeSpin",
-          "amount": 1
-        }
-      ],
-      "id": "gfoFjksdgpmSU"
     },
     {
       "title": "asas",
@@ -71,24 +53,6 @@
         }
       ],
       "id": "9M305AUEsdJec"
-    },
-    {
-      "title": "dsd",
-      "description": "sd",
-      "startDate": "2026-04-03T20:00:00.000Z",
-      "endDate": "2026-04-05T20:00:00.000Z",
-      "status": "draft",
-      "scoringType": "wagered",
-      "maxParticipants": 2,
-      "prizes": [
-        {
-          "rank": 1,
-          "name": "as",
-          "type": "freeSpin",
-          "amount": 2
-        }
-      ],
-      "id": "cDrJfCzUzRg"
     },
     {
       "title": "sdsdsd",
@@ -323,6 +287,25 @@
         }
       ],
       "id": "6_rZQKdsXD9OI"
+    },
+    {
+      "title": "iher",
+      "description": "",
+      "startDate": "2026-05-01T20:00:00.000Z",
+      "endDate": "2026-05-12T20:00:00.000Z",
+      "status": "draft",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "id": "3be08cef-0d6f-462b-b1b9-c80d9d834e25",
+          "rank": 1,
+          "name": "erer",
+          "type": "freeSpin",
+          "amount": 2
+        }
+      ],
+      "id": "m3QHj9X5dzk"
     }
   ],
   "raffles": [

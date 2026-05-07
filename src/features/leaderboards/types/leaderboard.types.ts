@@ -40,6 +40,7 @@ export interface LeaderboardFilters {
   maxParticipants?: number;
   startDate_gte?: string;
   endDate_lte?: string;
+  title?: string;
   q?: string;
 }
 

@@ -38,7 +38,7 @@ export const useCreateLeaderboard = () => {
   return useMutation({
     mutationFn: leaderboardApi.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+      queryClient.invalidateQueries({ queryKey: ["server-table"] });
     },
   });
 };
@@ -51,7 +51,7 @@ export const useUpdateLeaderboard = () => {
     mutationFn: ({ id, ...payload }: { id: string } & LeaderboardFormData) =>
       leaderboardApi.update(id, payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+      queryClient.invalidateQueries({ queryKey: ["server-table"] });
     },
   });
 };
@@ -64,7 +64,7 @@ export const useDeleteLeaderboard = () => {
     mutationFn: (id: string | number) => leaderboardApi.delete(id),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+      queryClient.invalidateQueries({ queryKey: ["server-table"] });
     },
   });
 };
@@ -77,7 +77,7 @@ export const useUpdateLeaderboardStatus = () => {
     mutationFn: ({ id, status }: { id: string; status: "draft" | "active" }) =>
       leaderboardApi.bulkUpdateStatus(id, status),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["leaderboards"] });
+      queryClient.invalidateQueries({ queryKey: ["server-table"] });
     },
   });
 };
