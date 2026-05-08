@@ -1,16 +1,26 @@
 import { useState, useEffect } from "react";
-import { Button, Box, TextField, CircularProgress } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import {
+  Button,
+  Box,
+  TextField,
+  CircularProgress,
+  Chip,
+  ButtonGroup,
+  Divider,
+} from "@mui/material";
+import { Add, FiberManualRecord, CancelOutlined } from "@mui/icons-material";
 import useQueryParams from "@/shared/providers/useQueryParams";
 import { useServerTable } from "@/shared/components/tables/serverTable.context";
 import { useUpdateLeaderboardStatus } from "../../hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
 import { LeaderboardFiltersPanel } from "../tables/LeaderboardFiltersPanel";
+import { makeStyles } from "@mui/styles";
 
 const LeaderboardToolBar = () => {
   const { setUrlParams } = useQueryParams();
   const { mutateAsync } = useUpdateLeaderboardStatus();
   const { notify } = useNotification();
+  const classes = useStyles();
 
   const { filters, setFilter, selectedRowIds, clearSelectedRows } =
     useServerTable();
@@ -46,7 +56,7 @@ const LeaderboardToolBar = () => {
   };
 
   return (
-    <div className="bg-white/10 p-2 flex gap-2 items-center flex-wrap">
+    <div className="flex gap-2 py-4 px-2 items-center flex-wrap">
       <Button
         variant="contained"
         startIcon={<Add />}
@@ -58,7 +68,7 @@ const LeaderboardToolBar = () => {
       <TextField
         label="Search by exact title..."
         size="small"
-        className="max-w-48 w-full"
+        className={classes.input}
         value={titleInput}
         onChange={(e) => setTitleInput(e.target.value)}
         InputProps={{
@@ -66,34 +76,77 @@ const LeaderboardToolBar = () => {
         }}
       />
       <LeaderboardFiltersPanel />
-
       {selectedRowIds.length > 0 && (
-        <Box display="flex" alignItems="center" gap={2} px={2}>
-          <Button
-            variant="outlined"
-            color="success"
-            size="small"
-            onClick={() => handleBulkChange("active")}
-          >
-            Set Active
-          </Button>
-
-          <Button
-            variant="outlined"
-            color="warning"
-            size="small"
-            onClick={() => handleBulkChange("draft")}
-          >
-            Set Draft
-          </Button>
-
-          <Button size="small" onClick={() => clearSelectedRows()}>
-            Clear
-          </Button>
-        </Box>
+        <>
+          <Divider
+            orientation="vertical"
+            flexItem
+            className="sm:block hidden"
+          />
+          <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
+            <Chip
+              label={`${selectedRowIds.length} selected`}
+              size="small"
+              sx={{ fontWeight: 500 }}
+            />
+            <ButtonGroup
+              variant="outlined"
+              color="inherit"
+              className={classes.statuses}
+            >
+              <Button
+                onClick={() => handleBulkChange("active")}
+                startIcon={
+                  <FiberManualRecord
+                    sx={{ width: 12, color: "success.main" }}
+                  />
+                }
+              >
+                Set Active
+              </Button>
+              <Button
+                onClick={() => handleBulkChange("draft")}
+                startIcon={
+                  <FiberManualRecord
+                    sx={{ width: 12, color: "text.disabled" }}
+                  />
+                }
+              >
+                Set Draft
+              </Button>
+            </ButtonGroup>
+            <Button
+              variant="outlined"
+              color="error"
+              className={classes.cancel}
+              onClick={() => clearSelectedRows()}
+            >
+              <CancelOutlined sx={{ width: 20 }} />
+            </Button>
+          </Box>
+        </>
       )}
     </div>
   );
 };
 
 export default LeaderboardToolBar;
+
+export const useStyles = makeStyles({
+  statuses: {
+    "& .MuiButton-root": {
+      border: "1px solid #d0d0d0",
+    },
+  },
+  cancel: {
+    minWidth: "fit-content !important",
+    height: "36px",
+  },
+  input: {
+    maxWidth: "12rem",
+    width: "100%",
+    "& .MuiInputBase-input": {
+      height: "20px ",
+    },
+  },
+});

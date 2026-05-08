@@ -45,11 +45,21 @@ export function ServerTableProvider<F, R>({
     [rowSelectionModel],
   );
 
-  const setFilter = <K extends keyof F>(key: K, value: F[K] | null) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+  const setFilter = <K extends keyof F>(
+    key: K | Partial<F>,
+    value?: F[K] | null,
+  ) => {
+    if (typeof key === "object") {
+      setFilters((prev) => ({
+        ...prev,
+        ...key,
+      }));
+    } else {
+      setFilters((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    }
 
     setPaginationModel((prev) => ({
       ...prev,
@@ -114,7 +124,7 @@ export function ServerTableProvider<F, R>({
     isLoading: query.isLoading,
     isError: query.isError,
   };
-
+  console.log(query);
   return (
     <ServerTableContext.Provider value={value}>
       {Header && <Header />}

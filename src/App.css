@@ -17,3 +17,15 @@
   font-size: 14px !important;
   font-weight: 800 !important;
 }
+
+.MuiButtonBase-root {
+  text-transform: capitalize !important;
+  border-radius: 8px !important;
+}
+
+.MuiInputBase-input,
+.MuiSelect-select,
+.MuiInputBase-root,
+.MuiPickersInputBase-root {
+  border-radius: 8px !important;
+}
