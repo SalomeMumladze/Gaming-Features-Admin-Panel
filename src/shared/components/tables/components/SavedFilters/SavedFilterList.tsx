@@ -16,28 +16,21 @@ import { Delete, BookmarkBorder } from "@mui/icons-material";
 import { useServerTable } from "@/shared/components/tables/serverTable.context";
 import { useNotification } from "@/shared/providers/useNotification";
 
-type Props<T> = {
-  tableName: string;
-  filters: T;
-};
-
 type SavedFilter<T> = {
   name: string;
   filters: T;
 };
 
-export const SavedFilterList = <T extends Record<string, any>>({
-  tableName,
-}: Props<T>) => {
-  const STORAGE_KEY = `${tableName}_saved_filters`;
-
+export const SavedFilterList = <T extends Record<string, any>>({}) => {
   const { notify } = useNotification();
-  const { setFilter, filters } = useServerTable();
+  const { setFilter, filters, tableName } = useServerTable();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [savedFilters, setSavedFilters] = useState<SavedFilter<T>[]>([]);
   const [selectedFilterName, setSelectedFilterName] = useState<string | null>(
     null,
   );
+
+  const STORAGE_KEY = `${tableName}_saved_filters`;
 
   const open = Boolean(anchorEl);
 
@@ -84,7 +77,7 @@ export const SavedFilterList = <T extends Record<string, any>>({
         <Button
           variant="outlined"
           startIcon={<BookmarkBorder />}
-        onClick={(e) => setAnchorEl(e.currentTarget)}
+          onClick={(e) => setAnchorEl(e.currentTarget)}
         >
           {selectedFilterName || "Saved Filters"}
         </Button>

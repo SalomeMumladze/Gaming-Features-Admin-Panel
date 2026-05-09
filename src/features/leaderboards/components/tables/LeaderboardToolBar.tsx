@@ -1,19 +1,9 @@
-import { useState, useEffect } from "react";
-import {
-  Button,
-  Box,
-  TextField,
-  CircularProgress,
-  Chip,
-  ButtonGroup,
-  Divider,
-} from "@mui/material";
+import { Button, Box, Chip, ButtonGroup, Divider } from "@mui/material";
 import { Add, FiberManualRecord, CancelOutlined } from "@mui/icons-material";
 import useQueryParams from "@/shared/providers/useQueryParams";
 import { useServerTable } from "@/shared/components/tables/serverTable.context";
 import { useUpdateLeaderboardStatus } from "../../hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
-import { LeaderboardFiltersPanel } from "../tables/LeaderboardFiltersPanel";
 import { makeStyles } from "@mui/styles";
 
 const LeaderboardToolBar = () => {
@@ -22,22 +12,7 @@ const LeaderboardToolBar = () => {
   const { notify } = useNotification();
   const classes = useStyles();
 
-  const { filters, setFilter, selectedRowIds, clearSelectedRows } =
-    useServerTable();
-
-  const [titleInput, setTitleInput] = useState(filters?.title ?? "");
-  const [titleLoading, setTitleLoading] = useState(false);
-
-  useEffect(() => {
-    setTitleLoading(true);
-
-    const timer = setTimeout(() => {
-      setFilter("title", titleInput || null);
-      setTitleLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [titleInput]);
+  const { selectedRowIds, clearSelectedRows } = useServerTable();
 
   const handleBulkChange = async (status: "draft" | "active") => {
     try {
@@ -56,7 +31,7 @@ const LeaderboardToolBar = () => {
   };
 
   return (
-    <div className="flex gap-2 py-4 px-2 items-center flex-wrap">
+    <div className="flex gap-2 items-center flex-wrap">
       <Button
         variant="contained"
         startIcon={<Add />}
@@ -65,17 +40,6 @@ const LeaderboardToolBar = () => {
         Create
       </Button>
 
-      <TextField
-        label="Search by exact title..."
-        size="small"
-        className={classes.input}
-        value={titleInput}
-        onChange={(e) => setTitleInput(e.target.value)}
-        InputProps={{
-          endAdornment: titleLoading ? <CircularProgress size={14} /> : null,
-        }}
-      />
-      <LeaderboardFiltersPanel />
       {selectedRowIds.length > 0 && (
         <>
           <Divider
@@ -141,12 +105,5 @@ export const useStyles = makeStyles({
   cancel: {
     minWidth: "fit-content !important",
     height: "36px",
-  },
-  input: {
-    maxWidth: "12rem",
-    width: "100%",
-    "& .MuiInputBase-input": {
-      height: "20px ",
-    },
   },
 });

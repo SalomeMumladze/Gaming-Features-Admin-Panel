@@ -49,7 +49,7 @@ export const SavedFilters = <T extends Record<string, any>>({
         filters,
       },
     ];
-    notify(`${saveName} Filter saved successfully`, "success");
+    notify(`${saveName} Filter saved successfully `, "success");
 
     persist(updated);
     setSaveName("");

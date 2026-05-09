@@ -8,6 +8,7 @@ import { leaderboardApi } from "@/features/leaderboards/api/leaderboard.api";
 import { ServerTableProvider } from "@/shared/components/tables/ServerTableProvider";
 import LeaderboardToolBar from "./LeaderboardToolBar";
 import { getLeaderboardColumns } from "./LeaderboardColumns";
+import { LeaderboardFiltersPanel } from "./LeaderboardFiltersPanel";
 
 export const LeaderboardTable: React.FC = () => {
   const { notify } = useNotification();
@@ -32,8 +33,12 @@ export const LeaderboardTable: React.FC = () => {
 
   return (
     <ServerTableProvider
+      searchKey="title"
+      searchLabel="Search by exact title"
+      tableName="leaderboards"
       api={leaderboardApi.getList}
       header={LeaderboardToolBar}
+      filterComponent={LeaderboardFiltersPanel}
       columns={columns}
     />
   );
