@@ -10,13 +10,14 @@ import { Alert, Box } from "@mui/material";
 import { ServerTableContext } from "./serverTable.context";
 import { ServerTableToolbar } from "./components/ServerTableToolbar";
 
-type Props<F, R> = {
+type Props<R> = {
   tableName: string;
   api: (params: any) => Promise<R>;
   columns: GridColDef[];
   header?: React.ComponentType;
   filterComponent?: React.ComponentType;
   getRowId?: (row: any) => string | number;
+
   disabledSavedFilter?: boolean;
   disabledFilter?: boolean;
   disabledExport?: boolean;
@@ -35,7 +36,7 @@ type ColumnConfig = {
   visible: boolean;
 };
 
-export function ServerTableProvider<F, R>({
+export function ServerTableProvider<R>({
   tableName,
   api,
   columns,
@@ -54,10 +55,10 @@ export function ServerTableProvider<F, R>({
 
   disabledColumnsControl = false,
   disabledFilter = false,
-}: Props<F, R>) {
+}: Props<R>) {
   const STORAGE_KEY = "server_table_columns";
 
-  const [filters, setFilters] = useState<Partial<F>>({});
+  const [filters, setFilters] = useState<Record<string, any>>({});
 
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
@@ -107,10 +108,7 @@ export function ServerTableProvider<F, R>({
     });
   }, [columns, columnConfig]);
 
-  const setFilter = <K extends keyof F>(
-    key: K | Partial<F>,
-    value?: F[K] | null,
-  ) => {
+  const setFilter = (key: string | Record<string, any>, value?: any) => {
     if (typeof key === "object") {
       setFilters((prev) => ({
         ...prev,
@@ -199,7 +197,7 @@ export function ServerTableProvider<F, R>({
 
   return (
     <ServerTableContext.Provider value={value}>
-      <div className="flex items-center justify-between flex-wrap gap-2 py-4 px-2">
+      <div className="flex items-center justify-between flex-wrap gap-2 py-4 ">
         {Header && <Header />}
         <ServerTableToolbar filterComponent={filterComponent} />
       </div>
