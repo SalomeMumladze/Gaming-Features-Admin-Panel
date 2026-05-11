@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Badge, Popover } from "@mui/material";
+import { Button, Badge, Popover, ListItemText, ListItem } from "@mui/material";
 import { FilterList, RefreshOutlined } from "@mui/icons-material";
 import { useServerTable } from "@/shared/components/tables/serverTable.context";
 
@@ -10,7 +10,7 @@ type Props = {
 export const TableFilterButton = ({
   filterComponent: FilterComponent,
 }: Props) => {
-  const { filters, clearFilters } = useServerTable();
+  const { filters, clearFilters, searchKey } = useServerTable();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -18,7 +18,10 @@ export const TableFilterButton = ({
 
   const hasFilters = Object.entries(filters || {}).some(
     ([key, value]) =>
-      key !== "title" && value !== null && value !== undefined && value !== "",
+      key !== searchKey &&
+      value !== null &&
+      value !== undefined &&
+      value !== "",
   );
 
   return (
@@ -64,7 +67,21 @@ export const TableFilterButton = ({
           },
         }}
       >
-        {FilterComponent ? <FilterComponent /> : <div>No filter provided</div>}
+        {FilterComponent ? (
+          <FilterComponent />
+        ) : (
+          <ListItem sx={{ py: 2, justifyContent: "center" }}>
+            <ListItemText
+              primary="No filter provided"
+              primaryTypographyProps={{
+                variant: "body2",
+                color: "text.secondary",
+                align: "center",
+                sx: { fontStyle: "italic" },
+              }}
+            />
+          </ListItem>
+        )}
       </Popover>
     </>
   );

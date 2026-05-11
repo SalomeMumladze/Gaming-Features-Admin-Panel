@@ -79,7 +79,6 @@ export const LeaderboardForm: React.FC<Props> = ({
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
       <Box display="flex" flexDirection="column" gap={3} height="100%">
-        {/* General Info */}
         <SectionCard
           icon={<TuneRounded fontSize="small" />}
           title="General Info"

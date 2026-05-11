@@ -58,7 +58,7 @@ export const LeaderBoardPrizeForm: React.FC<PrizeFieldsProps> = ({
 
     setValue("prizes", withRanks, { shouldValidate: true, shouldDirty: true });
   };
-  console.log(errors);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;

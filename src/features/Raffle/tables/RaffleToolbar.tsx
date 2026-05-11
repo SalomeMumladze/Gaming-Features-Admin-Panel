@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   Box,
@@ -8,24 +9,23 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { Add, CancelOutlined } from "@mui/icons-material";
 import useQueryParams from "@/shared/providers/useQueryParams";
-import { useServerTable } from "@/shared/components/tables/serverTable.context";
-import { useUpdateLeaderboardStatus } from "@/features/leaderboards/hooks/useLeaderboard";
 import { useNotification } from "@/shared/providers/useNotification";
-import { useState } from "react";
+import { Add, CancelOutlined } from "@mui/icons-material";
+import { useServerTable } from "@/shared/components/tables/serverTable.context";
 import { StatusFormatter } from "@/shared/formatters";
 import { makeStyles } from "@mui/styles";
+import { useUpdateRaffleStatus } from "../hooks/useRaffleManagement";
 
-const LeaderboardToolbar = () => {
-  const { setUrlParams } = useQueryParams();
-  const { mutateAsync } = useUpdateLeaderboardStatus();
-  const { notify } = useNotification();
+const RaffleToolbar = () => {
   const classes = useStyles();
-
+  const { mutateAsync } = useUpdateRaffleStatus();
   const { selectedRowIds, clearSelectedRows } = useServerTable();
-
   const [status, setStatus] = useState<"draft" | "active" | "">("");
+  const { notify } = useNotification();
+  const { setUrlParams } = useQueryParams();
+
+  const hasSelection = selectedRowIds.length > 0;
 
   const handleBulkChange = async (value: "draft" | "active") => {
     try {
@@ -44,16 +44,18 @@ const LeaderboardToolbar = () => {
     }
   };
 
-  const hasSelection = selectedRowIds.length > 0;
-
   return (
     <div className="flex gap-2 items-center flex-wrap">
       <Button
         variant="contained"
         startIcon={<Add />}
-        onClick={() => setUrlParams({ createLeaderboard: "true" })}
+        onClick={() =>
+          setUrlParams({
+            createRaffle: "true",
+          })
+        }
       >
-        Create
+        Create Raffle
       </Button>
 
       {hasSelection && (
@@ -117,12 +119,12 @@ const LeaderboardToolbar = () => {
   );
 };
 
-export default LeaderboardToolbar;
+export default RaffleToolbar;
 
 export const useStyles = makeStyles({
   select: {
     "& .MuiInputBase-root": {
-      height: "37px !important",
+      height: "34px !important",
     },
   },
 });

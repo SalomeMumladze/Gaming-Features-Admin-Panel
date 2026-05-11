@@ -28,6 +28,8 @@ export interface Wheel {
 
 export interface WheelFilters {
   status?: WheelStatus;
+  maxSpinsPerUser?: number;
+  spinCost?: number;
   q?: string;
 }
 

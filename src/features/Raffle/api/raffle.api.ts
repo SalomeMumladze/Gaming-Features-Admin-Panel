@@ -19,4 +19,7 @@ export const raffleApi = {
     apiGateway.put<RaffleFormData>(`/raffles/${id}`, payload),
 
   delete: (id: string | number) => apiGateway.delete(`/raffles/${id}`),
+
+  bulkUpdateStatus: (id: string, status: "draft" | "active") =>
+    apiGateway.patch(`/raffles/${id}`, { status }),
 };

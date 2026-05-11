@@ -57,9 +57,21 @@ export const useDeleteRaffle = () => {
 
   return useMutation({
     mutationFn: (id: string | number) => raffleApi.delete(id),
-    
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
+    },
+  });
+};
+
+export const useUpdateRaffleStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: "draft" | "active" }) =>
+      raffleApi.bulkUpdateStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["server-table"] });
     },
   });
 };

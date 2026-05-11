@@ -306,6 +306,25 @@
         }
       ],
       "id": "m3QHj9X5dzk"
+    },
+    {
+      "title": "wewewewe",
+      "description": "",
+      "startDate": "2026-05-15T20:00:00.000Z",
+      "endDate": "2026-05-19T20:00:00.000Z",
+      "status": "active",
+      "scoringType": "wins",
+      "maxParticipants": 2,
+      "prizes": [
+        {
+          "id": "38eed65d-0bde-4b1f-a32c-d9ccf6c499d4",
+          "rank": 1,
+          "name": "we",
+          "type": "coins",
+          "amount": 1
+        }
+      ],
+      "id": "tZuQmmC1g3g"
     }
   ],
   "raffles": [

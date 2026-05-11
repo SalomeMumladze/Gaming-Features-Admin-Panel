@@ -29,6 +29,12 @@ export interface Raffle {
 
 export interface RaffleFilters {
   status?: RaffleStatus;
+  maxTicketsPerUser?: number;
+  ticketPrice?: number;
+  totalTicketLimit?: number;
+  startDate_gte?: string;
+  endDate_lte?: string;
+  name?: string;
   q?: string;
 }
 
