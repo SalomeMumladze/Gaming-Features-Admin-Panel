@@ -2,7 +2,7 @@ import { renderHook, act, waitFor } from "@testing-library/react";
 import { useCreateRaffle } from "../useRaffleManagement";
 import { raffleApi } from "@/features/Raffle/api/raffle.api";
 import { createWrapper } from "@/shared/test/test-utils";
-import { createRaffleMock } from "@/features/Raffle/test-utils/createRaffleMock";
+import { baseRaffleData } from "@/features/Raffle//test-utils/raffleTestUtils";
 
 jest.mock("@/features/raffle/api/raffle.api", () => ({
   raffleApi: {
@@ -28,7 +28,7 @@ describe("useCreateRaffle", () => {
       wrapper,
     });
 
-    const payload = createRaffleMock();
+    const payload = baseRaffleData();
 
     await act(async () => {
       await result.current.mutateAsync(payload);
@@ -50,7 +50,7 @@ describe("useCreateRaffle", () => {
       wrapper,
     });
 
-    const payload = createRaffleMock();
+    const payload = baseRaffleData();
 
     await act(async () => {
       try {
