@@ -1,36 +1,36 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { useUpdateLeaderboard } from "../useLeaderboard";
-import { leaderboardApi } from "@/features/leaderboards/api/leaderboard.api";
+import { useUpdateRaffle } from "../useRaffleManagement";
+import { raffleApi } from "@/features/Raffle/api/raffle.api";
 import { createWrapper } from "@/shared/test/test-utils";
-import { createLeaderboardMock } from "@/features/leaderboards/test-utils/createLeaderboardMock";
+import { createRaffleMock } from "../../test-utils/createRaffleMock";
 
-jest.mock("@/features/leaderboards/api/leaderboard.api", () => ({
-  leaderboardApi: {
+jest.mock("@/features/Raffle/api/raffle.api", () => ({
+  raffleApi: {
     update: jest.fn(),
   },
 }));
 
-describe("useUpdateLeaderboard", () => {
+describe("useUpdateRaffle", () => {
   const { wrapper } = createWrapper();
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should update leaderboard successfully", async () => {
-    const mockResponse = { id: "1", title: "Test leaderboard" };
+  it("should update raffle successfully", async () => {
+    const mockResponse = { id: "1", title: "Test raffle" };
 
-    (leaderboardApi.update as jest.Mock).mockResolvedValue({
+    (raffleApi.update as jest.Mock).mockResolvedValue({
       data: mockResponse,
     });
 
-    const { result } = renderHook(() => useUpdateLeaderboard(), {
+    const { result } = renderHook(() => useUpdateRaffle(), {
       wrapper,
     });
 
     const payload = {
       id: "1",
-      ...createLeaderboardMock(),
+      ...createRaffleMock(),
     };
 
     await act(async () => {
@@ -41,21 +41,21 @@ describe("useUpdateLeaderboard", () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(leaderboardApi.update).toHaveBeenCalled();
+    expect(raffleApi.update).toHaveBeenCalled();
   });
 
   it("should handle error case", async () => {
-    (leaderboardApi.update as jest.Mock).mockRejectedValue(
+    (raffleApi.update as jest.Mock).mockRejectedValue(
       new Error("Update failed"),
     );
 
-    const { result } = renderHook(() => useUpdateLeaderboard(), {
+    const { result } = renderHook(() => useUpdateRaffle(), {
       wrapper,
     });
 
     const payload = {
       id: "1",
-      ...createLeaderboardMock(),
+      ...createRaffleMock(),
     };
 
     await act(async () => {

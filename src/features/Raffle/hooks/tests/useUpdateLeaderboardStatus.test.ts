@@ -1,29 +1,29 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { useUpdateLeaderboardStatus } from "../useLeaderboard";
-import { leaderboardApi } from "@/features/leaderboards/api/leaderboard.api";
+import { useUpdateRaffleStatus } from "../useRaffleManagement";
+import { raffleApi } from "@/features/Raffle/api/raffle.api";
 import { createWrapper } from "@/shared/test/test-utils";
 
-jest.mock("@/features/leaderboards/api/leaderboard.api", () => ({
-  leaderboardApi: {
+jest.mock("@/features/Raffle/api/raffle.api", () => ({
+  raffleApi: {
     bulkUpdateStatus: jest.fn(),
   },
 }));
 
-describe("useUpdateLeaderboardStatus", () => {
+describe("useUpdateRaffleStatus", () => {
   const { wrapper } = createWrapper();
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should bulk update staCtus successfully", async () => {
+  it("should bulk update status successfully", async () => {
     const mockResponse = { id: "1", status: "active" };
 
-    (leaderboardApi.bulkUpdateStatus as jest.Mock).mockResolvedValue({
+    (raffleApi.bulkUpdateStatus as jest.Mock).mockResolvedValue({
       data: mockResponse,
     });
 
-    const { result } = renderHook(() => useUpdateLeaderboardStatus(), {
+    const { result } = renderHook(() => useUpdateRaffleStatus(), {
       wrapper,
     });
 
@@ -40,17 +40,17 @@ describe("useUpdateLeaderboardStatus", () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(leaderboardApi.bulkUpdateStatus).toHaveBeenCalledWith(
+    expect(raffleApi.bulkUpdateStatus).toHaveBeenCalledWith(
       payload.id,
       payload.status,
     );
   });
   it("should handle error case", async () => {
-    (leaderboardApi.bulkUpdateStatus as jest.Mock).mockRejectedValue(
+    (raffleApi.bulkUpdateStatus as jest.Mock).mockRejectedValue(
       new Error("Bulk update failed"),
     );
 
-    const { result } = renderHook(() => useUpdateLeaderboardStatus(), {
+    const { result } = renderHook(() => useUpdateRaffleStatus(), {
       wrapper,
     });
 

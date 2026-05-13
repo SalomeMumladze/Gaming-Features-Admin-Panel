@@ -1,25 +1,25 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { useLeaderboardById } from "../useLeaderboard";
+import { useRaffleById } from "../useRaffleManagement";
 import { createWrapper } from "@/shared/test/test-utils";
-import { leaderboardApi } from "@/features/leaderboards/api/leaderboard.api";
+import { raffleApi } from "@/features/Raffle/api/raffle.api";
 
-jest.mock("@/features/leaderboards/api/leaderboard.api", () => ({
-  leaderboardApi: {
+jest.mock("@/features/raffle/api/raffle.api", () => ({
+  raffleApi: {
     getById: jest.fn(),
   },
 }));
 
-describe("useLeaderboardById", () => {
+describe("useRaffleById", () => {
   const { wrapper } = createWrapper();
 
-  it("should fetch leaderboard by id", async () => {
+  it("should fetch raffle by id", async () => {
     const mockData = { id: "1" };
 
-    (leaderboardApi.getById as jest.Mock).mockResolvedValue({
+    (raffleApi.getById as jest.Mock).mockResolvedValue({
       data: mockData,
     });
 
-    const { result } = renderHook(() => useLeaderboardById("1"), {
+    const { result } = renderHook(() => useRaffleById("1"), {
       wrapper,
     });
 
@@ -31,7 +31,7 @@ describe("useLeaderboardById", () => {
   });
 
   it("should not run if id is missing", () => {
-    const { result } = renderHook(() => useLeaderboardById(undefined), {
+    const { result } = renderHook(() => useRaffleById(undefined), {
       wrapper,
     });
 

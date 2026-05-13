@@ -1,25 +1,25 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { useLeaderboards } from "../useLeaderboard";
-import { leaderboardApi } from "@/features/leaderboards/api/leaderboard.api";
+import { useRaffles } from "../useRaffleManagement";
+import { raffleApi } from "@/features/Raffle/api/raffle.api";
 import { createWrapper } from "@/shared/test/test-utils";
 
-jest.mock("@/features/leaderboards/api/leaderboard.api", () => ({
-  leaderboardApi: {
+jest.mock("@/features/raffle/api/raffle.api", () => ({
+  raffleApi: {
     getList: jest.fn(),
   },
 }));
 
-describe("useLeaderboards", () => {
+describe("useRaffles", () => {
   const { wrapper } = createWrapper();
 
-  it("should fetch leaderboards", async () => {
+  it("should fetch raffles", async () => {
     const mockData = { data: [], total: 0 };
 
-    (leaderboardApi.getList as jest.Mock).mockResolvedValue({
+    (raffleApi.getList as jest.Mock).mockResolvedValue({
       data: mockData,
     });
 
-    const { result } = renderHook(() => useLeaderboards(), {
+    const { result } = renderHook(() => useRaffles(), {
       wrapper,
     });
 

@@ -1,7 +1,7 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { useCreateLeaderboard } from "../useLeaderboard";
 import { leaderboardApi } from "@/features/leaderboards/api/leaderboard.api";
-import { createWrapper } from "@/features/leaderboards/test-utils/test-utils";
+import { createWrapper } from "@/shared/test/test-utils";
 import { createLeaderboardMock } from "@/features/leaderboards/test-utils/createLeaderboardMock";
 
 jest.mock("@/features/leaderboards/api/leaderboard.api", () => ({

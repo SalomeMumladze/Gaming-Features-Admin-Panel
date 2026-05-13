@@ -6,7 +6,7 @@ export interface RafflePrize {
   type: "coins" | "freeSpin" | "bonus";
   amount: number;
   quantity: number;
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 export type ISODateString = string;

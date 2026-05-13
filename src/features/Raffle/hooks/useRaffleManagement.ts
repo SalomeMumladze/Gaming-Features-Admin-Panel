@@ -1,6 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { raffleApi } from "../api/raffle.api";
-import type { Raffle, RaffleListParams } from "../types/raffle.types";
+import type {
+  Raffle,
+  RaffleListParams,
+  RaffleFormData,
+} from "../types/raffle.types";
 
 //  LIST
 export const useRaffles = (params?: RaffleListParams) => {
@@ -44,7 +48,8 @@ export const useUpdateRaffle = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, ...payload }: Raffle) => raffleApi.update(id, payload),
+    mutationFn: ({ id, ...payload }: { id: string } & RaffleFormData) =>
+      raffleApi.update(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["raffles"] });
     },
