@@ -25,7 +25,6 @@ export const baseWheelData = (
   override: Partial<z.infer<typeof wheelSchema>> = {},
 ) => {
   return {
-    id: "wheel-1",
     name: "Lucky Wheel",
     description: "Test wheel",
     status: "draft" as const,

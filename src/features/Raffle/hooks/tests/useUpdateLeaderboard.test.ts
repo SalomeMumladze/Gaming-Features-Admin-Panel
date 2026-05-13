@@ -2,7 +2,7 @@ import { renderHook, act, waitFor } from "@testing-library/react";
 import { useUpdateRaffle } from "../useRaffleManagement";
 import { raffleApi } from "@/features/Raffle/api/raffle.api";
 import { createWrapper } from "@/shared/test/test-utils";
-import { baseRaffleData } from "@/features/Raffle//test-utils/raffleTestUtils";
+import { baseRaffleData } from "@/features/Raffle/test-utils/raffleTestUtils";
 
 jest.mock("@/features/Raffle/api/raffle.api", () => ({
   raffleApi: {

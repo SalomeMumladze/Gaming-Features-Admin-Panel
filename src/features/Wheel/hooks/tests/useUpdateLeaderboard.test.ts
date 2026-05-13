@@ -1,34 +1,37 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { useCreateRaffle } from "../useRaffleManagement";
-import { raffleApi } from "@/features/Raffle/api/raffle.api";
+import { useUpdateWheel } from "../useWheelManagement";
+import { wheelApi } from "@/features/Wheel/api/wheel.api";
 import { createWrapper } from "@/shared/test/test-utils";
-import { baseRaffleData } from "@/features/Raffle/test-utils/raffleTestUtils";
+import { baseWheelData } from "@/features/Wheel/tests/wheelTestUtils";
 
-jest.mock("@/features/raffle/api/raffle.api", () => ({
-  raffleApi: {
-    create: jest.fn(),
+jest.mock("@/features/Wheel/api/Wheel.api", () => ({
+  wheelApi: {
+    update: jest.fn(),
   },
 }));
 
-describe("useCreateRaffle", () => {
+describe("useUpdateWheel", () => {
   const { wrapper } = createWrapper();
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should create raffle successfully", async () => {
+  it("should update raffle successfully", async () => {
     const mockResponse = { id: "1", title: "Test raffle" };
 
-    (raffleApi.create as jest.Mock).mockResolvedValue({
+    (wheelApi.update as jest.Mock).mockResolvedValue({
       data: mockResponse,
     });
 
-    const { result } = renderHook(() => useCreateRaffle(), {
+    const { result } = renderHook(() => useUpdateWheel(), {
       wrapper,
     });
 
-    const payload = baseRaffleData();
+    const payload = {
+      id: "1",
+      ...baseWheelData(),
+    };
 
     await act(async () => {
       await result.current.mutateAsync(payload);
@@ -38,19 +41,22 @@ describe("useCreateRaffle", () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(raffleApi.create).toHaveBeenCalled();
+    expect(wheelApi.update).toHaveBeenCalled();
   });
 
   it("should handle error case", async () => {
-    (raffleApi.create as jest.Mock).mockRejectedValue(
-      new Error("Create failed"),
+    (wheelApi.update as jest.Mock).mockRejectedValue(
+      new Error("Update failed"),
     );
 
-    const { result } = renderHook(() => useCreateRaffle(), {
+    const { result } = renderHook(() => useUpdateWheel(), {
       wrapper,
     });
 
-    const payload = baseRaffleData();
+    const payload = {
+      id: "1",
+      ...baseWheelData(),
+    };
 
     await act(async () => {
       try {
