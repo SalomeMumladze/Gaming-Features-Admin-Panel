@@ -17,7 +17,7 @@ import { useState } from "react";
 import { StatusFormatter } from "@/shared/formatters";
 import { makeStyles } from "@mui/styles";
 
-const LeaderboardToolbar = () => {
+const LeaderboardToolBar = () => {
   const { setUrlParams } = useQueryParams();
   const { mutateAsync } = useUpdateLeaderboardStatus();
   const { notify } = useNotification();
@@ -117,7 +117,7 @@ const LeaderboardToolbar = () => {
   );
 };
 
-export default LeaderboardToolbar;
+export default LeaderboardToolBar;
 
 export const useStyles = makeStyles({
   select: {

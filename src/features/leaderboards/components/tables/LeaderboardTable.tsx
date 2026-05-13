@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/app/router/paths";
 import { leaderboardApi } from "@/features/leaderboards/api/leaderboard.api";
 import { ServerTableProvider } from "@/shared/components/tables/ServerTableProvider";
-import LeaderboardToolbar from "./LeaderboardToolbar";
+import LeaderboardToolBar from "./LeaderboardToolBar";
 import { getLeaderboardColumns } from "./LeaderboardColumns";
 import { LeaderboardFiltersPanel } from "./LeaderboardFiltersPanel";
 
@@ -37,7 +37,7 @@ export const LeaderboardTable: React.FC = () => {
       searchLabel="Search by exact title"
       tableName="leaderboards"
       api={leaderboardApi.getList}
-      header={LeaderboardToolbar}
+      header={LeaderboardToolBar}
       filterComponent={LeaderboardFiltersPanel}
       columns={columns}
     />
